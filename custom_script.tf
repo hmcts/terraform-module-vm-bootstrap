@@ -10,7 +10,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "custom_script" {
   auto_upgrade_minor_version   = false
   protected_settings = <<PROTECTED_SETTINGS
     {
-      "script": "${base64encode(format("%s%s", templatefile("${path.module}/${local.bootstrap_vm_script}", {
+      "script": "${base64encode(format("%s\n%s", templatefile("${path.module}/${local.bootstrap_vm_script}", {
   UF_USERNAME     = "${var.splunk_username}",
   UF_PASSWORD     = "${var.splunk_password}",
   UF_PASS4SYMMKEY = "${var.splunk_pass4symmkey}",
