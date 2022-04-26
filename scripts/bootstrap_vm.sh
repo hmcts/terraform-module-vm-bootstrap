@@ -99,7 +99,49 @@ chown -R splunk:splunk $SPLUNK_HOME
 $SPLUNK_HOME/bin/splunk start
 }
 
+install_nessus() {
+
+# Setup
+SERVER=$1
+KEY=$2
+GROUPS=$3
+
+# Get OS type
+OS_TYPE=$(hostnamectl | grep "Operating System" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
+
+# Download nessus agent
+if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
+    # Set for RHEL8 agent (RPM)
+    INSTALL_FILE="nessusagent.rpm"
+    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/16184/download?i_agree_to_tenable_license_agreement=true"
+else
+    # Set for Debian agent (deb)
+    INSTALL_FILE="nessusagent.deb"
+    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/16179/download?i_agree_to_tenable_license_agreement=true"
+fi
+
+# Install nessus agent
+curl --retry 3 -# -L -k -o $INSTALL_FILE $DOWNLOAD_URL
+if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
+    rpm -ivh nessusagent.rpm
+    rm -rf nessusagent.rpm
+else
+    dpkg -i nessusagent.deb
+    rm -rf nessusagent.deb
+fi
+
+# Start Service
+/sbin/service nessusagent start
+# Link agent
+/opt/nessus_agent/sbin/nessuscli agent link --key=$KEY --groups=$GROUPS --host=$SERVER --port=8834
+}
+
 if [ "${UF_INSTALL}" = "true" ]
 then
   install_splunk_uf "${UF_USERNAME}" "${UF_PASSWORD}" "${UF_PASS4SYMMKEY}" "${UF_GROUP}"
+fi
+
+if [ "${NESSUS_INSTALL}" = "true" ]
+then
+  install_nessus "${NESSUS_SERVER}" "${NESSUS_KEY}" "${UF_PASS4SYMMKEY}" "${NESSUS_GROUPS}"
 fi

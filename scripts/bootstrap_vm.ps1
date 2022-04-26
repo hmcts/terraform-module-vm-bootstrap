@@ -29,6 +29,50 @@ function Install-SplunkUF {
     }
 }
 
+function Install-NessusAgent {
+    param
+    (
+        [Parameter(ValuefromPipeline = $true, Mandatory = $true)] [string]$server,
+        [Parameter(ValuefromPipeline = $true, Mandatory = $true)] [string]$key,
+        [Parameter(ValuefromPipeline = $true, Mandatory = $true)] [string]$groups
+    )
+
+    # Setup
+    $installerURI = 'https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/16176/download?i_agree_to_tenable_license_agreement=true'
+    $installerFile = $env:Temp + "\nessusagent.msi"
+
+    # Download nessus
+    Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Downloading Nessus installer."
+    (New-Object System.Net.WebClient).DownloadFile($installerURI, $installerFile)
+
+    # Install nessus
+    Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Installing Nessus agent."
+    Start-Process -FilePath msiexec.exe -ArgumentList "/i $installerFile NESSUS_GROUPS=$groups NESSUS_SERVER=$server NESSUS_KEY=$key /qn" -Wait | Out-Host
+
+    # Installation verification
+    $cliPath = Join-Path $env:ProgramFiles -ChildPath "Tenable\Nessus Agent\nessuscli.exe"
+    Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Checking CLI path."
+    $nessusCli = Test-Path -Path $cliPath -PathType Leaf
+
+    Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Getting agent status."
+    if ($nessusCli -ne $False) {
+        $nessusStatus = & 'C:\Program Files\Tenable\Nessus Agent\nessuscli.exe' agent status
+        $agentRunning = $nessusStatus[0]
+        $agentLink = $nessusStatus[1]
+        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Nessus agent has been installed successfully."
+        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Nessus agent $($agentRunning)."
+        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Nessus agent $($agentLink)."
+    }
+    else {
+        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Nessus CLI not found in default location."
+        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Nessus agent installation failed."
+    }
+}
+
 if ( "${UF_INSTALL}" -eq "true" ) {
     Install-SplunkUF -UF_USERNAME "${UF_USERNAME}" -UF_PASSWORD "${UF_PASSWORD}" -UF_PASS4SYMMKEY "${UF_PASS4SYMMKEY}" -UF_GROUP "${UF_GROUP}"
+}
+
+if ( "${NESSUS_INSTALL}" -eq "true" ) {
+    Install-NessusAgent -server "${NESSUS_SERVER"} -key "${NESSUS_KEY}" -groups "${NESSUS_GROUPS}"
 }
