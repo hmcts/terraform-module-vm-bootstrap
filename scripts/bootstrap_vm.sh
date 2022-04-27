@@ -14,15 +14,26 @@ UF_GROUP=$4
 
 export SPLUNK_HOME="$INSTALL_LOCATION/splunkforwarder"
 
+# Get OS type
+OS_TYPE=$(hostnamectl | grep "Operating System" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
+
 # Create boot-start systemd user
+if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
+groupadd splunk
+adduser --system -g splunk splunk
+elif [[ "$OS_TYPE" == *"Ubuntu"* ]]; then
+then
+apt install acl
 adduser --system --group splunk
+else
+adduser --system --group splunk
+fi
 
 # Install splunk forwarder
 curl --retry 3 -# -L -o $INSTALL_FILE $DOWNLOAD_URL
 tar xvzf $INSTALL_FILE -C $INSTALL_LOCATION
 rm -rf $INSTALL_FILE
 chown -R splunk:splunk $SPLUNK_HOME
-apt install acl
 setfacl -R -m u:splunk:r /var/log
 
 if [  "$(systemctl is-active SplunkForwarder.service)" = "active"  ]; then

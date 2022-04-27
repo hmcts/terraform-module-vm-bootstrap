@@ -23,14 +23,12 @@ function Install-SplunkUF {
     $splunk = Get-Process -Name "splunkd" -ErrorAction SilentlyContinue
     if ($null -ne $splunk) {
         Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Splunk Universal Forwarder has been installed successfully."
-        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Editing configuration."
     }
     else {
         Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Splunk Universal Forwarder installation failed."
-        exit 1
     }
 }
 
-if ( ${UF_INSTALL} -eq "true" ) {
-    Install-SplunkUF -UF_USERNAME ${UF_USERNAME} -UF_PASSWORD ${UF_PASSWORD} -UF_PASS4SYMMKEY ${UF_PASS4SYMMKEY} -UF_GROUP ${UF_GROUP}
+if ( "${UF_INSTALL}" -eq "true" ) {
+    Install-SplunkUF -UF_USERNAME "${UF_USERNAME}" -UF_PASSWORD "${UF_PASSWORD}" -UF_PASS4SYMMKEY "${UF_PASS4SYMMKEY}" -UF_GROUP "${UF_GROUP}"
 }
