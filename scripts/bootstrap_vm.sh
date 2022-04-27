@@ -22,7 +22,6 @@ if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
 groupadd splunk
 adduser --system -g splunk splunk
 elif [[ "$OS_TYPE" == *"Ubuntu"* ]]; then
-then
 apt install acl
 adduser --system --group splunk
 else
