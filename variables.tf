@@ -91,52 +91,77 @@ variable "install_dynatrace_oneagent" {
   default     = true
 }
 
-variable "dynatrace_oneagent_auto_upgrade_minor_version" {
+variable "dynatrace_auto_upgrade_minor_version" {
   description = "Specifies if the platform deploys the latest minor version Dynatrace OneAgent update to the type_handler_version specified."
   type        = bool
   default     = true
 }
 
-variable "dynatrace_oneagent_automatic_upgrade_enabled" {
+variable "dynatrace_automatic_upgrade_enabled" {
   description = "Should the Extension be automatically updated whenever the Publisher releases a new version of this VM Extension?"
   type        = bool
   default     = false
 }
 
-variable "dynatrace_oneagent_type_handler_version" {
+variable "dynatrace_type_handler_version" {
   description = "Version of Dynatrace OneAgent - To find: az vm extension image list --location uksouth -p dynatrace.ruxit -o table"
   type        = string
   default     = "2.182"
 }
 
-variable "hostgroup" {
+variable "dynatrace_hostgroup" {
   description = "Define the hostgroup to which the VM belongs."
   type        = string
   default     = null
 }
 
-variable "network_zone" {
+variable "dynatrace_network_zone" {
   description = "the network zone the oneagent is attached to i.e azure.cft"
   type        = string
   default     = "azure.cft"
 }
 
-variable "tenant_id" {
+variable "dynatrace_tenant_id" {
   description = "The Dynatrace environment ID."
   type        = string
   default     = null
 }
 
-variable "token" {
+variable "dynatrace_token" {
   description = "The Dynatrace PaaS token."
   type        = string
   default     = null
 }
 
-variable "server" {
+variable "dynatrace_server" {
   description = "The server URL, if you want to configure an alternative communication endpoint."
   type        = string
   default     = null
+}
+
+# Nessus Agent
+variable "install_nessus_agent" {
+  description = "Install Nessus Agent."
+  type        = bool
+  default     = false
+}
+
+variable "nessus_server" {
+  description = "Nessus server endpoint - read input from keyvault."
+  type        = string
+  default     = ""
+}
+
+variable "nessus_key" {
+  description = "Nessus linking key - read input from keyvault."
+  type        = string
+  default     = ""
+}
+
+variable "nessus_groups" {
+  description = "Nessus agent groups."
+  type        = string
+  default     = ""
 }
 
 # Splunk UF
@@ -149,41 +174,23 @@ variable "install_splunk_uf" {
 variable "splunk_username" {
   description = "Splunk universal forwarder local admin username - read input from keyvault."
   type        = string
-  default     = null
+  default     = ""
 }
 
 variable "splunk_password" {
   description = "Splunk universal forwarder local admin password - read input from keyvault."
   type        = string
-  default     = null
+  default     = ""
 }
 
 variable "splunk_pass4symmkey" {
   description = "Splunk universal forwarder communication security key - read input from keyvault."
   type        = string
-  default     = null
+  default     = ""
 }
 
 variable "splunk_group" {
   description = "Splunk universal forwarder global target group."
   type        = string
   default     = "dynatrace_forwarders"
-}
-
-variable "nessus_server" {
-  description = "Nessus server endpoint - read input from keyvault."
-  type        = string
-  default     = null
-}
-
-variable "nessus_key" {
-  description = "Nessus linking key - read input from keyvault."
-  type        = string
-  default     = null
-}
-
-variable "nessus_groups" {
-  description = "Nessus agent groups."
-  type        = string
-  default     = null
 }

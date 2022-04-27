@@ -7,9 +7,6 @@ function Install-SplunkUF {
         [Parameter(ValuefromPipeline = $true, Mandatory = $true)] [string]$UF_GROUP
     )
 
-    # Sleep to allow other extensions MSI interactions to complete
-    Start-Sleep -s 60
-
     # Setup
     $installerURI = 'https://download.splunk.com/products/universalforwarder/releases/8.2.4/windows/splunkforwarder-8.2.4-87e2dda940d1-x64-release.msi'
     $installerFile = $env:Temp + "\splunkforwarder-8.2.4-87e2dda940d1-x64-release.msi"
@@ -73,10 +70,13 @@ function Install-NessusAgent {
     }
 }
 
+# Sleep to allow other extensions MSI interactions to complete
+Start-Sleep -s 60
+
 if ( "${UF_INSTALL}" -eq "true" ) {
     Install-SplunkUF -UF_USERNAME "${UF_USERNAME}" -UF_PASSWORD "${UF_PASSWORD}" -UF_PASS4SYMMKEY "${UF_PASS4SYMMKEY}" -UF_GROUP "${UF_GROUP}"
 }
 
 if ( "${NESSUS_INSTALL}" -eq "true" ) {
-    Install-NessusAgent -server "${NESSUS_SERVER"} -key "${NESSUS_KEY}" -groups "${NESSUS_GROUPS}"
+    Install-NessusAgent -server "${NESSUS_SERVER}" -key "${NESSUS_KEY}" -groups "${NESSUS_GROUPS}"
 }

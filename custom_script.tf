@@ -17,6 +17,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "custom_script" {
   UF_PASSWORD     = "${var.splunk_password}",
   UF_PASS4SYMMKEY = "${var.splunk_pass4symmkey}",
   UF_GROUP        = "${var.splunk_group}",
+  NESSUS_INSTALL  = "${var.install_nessus_agent}",
   NESSUS_SERVER   = "${var.nessus_server}",
   NESSUS_KEY      = "${var.nessus_key}",
   NESSUS_GROUPS   = "${var.nessus_groups}"
@@ -28,6 +29,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "custom_script" {
   UF_PASSWORD     = "${var.splunk_password}",
   UF_PASS4SYMMKEY = "${var.splunk_pass4symmkey}",
   UF_GROUP        = "${var.splunk_group}",
+  NESSUS_INSTALL  = "${var.install_nessus_agent}",
   NESSUS_SERVER   = "${var.nessus_server}",
   NESSUS_KEY      = "${var.nessus_key}",
   NESSUS_GROUPS   = "${var.nessus_groups}"
@@ -55,6 +57,7 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
   UF_PASSWORD     = "${var.splunk_password}",
   UF_PASS4SYMMKEY = "${var.splunk_pass4symmkey}",
   UF_GROUP        = "${var.splunk_group}",
+  NESSUS_INSTALL  = "${var.install_nessus_agent}",
   NESSUS_SERVER   = "${var.nessus_server}",
   NESSUS_KEY      = "${var.nessus_key}",
   NESSUS_GROUPS   = "${var.nessus_groups}"
@@ -66,6 +69,7 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
   UF_PASSWORD     = "${var.splunk_password}",
   UF_PASS4SYMMKEY = "${var.splunk_pass4symmkey}",
   UF_GROUP        = "${var.splunk_group}",
+  NESSUS_INSTALL  = "${var.install_nessus_agent}",
   NESSUS_SERVER   = "${var.nessus_server}",
   NESSUS_KEY      = "${var.nessus_key}",
   NESSUS_GROUPS   = "${var.nessus_groups}"
