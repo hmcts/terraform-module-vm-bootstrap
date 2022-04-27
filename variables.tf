@@ -169,3 +169,21 @@ variable "splunk_group" {
   type        = string
   default     = "dynatrace_forwarders"
 }
+
+variable "nessus_server" {
+  description = "Nessus server endpoint - read input from keyvault."
+  type        = string
+  default     = null
+}
+
+variable "nessus_key" {
+  description = "Nessus linking key - read input from keyvault."
+  type        = string
+  default     = null
+}
+
+variable "nessus_groups" {
+  description = "Nessus agent groups."
+  type        = string
+  default     = null
+}

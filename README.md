@@ -53,6 +53,9 @@ No modules.
 | <a name="input_install_azure_monitor"></a> [install\_azure\_monitor](#input\_install\_azure\_monitor) | Install Azure Monitor Agent. | `bool` | `true` | no |
 | <a name="input_install_dynatrace_oneagent"></a> [install\_dynatrace\_oneagent](#input\_install\_dynatrace\_oneagent) | Install Dynatrace OneAgent. | `bool` | `true` | no |
 | <a name="input_install_splunk_uf"></a> [install\_splunk\_uf](#input\_install\_splunk\_uf) | Install Splunk UF. | `bool` | `true` | no |
+| <a name="input_nessus_key"></a> [nessus\_key](#input\_nessus\_key) | Nessus agent key - read input from keyvault. | `string` | `null` | no |
+| <a name="input_nessus_groups"></a> [nessus\_groups](#input\_nessus\_groups) | Nessus agent groups. | `string` | `null` | no |
+| <a name="input_nessus_server"></a> [nessus\_server](#input\_nessus\_server) | Nessus agent server endpoint. | `string` | `null` | no |
 | <a name="input_network_zone"></a> [network\_zone](#input\_network\_zone) | the network zone the oneagent is attached to i.e azure.cft | `string` | `"azure.cft"` | no |
 | <a name="input_os_type"></a> [os\_type](#input\_os\_type) | Windows or Linux. | `string` | `"Linux"` | no |
 | <a name="input_server"></a> [server](#input\_server) | The server URL, if you want to configure an alternative communication endpoint. | `string` | `null` | no |
