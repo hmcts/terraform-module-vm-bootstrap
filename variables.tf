@@ -143,7 +143,7 @@ variable "dynatrace_server" {
 variable "install_nessus_agent" {
   description = "Install Nessus Agent."
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "nessus_server" {
