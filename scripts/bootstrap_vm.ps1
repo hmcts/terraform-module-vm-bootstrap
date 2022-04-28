@@ -39,7 +39,7 @@ function Install-NessusAgent {
     )
 
     # Setup
-    $installerURI = 'https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/16176/download?i_agree_to_tenable_license_agreement=true'
+    $installerURI = 'https://www.tenable.com/downloads/api/v1/public/pages/nessus/downloads/16105/download?i_agree_to_tenable_license_agreement=true'
     $installerFile = $env:Temp + "\nessusagent.msi"
 
     # Download nessus
@@ -48,12 +48,15 @@ function Install-NessusAgent {
 
     # Install nessus
     Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Installing Nessus agent."
-    Start-Process -FilePath msiexec.exe -ArgumentList "/i $installerFile NESSUS_GROUPS=$groups NESSUS_SERVER=$server NESSUS_KEY=$key /qn" -Wait | Out-Host
+    Start-Process -FilePath msiexec.exe -ArgumentList "/i $installerFile NESSUS_GROUPS=$groups NESSUS_SERVER=$server NESSUS_KEY=$key /qn" -Wait
 
     # Installation verification
-    $cliPath = Join-Path $env:ProgramFiles -ChildPath "Tenable\Nessus Agent\nessuscli.exe"
+    $cliPath = Join-Path $env:ProgramFiles -ChildPath "Tenable\Nessus\nessuscli.exe"
     Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Checking CLI path."
     $nessusCli = Test-Path -Path $cliPath -PathType Leaf
+    Write-Host $nessusCli
+
+    $env:ProgramFiles
 
     Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Getting agent status."
     if ($nessusCli -ne $False) {
@@ -71,7 +74,7 @@ function Install-NessusAgent {
 }
 
 # Sleep to allow other extensions MSI interactions to complete
-Start-Sleep -s 60
+Start-Sleep -s 90
 
 if ( "${UF_INSTALL}" -eq "true" ) {
     Install-SplunkUF -UF_USERNAME "${UF_USERNAME}" -UF_PASSWORD "${UF_PASSWORD}" -UF_PASS4SYMMKEY "${UF_PASS4SYMMKEY}" -UF_GROUP "${UF_GROUP}"
