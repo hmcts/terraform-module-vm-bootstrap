@@ -54,10 +54,6 @@ function Install-NessusAgent {
     $cliPath = Join-Path $env:ProgramFiles -ChildPath "Tenable\Nessus\nessuscli.exe"
     Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Checking CLI path."
     $nessusCli = Test-Path -Path $cliPath -PathType Leaf
-    Write-Host $nessusCli
-
-    $env:ProgramFiles
-
     Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Getting agent status."
     if ($nessusCli -ne $False) {
         $nessusStatus = & 'C:\Program Files\Tenable\Nessus Agent\nessuscli.exe' agent status
