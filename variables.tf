@@ -192,5 +192,5 @@ variable "splunk_pass4symmkey" {
 variable "splunk_group" {
   description = "Splunk universal forwarder global target group."
   type        = string
-  default     = "dynatrace_forwarders"
+  default     = "hmcts_forwarders"
 }
