@@ -106,10 +106,18 @@ KEY=$2
 GROUPS=$3
 
 # Get OS type
-OS_TYPE=$(hostnamectl | grep "Operating System" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
+OS_TYPE=$(lsb_release -a | grep "Description" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
 
 # Download nessus agent
-if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
+if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux Server release 6"* ]]; then
+    # Set for RHEL6 agent (RPM)
+    INSTALL_FILE="nessusagent.rpm"
+    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/16181/download?i_agree_to_tenable_license_agreement=true"
+elif [[ "$OS_TYPE" == *"Red Hat Enterprise Linux Server release 7"* ]]; then
+    # Set for RHEL7 agent (RPM)
+    INSTALL_FILE="nessusagent.rpm"
+    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/16183/download?i_agree_to_tenable_license_agreement=true"
+elif [[ "$OS_TYPE" == *"Red Hat Enterprise Linux Server release 8*"* ]]; then
     # Set for RHEL8 agent (RPM)
     INSTALL_FILE="nessusagent.rpm"
     DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/16184/download?i_agree_to_tenable_license_agreement=true"
