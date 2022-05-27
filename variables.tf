@@ -112,7 +112,7 @@ variable "dynatrace_type_handler_version" {
 variable "dynatrace_hostgroup" {
   description = "Define the hostgroup to which the VM belongs."
   type        = string
-  default     = null
+  default     = ""
 }
 
 variable "dynatrace_network_zone" {
@@ -124,19 +124,19 @@ variable "dynatrace_network_zone" {
 variable "dynatrace_tenant_id" {
   description = "The Dynatrace environment ID."
   type        = string
-  default     = null
+  default     = ""
 }
 
 variable "dynatrace_token" {
   description = "The Dynatrace PaaS token."
   type        = string
-  default     = null
+  default     = ""
 }
 
 variable "dynatrace_server" {
   description = "The server URL, if you want to configure an alternative communication endpoint."
   type        = string
-  default     = null
+  default     = ""
 }
 
 # Nessus Agent
