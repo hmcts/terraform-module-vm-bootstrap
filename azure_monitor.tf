@@ -24,4 +24,6 @@ resource "azurerm_virtual_machine_extension" "azure_monitor" {
   automatic_upgrade_enabled  = var.azure_monitor_automatic_upgrade_enabled
   settings                   = var.azure_monitor_settings
   protected_settings         = var.azure_monitor_protected_settings
+
+  tags = var.common_tags
 }

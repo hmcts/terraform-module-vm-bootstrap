@@ -77,4 +77,6 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
       %{endif}
     }
     PROTECTED_SETTINGS
+
+tags = var.common_tags
 }

@@ -1,4 +1,10 @@
 # VM/VMSS Extension General
+variable "common_tags" {
+  description = "Common Tags"
+  type        = map(string)
+  default     = []
+}
+
 variable "os_type" {
   description = "Windows or Linux."
   type        = string

@@ -22,4 +22,6 @@ resource "azurerm_virtual_machine_extension" "dynatrace_oneagent" {
   auto_upgrade_minor_version = var.dynatrace_auto_upgrade_minor_version
   automatic_upgrade_enabled  = var.dynatrace_automatic_upgrade_enabled
   settings                   = local.dynatrace_settings
+
+  tags = var.common_tags
 }
