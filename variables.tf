@@ -2,7 +2,7 @@
 variable "common_tags" {
   description = "Common Tags"
   type        = map(string)
-  default     = []
+  default     = null
 }
 
 variable "os_type" {
