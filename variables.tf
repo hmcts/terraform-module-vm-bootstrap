@@ -87,7 +87,7 @@ variable "custom_script_type_handler_version" {
 variable "custom_script_type_handler_version_windows" {
   description = "Type handler version number for Windows VMs"
   type        = string
-  default     = "1.10"
+  default     = "1.9"
 }
 
 # Dynatrace OneAgent
