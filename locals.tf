@@ -5,18 +5,5 @@ locals {
   # Dynatrace OneAgent
   dynatrace_settings = var.dynatrace_hostgroup == null && var.dynatrace_server == null ? "{ \"tenantId\" : \"${var.dynatrace_tenant_id}\" , \"token\" : \"${var.dynatrace_token}\" , \"installerArguments\" : \"--set-network-zone=${var.dynatrace_network_zone}\" }" : var.dynatrace_hostgroup != null && var.dynatrace_server == null ? "{ \"tenantId\" : \"${var.dynatrace_tenant_id}\" , \"token\" : \"${var.dynatrace_token}\" , \"hostGroup\" : \"${var.dynatrace_hostgroup}\" , \"installerArguments\" : \"--set-network-zone=${var.dynatrace_network_zone}\"}" : var.dynatrace_hostgroup == null && var.dynatrace_server != null ? "{ \"tenantId\" : \"${var.dynatrace_tenant_id}\" , \"token\" : \"${var.dynatrace_token}\" , \"server\" : \"${var.dynatrace_server}\" , \"installerArguments\" : \"--set-network-zone=${var.dynatrace_network_zone}\" }" : "{ \"tenantId\" : \"${var.dynatrace_tenant_id}\" , \"token\" : \"${var.dynatrace_token}\" , \"hostGroup\" : \"${var.dynatrace_hostgroup}\" , \"server\" : \"${var.dynatrace_server}\" , \"installerArguments\" : \"--set-network-zone=${var.dynatrace_network_zone}\" }"
 
-  template_file = templatefile("${path.module}/${local.bootstrap_vm_script}" ,{
-    UF_INSTALL      = tostring(var.install_splunk_uf),
-    UF_USERNAME     = var.splunk_username,
-    UF_PASSWORD     = var.splunk_password,
-    UF_PASS4SYMMKEY = var.splunk_pass4symmkey,
-    UF_GROUP        = var.splunk_group,
-    NESSUS_INSTALL  = var.install_nessus_agent,
-    NESSUS_SERVER   = var.nessus_server,
-    NESSUS_KEY      = var.nessus_key,
-    NESSUS_GROUPS   = var.nessus_groups
-  })
-
-  additional_script_path = templatefile("${var.additional_script_path}", {})
 }
 
