@@ -53,8 +53,10 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
       %{if var.os_type == "Linux"}
       "script": "${local.template_file}"
       %{else}
-      "fileUris": ${local.additional_script_path_json},
-      "commandToExecute": "powershell -EncodedCommand '${local.template_file}') | Out-File -filepath bootstrap_vm.ps1\" && powershell -ExecutionPolicy Unrestricted -File bootstrap_vm.ps1"
+      "fileUris": [
+        ${var.additional_script_path}
+      ],
+      "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File ${var.additional_script_name}" | powershell -EncodedCommand '${local.template_file}') | Out-File -filepath bootstrap_vm.ps1\" && powershell -ExecutionPolicy Unrestricted -File bootstrap_vm.ps1"
       %{endif}
     }
     PROTECTED_SETTINGS

@@ -16,7 +16,5 @@ locals {
     NESSUS_KEY      = var.nessus_key,
     NESSUS_GROUPS   = var.nessus_groups
   })))
-
-  additional_script_path_json = jsonencode(var.additional_script_path)
 }
 

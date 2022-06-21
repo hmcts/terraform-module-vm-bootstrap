@@ -71,6 +71,11 @@ variable "additional_script_path" {
   default     = null
 }
 
+variable "additional_script_name" {
+  description = "Additional script name."
+  default     = null
+}
+
 variable "custom_script_extension_name" {
   description = "Custom script extension name label."
   type        = string
