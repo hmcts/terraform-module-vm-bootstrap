@@ -68,7 +68,6 @@ variable "azure_monitor_protected_settings" {
 # Custom Script
 variable "additional_script_path" {
   description = "Path to additional script."
-  type        = tuple([string])
   default     = null
 }
 
