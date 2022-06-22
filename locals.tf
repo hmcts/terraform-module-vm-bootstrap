@@ -17,6 +17,6 @@ locals {
     NESSUS_GROUPS   = var.nessus_groups
   }), var.additional_script_path == null ? "" : templatefile("${var.additional_script_path}", {})))
 
-  additional_template_file = var.additional_script_uri != null ? [ var.additional_script_uri ] : null
+  additional_template_file = var.additional_script_uri != null ? var.additional_script_uri : null
 }
 
