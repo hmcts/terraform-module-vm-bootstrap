@@ -71,13 +71,8 @@ variable "additional_script_path" {
   default     = null
 }
 
-variable "additional_script_uri" {
-  description = "Uri download link to additional script"
-  default     = null
-}
-
 variable "additional_script_name" {
-  description = "Additional script name when using script additional_script_uri."
+  description = "Additional script name when giving a Uri as script path."
   default     = null
 }
 
