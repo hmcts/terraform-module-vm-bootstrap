@@ -11,8 +11,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "custom_script" {
   protected_settings = <<PROTECTED_SETTINGS
     {
       %{if var.os_type == "Linux"}
-      "fileUris": ${local.additional_template_file},
-      "script": "'${var.additional_script_uri == null ? "" : "${var.additional_script_name} && "}'${local.template_file}"
+      "script": "${local.template_file}"
       %{else}
       "fileUris": ${local.additional_template_file},
       "commandToExecute": "'${var.additional_script_uri == null ? "" : "powershell -ExecutionPolicy Unrestricted -File ${var.additional_script_name} |"}' powershell -EncodedCommand '${local.template_file}') | Out-File -filepath bootstrap_vm.ps1\" && powershell -ExecutionPolicy Unrestricted -File bootstrap_vm.ps1"
@@ -33,8 +32,7 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
   protected_settings = <<PROTECTED_SETTINGS
     {
       %{if var.os_type == "Linux"}
-      "fileUris": ${local.additional_template_file},
-      "script": "'${var.additional_script_uri == null ? "" : "${var.additional_script_name} && "}'${local.template_file}"
+      "script": "${local.template_file}"
       %{else}
       "fileUris": ${local.additional_template_file},
       "commandToExecute": "'${var.additional_script_uri == null ? "" : "powershell -ExecutionPolicy Unrestricted -File ${var.additional_script_name} |"}' powershell -EncodedCommand '${local.template_file}') | Out-File -filepath bootstrap_vm.ps1\" && powershell -ExecutionPolicy Unrestricted -File bootstrap_vm.ps1"
