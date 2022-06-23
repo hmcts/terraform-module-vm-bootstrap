@@ -191,6 +191,7 @@ variable "splunk_username" {
   description = "Splunk universal forwarder local admin username - read input from keyvault."
   type        = string
   default     = ""
+  sensitive   = true
 }
 
 variable "splunk_password" {
