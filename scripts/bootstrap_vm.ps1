@@ -39,7 +39,7 @@ function Install-NessusAgent {
     )
 
     # Setup
-    $installerURI = 'https://www.tenable.com/downloads/api/v1/public/pages/nessus/downloads/16105/download?i_agree_to_tenable_license_agreement=true'
+    $installerURI = 'https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/16730/download?i_agree_to_tenable_license_agreement=true'
     $installerFile = $env:Temp + "\nessusagent.msi"
 
     # Download nessus
@@ -51,7 +51,7 @@ function Install-NessusAgent {
     Start-Process -FilePath msiexec.exe -ArgumentList "/i $installerFile NESSUS_GROUPS=$groups NESSUS_SERVER=$server NESSUS_KEY=$key /qn" -Wait
 
     # Installation verification
-    $cliPath = Join-Path $env:ProgramFiles -ChildPath "Tenable\Nessus\nessuscli.exe"
+    $cliPath = Join-Path $env:ProgramFiles -ChildPath "Tenable\Nessus Agent\nessuscli.exe"
     Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Checking CLI path."
     $nessusCli = Test-Path -Path $cliPath -PathType Leaf
     Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Getting agent status."
