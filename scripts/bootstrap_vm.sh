@@ -150,5 +150,5 @@ fi
 
 if [ "${NESSUS_INSTALL}" = "true" ]
 then
-  install_nessus "${NESSUS_SERVER}" "${NESSUS_KEY}" "${UF_PASS4SYMMKEY}" "${NESSUS_GROUPS}"
+  install_nessus "${NESSUS_SERVER}" "${NESSUS_KEY}" "${NESSUS_GROUPS}"
 fi
