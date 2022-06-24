@@ -68,7 +68,16 @@ variable "azure_monitor_protected_settings" {
 # Custom Script
 variable "additional_script_path" {
   description = "Path to additional script."
-  type        = string
+  default     = null
+}
+
+variable "additional_script_uri" {
+  description = "Uri download link to additional script"
+  default     = null
+}
+
+variable "additional_script_name" {
+  description = "Additional script name when using script additional_script_uri."
   default     = null
 }
 
@@ -162,6 +171,7 @@ variable "nessus_key" {
   description = "Nessus linking key - read input from keyvault."
   type        = string
   default     = ""
+  sensitive   = true
 }
 
 variable "nessus_groups" {
@@ -181,18 +191,21 @@ variable "splunk_username" {
   description = "Splunk universal forwarder local admin username - read input from keyvault."
   type        = string
   default     = ""
+  sensitive   = true
 }
 
 variable "splunk_password" {
   description = "Splunk universal forwarder local admin password - read input from keyvault."
   type        = string
   default     = ""
+  sensitive   = true
 }
 
 variable "splunk_pass4symmkey" {
   description = "Splunk universal forwarder communication security key - read input from keyvault."
   type        = string
   default     = ""
+  sensitive   = true
 }
 
 variable "splunk_group" {
