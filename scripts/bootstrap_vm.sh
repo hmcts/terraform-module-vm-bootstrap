@@ -124,7 +124,7 @@ elif [[ "$OS_TYPE" == *"Red Hat Enterprise Linux Server release 8*"* ]]; then
 else
     # Set for Debian agent (deb) AMD64
     INSTALL_FILE="nessusagent.deb"
-    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/16746/download?i_agree_to_tenable_license_agreement=true"
+    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/16741/download?i_agree_to_tenable_license_agreement=true"
 fi
 
 # Install nessus agent
