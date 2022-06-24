@@ -39,6 +39,8 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_additional_script_path"></a> [additional\_script\_path](#input\_additional\_script\_path) | Path to additional script. | `string` | `null` | no |
+| <a name="input_additional_script_uri"></a> [additional\_script\_uri](#input\_additional\_script\_uri) | Uri to additional script. Specify <b>additional_script_name</b> when using this | `string` | `null` | no |
+| <a name="input_additional_script_name"></a> [additional\_script\_name](#input\_additional\_script\_name) | Name of additional script to run, only required when using <b>additional_script_uri</b> | `string` | `null` | no |
 | <a name="input_azure_monitor_auto_upgrade_minor_version"></a> [azure\_monitor\_auto\_upgrade\_minor\_version](#input\_azure\_monitor\_auto\_upgrade\_minor\_version) | Specifies if the platform deploys the latest minor version Azure Monitor update to the type\_handler\_version specified. | `bool` | `true` | no |
 | <a name="input_azure_monitor_automatic_upgrade_enabled"></a> [azure\_monitor\_automatic\_upgrade\_enabled](#input\_azure\_monitor\_automatic\_upgrade\_enabled) | Should the Extension be automatically updated whenever the Publisher releases a new version of this VM Extension? | `bool` | `false` | no |
 | <a name="input_azure_monitor_protected_settings"></a> [azure\_monitor\_protected\_settings](#input\_azure\_monitor\_protected\_settings) | The protected\_settings passed to the Azure Monitor extension, like settings, these are specified as a JSON object in a string. | `string` | `null` | no |
