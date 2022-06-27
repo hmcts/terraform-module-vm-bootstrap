@@ -57,9 +57,11 @@ function Install-NessusAgent {
     Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Getting agent status."
     if ($nessusCli -ne $False) {
         $nessusStatus = & 'C:\Program Files\Tenable\Nessus Agent\nessuscli.exe' agent status
+        $nessusLink = & 'C:\Program Files\Tenable\Nessus Agent\nessuscli.exe' agent link --key $key --host $server --port 8834 --groups $groups
         $agentRunning = $nessusStatus[0]
         $agentLink = $nessusStatus[1]
         Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Nessus agent has been installed successfully."
+        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Nessus agent link output $($nessusLink)."
         Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Nessus agent $($agentRunning)."
         Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Nessus agent $($agentLink)."
     }
