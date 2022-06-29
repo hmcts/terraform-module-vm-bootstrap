@@ -171,7 +171,6 @@ variable "nessus_key" {
   description = "Nessus linking key - read input from keyvault."
   type        = string
   default     = ""
-  # sensitive   = true
 }
 
 variable "nessus_groups" {
@@ -191,21 +190,18 @@ variable "splunk_username" {
   description = "Splunk universal forwarder local admin username - read input from keyvault."
   type        = string
   default     = ""
-  # sensitive   = true
 }
 
 variable "splunk_password" {
   description = "Splunk universal forwarder local admin password - read input from keyvault."
   type        = string
   default     = ""
-  # sensitive   = true
 }
 
 variable "splunk_pass4symmkey" {
   description = "Splunk universal forwarder communication security key - read input from keyvault."
   type        = string
   default     = ""
-  # sensitive   = true
 }
 
 variable "splunk_group" {
