@@ -116,7 +116,7 @@ if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux Server release 6"* ]]; then
 elif [[ "$OS_TYPE" == *"Red Hat Enterprise Linux Server release 7"* ]]; then
     # Set for RHEL7 agent (RPM)
     INSTALL_FILE="nessusagent.rpm"
-    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/16183/download?i_agree_to_tenable_license_agreement=true"
+    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/17072/download?i_agree_to_tenable_license_agreement=true"
 elif [[ "$OS_TYPE" == *"Red Hat Enterprise Linux Server release 8*"* ]]; then
     # Set for RHEL8 agent (RPM)
     INSTALL_FILE="nessusagent.rpm"
