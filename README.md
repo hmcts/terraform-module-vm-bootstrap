@@ -9,6 +9,10 @@ Supported Agents:
 - Splunk Universal Forwarder
 - Tenable Nessus Agent
 
+## Outdated Links
+
+If the tenable install is failing please check that the download link has not expired as the link changes often. https://www.tenable.com/downloads
+
 ## Requirements
 
 A virtual machine or virtual machine scale set.
