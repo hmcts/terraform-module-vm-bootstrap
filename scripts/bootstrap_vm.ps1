@@ -39,7 +39,7 @@ function Install-NessusAgent {
     )
 
     # Setup
-    $installerURI = 'https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/16730/download?i_agree_to_tenable_license_agreement=true'
+    $installerURI = 'https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/17065/download?i_agree_to_tenable_license_agreement=true'
     $installerFile = $env:Temp + "\nessusagent.msi"
 
     # Download nessus
