@@ -17,6 +17,6 @@ locals {
     NESSUS_GROUPS   = var.nessus_groups
   }), var.additional_script_path == null ? "" : templatefile("${var.additional_script_path}", {})))
 
-  additional_template_file = (trimprefix(var.additional_script_uri, "[") != var.additional_script_uri && trimsuffix(var.additional_script_uri, "]") != var.additional_script_uri) ? var.additional_script_uri : var.additional_script_uri != null ? format("%s%s%s", "[ ", "\"${var.additional_script_uri}\"", " ]") : "\"\""
+  additional_template_file = var.additional_script_uri != null ? format("%s%s%s", "[ ", "\"${var.additional_script_uri}\"", " ]") : "\"\""
 }
 
