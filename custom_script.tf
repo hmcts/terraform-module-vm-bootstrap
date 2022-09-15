@@ -14,10 +14,14 @@ resource "azurerm_virtual_machine_scale_set_extension" "custom_script" {
       "script": "${local.template_file}"
       %{else}
       "fileUris": ${local.additional_template_file},
-      "commandToExecute": "${var.additional_script_uri == null ? "" : "powershell -ExecutionPolicy Unrestricted -File ${var.additional_script_name} &&"} powershell -command \"[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('${local.template_file}')) | Out-File -filepath bootstrap_vm.ps1\" && powershell -ExecutionPolicy Unrestricted -File bootstrap_vm.ps1"
       %{if var.additional_script_storage_account_name != null && var.additional_script_storage_account_key != null}
-      "storageAccountName": ${var.additional_script_storage_account_name}
-      "storageAccountKey": ${var.additional_script_storage_account_key}
+      "commandToExecute": "${var.additional_script_uri == null ? "" : "powershell -ExecutionPolicy Unrestricted -File ${var.additional_script_name} &&"} powershell -command \"[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('${local.template_file}')) | Out-File -filepath bootstrap_vm.ps1\" && powershell -ExecutionPolicy Unrestricted -File bootstrap_vm.ps1",
+      %{else}
+      "commandToExecute": "${var.additional_script_uri == null ? "" : "powershell -ExecutionPolicy Unrestricted -File ${var.additional_script_name} &&"} powershell -command \"[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('${local.template_file}')) | Out-File -filepath bootstrap_vm.ps1\" && powershell -ExecutionPolicy Unrestricted -File bootstrap_vm.ps1"
+      %{endif}
+      %{if var.additional_script_storage_account_name != null && var.additional_script_storage_account_key != null}
+      "storageAccountName": "${var.additional_script_storage_account_name}",
+      "storageAccountKey": "${var.additional_script_storage_account_key}"
       %{endif}
       %{endif}
     }
@@ -39,9 +43,13 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
       "script": "${local.template_file}"
       %{else}
       "fileUris": ${local.additional_template_file},
-      "commandToExecute": "${var.additional_script_uri == null ? "" : "powershell -ExecutionPolicy Unrestricted -File ${var.additional_script_name} &&"} powershell -command \"[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('${local.template_file}')) | Out-File -filepath bootstrap_vm.ps1\" && powershell -ExecutionPolicy Unrestricted -File bootstrap_vm.ps1"
       %{if var.additional_script_storage_account_name != null && var.additional_script_storage_account_key != null}
-      "storageAccountName": "${var.additional_script_storage_account_name}"
+      "commandToExecute": "${var.additional_script_uri == null ? "" : "powershell -ExecutionPolicy Unrestricted -File ${var.additional_script_name} &&"} powershell -command \"[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('${local.template_file}')) | Out-File -filepath bootstrap_vm.ps1\" && powershell -ExecutionPolicy Unrestricted -File bootstrap_vm.ps1",
+      %{else}
+      "commandToExecute": "${var.additional_script_uri == null ? "" : "powershell -ExecutionPolicy Unrestricted -File ${var.additional_script_name} &&"} powershell -command \"[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('${local.template_file}')) | Out-File -filepath bootstrap_vm.ps1\" && powershell -ExecutionPolicy Unrestricted -File bootstrap_vm.ps1"
+      %{endif}
+      %{if var.additional_script_storage_account_name != null && var.additional_script_storage_account_key != null}
+      "storageAccountName": "${var.additional_script_storage_account_name}",
       "storageAccountKey": "${var.additional_script_storage_account_key}"
       %{endif}
       %{endif}
