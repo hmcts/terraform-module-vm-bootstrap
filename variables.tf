@@ -81,6 +81,16 @@ variable "additional_script_name" {
   default     = null
 }
 
+variable "additional_script_storage_account_name" {
+  description = "The storage account name the additional script is stored in"
+  default     = null
+}
+
+variable "additional_script_storage_account_key" {
+  description = "The storage account key to access the additional script"
+  default     = null
+}
+
 variable "custom_script_extension_name" {
   description = "Custom script extension name label."
   type        = string

@@ -8,13 +8,17 @@ resource "azurerm_virtual_machine_scale_set_extension" "custom_script" {
   type                         = lower(var.os_type) == "linux" ? "CustomScript" : lower(var.os_type) == "windows" ? "CustomScriptExtension" : null
   type_handler_version         = lower(var.os_type) == "linux" ? var.custom_script_type_handler_version : var.custom_script_type_handler_version_windows
   auto_upgrade_minor_version   = false
-  protected_settings = <<PROTECTED_SETTINGS
+  protected_settings           = <<PROTECTED_SETTINGS
     {
       %{if var.os_type == "Linux"}
       "script": "${local.template_file}"
       %{else}
       "fileUris": ${local.additional_template_file},
       "commandToExecute": "${var.additional_script_uri == null ? "" : "powershell -ExecutionPolicy Unrestricted -File ${var.additional_script_name} &&"} powershell -command \"[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('${local.template_file}')) | Out-File -filepath bootstrap_vm.ps1\" && powershell -ExecutionPolicy Unrestricted -File bootstrap_vm.ps1"
+      %{if var.additional_script_storage_account_name != null && var.additional_script_storage_account_key != null}
+      "storageAccountName": ${var.additional_script_storage_account_name}
+      "storageAccountKey": ${var.additional_script_storage_account_key}
+      %{endif}
       %{endif}
     }
     PROTECTED_SETTINGS
@@ -29,13 +33,17 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
   type                       = lower(var.os_type) == "linux" ? "CustomScript" : lower(var.os_type) == "windows" ? "CustomScriptExtension" : null
   type_handler_version       = lower(var.os_type) == "linux" ? var.custom_script_type_handler_version : var.custom_script_type_handler_version_windows
   auto_upgrade_minor_version = false
-  protected_settings = <<PROTECTED_SETTINGS
+  protected_settings         = <<PROTECTED_SETTINGS
     {
       %{if var.os_type == "Linux"}
       "script": "${local.template_file}"
       %{else}
       "fileUris": ${local.additional_template_file},
       "commandToExecute": "${var.additional_script_uri == null ? "" : "powershell -ExecutionPolicy Unrestricted -File ${var.additional_script_name} &&"} powershell -command \"[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('${local.template_file}')) | Out-File -filepath bootstrap_vm.ps1\" && powershell -ExecutionPolicy Unrestricted -File bootstrap_vm.ps1"
+      %{if var.additional_script_storage_account_name != null && var.additional_script_storage_account_key != null}
+      "storageAccountName": ${var.additional_script_storage_account_name}
+      "storageAccountKey": ${var.additional_script_storage_account_key}
+      %{endif}
       %{endif}
     }
     PROTECTED_SETTINGS
