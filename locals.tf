@@ -15,7 +15,7 @@ locals {
     NESSUS_SERVER   = var.nessus_server,
     NESSUS_KEY      = var.nessus_key,
     NESSUS_GROUPS   = var.nessus_groups
-  }), var.additional_script_path == null ? "" : templatefile("${var.additional_script_path}", {})))
+  }), var.additional_script_path == null ? "" : file("${var.additional_script_path}")))
 
   additional_template_file = var.additional_script_uri != null ? format("%s%s%s", "[ ", "\"${var.additional_script_uri}\"", " ]") : "\"\""
 }
