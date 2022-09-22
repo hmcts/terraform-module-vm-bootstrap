@@ -99,6 +99,7 @@ $SPLUNK_HOME/bin/splunk start
 }
 
 install_nessus() {
+echo "Info: Installing Tenable Nessus"
 
 # Setup
 SERVER=$1
@@ -106,7 +107,7 @@ KEY=$2
 GROUPS=$3
 
 # Get OS type
-OS_TYPE=$(lsb_release -a | grep "Description" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
+OS_TYPE=$(hostnamectl | grep "Operating System" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
 
 # Download nessus agent
 if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux Server release 6"* ]]; then
