@@ -41,12 +41,6 @@ variable "azure_monitor_auto_upgrade_minor_version" {
   default     = true
 }
 
-variable "azure_monitor_automatic_upgrade_enabled" {
-  description = "Should the Extension be automatically updated whenever the Publisher releases a new version of this VM Extension?"
-  type        = bool
-  default     = false
-}
-
 variable "azure_monitor_type_handler_version" {
   description = "Version of Azure Monitor - To find: az vm extension image list --location uksouth -p Microsoft.Azure.Monitor -o table"
   type        = string
@@ -120,12 +114,6 @@ variable "dynatrace_auto_upgrade_minor_version" {
   description = "Specifies if the platform deploys the latest minor version Dynatrace OneAgent update to the type_handler_version specified."
   type        = bool
   default     = true
-}
-
-variable "dynatrace_automatic_upgrade_enabled" {
-  description = "Should the Extension be automatically updated whenever the Publisher releases a new version of this VM Extension?"
-  type        = bool
-  default     = false
 }
 
 variable "dynatrace_type_handler_version" {

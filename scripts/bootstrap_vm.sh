@@ -99,6 +99,7 @@ $SPLUNK_HOME/bin/splunk start
 }
 
 install_nessus() {
+echo "Info: Installing Tenable Nessus"
 
 # Setup
 SERVER=$1
@@ -106,18 +107,18 @@ KEY=$2
 GROUPS=$3
 
 # Get OS type
-OS_TYPE=$(lsb_release -a | grep "Description" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
+OS_TYPE=$(hostnamectl | grep "Operating System" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
 
 # Download nessus agent
-if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux Server release 6"* ]]; then
+if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux 6"* ]]; then
     # Set for RHEL6 agent (RPM)
     INSTALL_FILE="nessusagent.rpm"
     DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/17234/download?i_agree_to_tenable_license_agreement=true"
-elif [[ "$OS_TYPE" == *"Red Hat Enterprise Linux Server release 7"* ]]; then
+elif [[ "$OS_TYPE" == *"Red Hat Enterprise Linux 7"* ]]; then
     # Set for RHEL7 agent (RPM)
     INSTALL_FILE="nessusagent.rpm"
     DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/17235/download?i_agree_to_tenable_license_agreement=true"
-elif [[ "$OS_TYPE" == *"Red Hat Enterprise Linux Server release 8*"* ]]; then
+elif [[ "$OS_TYPE" == *"Red Hat Enterprise Linux 8"* ]]; then
     # Set for RHEL8 agent (RPM)
     INSTALL_FILE="nessusagent.rpm"
     DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/17237/download?i_agree_to_tenable_license_agreement=true"
