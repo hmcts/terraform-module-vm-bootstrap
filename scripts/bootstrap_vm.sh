@@ -107,18 +107,26 @@ KEY=$2
 GROUPS=$3
 
 # Get OS type
-OS_TYPE=$(hostnamectl | grep "Operating System" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
+if command -v hostnamectl &> /dev/null
+then
+    OS_TYPE=$(hostnamectl | grep "Operating System" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
+elif command -v lsb_release &> /dev/null
+then
+    OS_TYPE=$(lsb_release -a | grep "Description" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
+else
+    echo "Operating System could not be determined."
+fi
 
 # Download nessus agent
-if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux 6"* ]]; then
+if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"6."* ]]; then
     # Set for RHEL6 agent (RPM)
     INSTALL_FILE="nessusagent.rpm"
     DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/17744/download?i_agree_to_tenable_license_agreement=true"
-elif [[ "$OS_TYPE" == *"Red Hat Enterprise Linux 7"* ]]; then
+elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"7."* ]]; then
     # Set for RHEL7 agent (RPM)
     INSTALL_FILE="nessusagent.rpm"
     DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/17745/download?i_agree_to_tenable_license_agreement=true"
-elif [[ "$OS_TYPE" == *"Red Hat Enterprise Linux 8"* ]]; then
+elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"8."* ]]; then
     # Set for RHEL8 agent (RPM)
     INSTALL_FILE="nessusagent.rpm"
     DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/17747/download?i_agree_to_tenable_license_agreement=true"
