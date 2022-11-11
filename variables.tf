@@ -226,7 +226,7 @@ variable "run_command_settings" {
 
 variable "rc_auto_upgrade_minor_version" {
   type    = bool
-  default = true
+  default = false
 }
 
 variable "run_as" {
