@@ -202,7 +202,7 @@ variable "splunk_group" {
 # Run Command Variables
 
 variable "run_command" {
-  type = bool
+  type    = bool
   default = false
 }
 
@@ -225,18 +225,18 @@ variable "run_command_settings" {
 
 
 variable "rc_auto_upgrade_minor_version" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "run_as" {
   description = "Would you like to Run Command as command or scriptfile?"
-  default = null
+  default     = null
 }
 variable "rc_command" {
   description = "A string Command to be executed."
-  type = string
-  default=null
+  type        = string
+  default     = null
 }
 
 variable "rc_script_file" {
