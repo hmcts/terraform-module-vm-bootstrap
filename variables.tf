@@ -243,3 +243,15 @@ variable "rc_script_file" {
   description = "A path to a local file for the script"
   default     = "\"\"test_ps_file.ps1"
 }
+
+variable "run_command_type_handler_version" {
+  description = "Type handler version number"
+  type        = string
+  default     = "1.0"
+}
+
+variable "run_command_type_handler_version_windows" {
+  description = "Type handler version number for Windows VMs"
+  type        = string
+  default     = "1.1"
+}
