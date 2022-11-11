@@ -1,0 +1,1 @@
+New-Item -Path $env:windir\TestFolder -ItemType Directory
