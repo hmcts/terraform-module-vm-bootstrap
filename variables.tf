@@ -206,17 +206,7 @@ variable "run_command" {
   default = false
 }
 
-variable "rc_type_handler_version" {
-  description = "Type handler version number"
-  type        = string
-  default     = "1.0"
-}
 
-variable "rc_type_handler_version_windows" {
-  description = "Type handler version number for Windows VMs"
-  type        = string
-  default     = "1.1"
-}
 variable "run_command_settings" {
   description = "The settings passed to the Run Command extension, these are specified as a JSON object in a string."
   type        = string
