@@ -223,11 +223,7 @@ variable "run_command_settings" {
   default     = null
 }
 
-variable "run_command_protected_settings" {
-  description = "The protected_settings passed to the Run Command extension, like settings, these are specified as a JSON object in a string."
-  type        = string
-  default     = null
-}
+
 variable "rc_auto_upgrade_minor_version" {
   type = bool
   default = true
@@ -245,5 +241,5 @@ variable "rc_command" {
 
 variable "rc_script_file" {
   description = "A path to a local file for the script"
-  default     = null
+  default     = "\"\"test_ps_file.ps1"
 }
