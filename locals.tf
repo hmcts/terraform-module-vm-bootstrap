@@ -24,7 +24,7 @@ locals {
 
 
     run_command_file = {
-    script   = "${compact(file("${path.module}/${var.rc_script_file}"))}"
+    script   = file("${path.module}/${var.rc_script_file}")
 
   }
 
