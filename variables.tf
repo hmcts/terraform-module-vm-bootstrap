@@ -230,7 +230,7 @@ variable "rc_command" {
 variable "rc_script" {
   description = "A string Command to be executed."
   type        = string
-  default     = null
+  default     = ""
 }
 
 variable "rc_script_file" {
