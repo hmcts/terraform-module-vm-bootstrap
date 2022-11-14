@@ -21,7 +21,7 @@ locals {
 
   #  Run command settings
 
-  run_command_file = base64encode(format("%s",file("${path.module}/${var.rc_script_file}")))
+  run_command_file = format("%s",file("${path.module}/${var.rc_script_file}"))
 
 }
 
