@@ -18,5 +18,20 @@ locals {
   }), var.additional_script_path == null ? "" : file("${var.additional_script_path}")))
 
   additional_template_file = var.additional_script_uri != null ? format("%s%s%s", "[ ", "\"${var.additional_script_uri}\"", " ]") : "\"\""
+
+  #  Run command settings
+
+  run_settings_windows = {
+    script   = "${compact(concat(list(var.rc_command), split("\n", var.rc_script)))}"
+    fileUris = "${var.rc_script_file}"
+  }
+
+  run_settings_linux = {
+    commandToExecute = "${var.rc_command}"
+    fileUris         = "${var.rc_script_file}"
+    script           = "${base64encode(var.rc_script)}"
+  }
+
+
 }
 

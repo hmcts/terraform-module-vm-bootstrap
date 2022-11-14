@@ -228,10 +228,15 @@ variable "rc_command" {
   type        = string
   default     = null
 }
+variable "rc_script" {
+  description = "A string Command to be executed."
+  type        = string
+  default     = null
+}
 
 variable "rc_script_file" {
   description = "A path to a local file for the script"
-  default     = "\"\"test_ps_file.ps1"
+  default     = lower(var.os_type) == "linux" ? "scripts/test_sh_file.sh" : "scripts/test_ps_file.ps1"
 }
 
 variable "run_command_type_handler_version" {
