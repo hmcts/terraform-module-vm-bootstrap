@@ -23,7 +23,7 @@ locals {
 
 
 
-   # run_command_file = file("${path.module}/${var.rc_script_file}")
+  # run_command_file = file("${path.module}/${var.rc_script_file}")
 
 }
 

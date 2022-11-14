@@ -219,20 +219,9 @@ variable "rc_auto_upgrade_minor_version" {
   default = false
 }
 
-variable "run_as" {
-  description = "Would you like to Run Command as command or scriptfile?"
-  default     = null
+variable "rc_vm_name" {
+  default = null
 }
-variable "rc_command" {
-  description = "A string Command to be executed."
-  default     = ""
-}
-variable "rc_script" {
-  description = "A string Command to be executed."
-  type        = string
-  default     = ""
-}
-
 variable "rc_script_file" {
   description = "A path to a local file for the script"
   default     = null
