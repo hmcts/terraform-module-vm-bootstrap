@@ -148,8 +148,15 @@ fi
 
 # Start Service
 /sbin/service nessusagent start
+
 # Link agent
-/opt/nessus_agent/sbin/nessuscli agent link --key=$KEY --groups=$GROUPS --host=$SERVER --port=8834
+NESSUS_STATUS=$(/opt/nessus_agent/sbin/nessuscli agent status -a | grep "Link status" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
+if [[ "$NESSUS_STATUS" == "Connected to"* ]]; then
+    echo $NESSUS_STATUS
+else
+    echo "Connecting..."
+    /opt/nessus_agent/sbin/nessuscli agent link --key=$KEY --groups=$GROUPS --host=$SERVER --port=8834
+fi
 }
 
 if [ "${UF_INSTALL}" = "true" ]
