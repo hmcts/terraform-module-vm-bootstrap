@@ -22,7 +22,7 @@ locals {
   #  Run command settings
 
   run_settings_windows = {
-    script   =    file("${path.module}/${var.rc_script_file}")
+    script   =    file(path.module/var.rc_script_file)
     #fileUris = "${path.module}/${var.rc_script_file}"
   }
 
