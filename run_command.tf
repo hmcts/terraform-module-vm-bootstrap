@@ -19,7 +19,7 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
   type                       = lower(var.os_type) == "linux" ? "RunCommandLinux" : lower(var.os_type) == "windows" ? "RunCommandWindows" : null
   type_handler_version       = lower(var.os_type) == "linux" ? var.run_command_type_handler_version : var.run_command_type_handler_version_windows
   auto_upgrade_minor_version = false
-  settings                   =  "${jsonencode(local.run_command_file)}" 
+  settings                   =  "${local.run_command_file}" 
 
 
   tags = var.common_tags
