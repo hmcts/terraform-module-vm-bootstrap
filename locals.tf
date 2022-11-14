@@ -22,7 +22,7 @@ locals {
   #  Run command settings
 
   run_settings_windows = {
-    script   = try("${compact(concat(var.rc_command, split("\n", var.rc_script)))}",null)
+    script   = null #try("${compact(concat(var.rc_command, split("\n", var.rc_script)))}",null)
     fileUris = "${var.rc_script_file}"
   }
 
