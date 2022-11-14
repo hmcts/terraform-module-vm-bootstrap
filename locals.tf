@@ -23,12 +23,12 @@ locals {
 
   run_settings_windows = {
     script   = null #try("${compact(concat(var.rc_command, split("\n", var.rc_script)))}",null)
-    fileUris = "${var.rc_script_file}"
+    fileUris = "${path.module}/${var.rc_script_file}"
   }
 
   run_settings_linux = {
     commandToExecute = "${var.rc_command}"
-    fileUris         = "${var.rc_script_file}"
+    fileUris         = "${path.module}/${var.rc_script_file}"
     script           = "${base64encode(var.rc_script)}"
   }
 
