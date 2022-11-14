@@ -236,7 +236,7 @@ variable "rc_script" {
 
 variable "rc_script_file" {
   description = "A path to a local file for the script"
-  default     = lower(var.os_type) == "linux" ? "scripts/test_sh_file.sh" : "scripts/test_ps_file.ps1"
+  default     = var.os_type == "linux" ? "scripts/test_sh_file.sh" : "scripts/test_ps_file.ps1"
 }
 
 variable "run_command_type_handler_version" {
