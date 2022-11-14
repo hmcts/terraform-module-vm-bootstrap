@@ -1,1 +1,1 @@
-New-Item -Path c:\windows\TestFolder -ItemType Directory
+New-Item -Path c:\windows\TestFolder -ItemType Directory | Out-File -filepath test_ps_file.ps1
