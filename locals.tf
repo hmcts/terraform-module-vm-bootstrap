@@ -22,8 +22,8 @@ locals {
   #  Run command settings
 
   run_settings_windows = {
-    script   = null #try("${compact(concat(var.rc_command, split("\n", var.rc_script)))}",null)
-    fileUris = "${path.module}/${var.rc_script_file}"
+    script   =    file("${path.module}/${var.rc_script_file}")
+    #fileUris = "${path.module}/${var.rc_script_file}"
   }
 
   run_settings_linux = {
