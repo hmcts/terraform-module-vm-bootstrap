@@ -7,7 +7,9 @@ resource "azurerm_virtual_machine_scale_set_extension" "azure_vmss_run_command" 
   type                         = lower(var.os_type) == "linux" ? "RunCommandLinux" : lower(var.os_type) == "windows" ? "RunCommandWindows" : null
   type_handler_version         = lower(var.os_type) == "linux" ? var.run_command_type_handler_version : var.run_command_type_handler_version_windows
   auto_upgrade_minor_version   = false
-  settings                     = "${jsonencode(local.run_command_file)}" 
+   settings = jsonencode({
+    script = compact(tolist([file("${path.module}/${var.rc_script_file}")]))
+  })
 }
 
 resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
@@ -19,7 +21,10 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
   type                       = lower(var.os_type) == "linux" ? "RunCommandLinux" : lower(var.os_type) == "windows" ? "RunCommandWindows" : null
   type_handler_version       = lower(var.os_type) == "linux" ? var.run_command_type_handler_version : var.run_command_type_handler_version_windows
   auto_upgrade_minor_version = false
-  settings                   =  "${local.run_command_file}" 
+
+  settings = jsonencode({
+    script = compact(tolist([file("${path.module}/${var.rc_script_file}")]))
+  })
 
 
   tags = var.common_tags
