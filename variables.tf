@@ -225,7 +225,6 @@ variable "run_as" {
 }
 variable "rc_command" {
   description = "A string Command to be executed."
-  type        = string
   default     = null
 }
 variable "rc_script" {
