@@ -21,7 +21,12 @@ locals {
 
   #  Run command settings
 
-  run_command_file = format("%s",file("${path.module}/${var.rc_script_file}"))
+
+
+    run_command_file = {
+    script   = "${compact(concat(tolist(file("${path.module}/${var.rc_script_file}")), split("\n", var.rc_script)))}"
+
+  }
 
 }
 
