@@ -6,7 +6,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "azure_vmss_run_command" 
   publisher                    = "Microsoft.CPlat.Core"
   type                         = lower(var.os_type) == "linux" ? "RunCommandLinux" : lower(var.os_type) == "windows" ? "RunCommandWindows" : null
   type_handler_version         = lower(var.os_type) == "linux" ? var.run_command_type_handler_version : var.run_command_type_handler_version_windows
-  auto_upgrade_minor_version   = false
+  auto_upgrade_minor_version   = true
   settings = jsonencode({
     script = compact(tolist([file("${path.module}/${var.rc_script_file}")]))
   })
@@ -23,7 +23,7 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
   auto_upgrade_minor_version = true
 
   settings = jsonencode({
-    script = compact(tolist([file("${path.module}/${var.rc_script_file}")]))
+    script = lower(var.os_type) == "linux" ? base64encode(file("${path.module}/${var.rc_script_file}")) : lower(var.os_type) == "windows" ? compact(tolist([file("${path.module}/${var.rc_script_file}")])) : null
   })
 
 
