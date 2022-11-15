@@ -17,7 +17,7 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
 
   name                       = "${lower(var.os_type)}-run-command"
   virtual_machine_id         = var.virtual_machine_id
-  publisher                  = lower(var.os_type) == "linux" ? "Microsoft.Azure.Extensions" : lower(var.os_type) == "windows" ? "Microsoft.CPlat.Core" : null
+  publisher                  = "Microsoft.CPlat.Core"
   type                       = lower(var.os_type) == "linux" ? "RunCommandLinux" : lower(var.os_type) == "windows" ? "RunCommandWindows" : null
   type_handler_version       = lower(var.os_type) == "linux" ? var.run_command_type_handler_version : var.run_command_type_handler_version_windows
   auto_upgrade_minor_version = true
