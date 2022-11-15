@@ -228,7 +228,7 @@ variable "rc_script_file" {
 variable "run_command_type_handler_version" {
   description = "Type handler version number"
   type        = string
-  default     = "1.0.2"
+  default     = "1.0.3"
 }
 
 variable "run_command_type_handler_version_windows" {
