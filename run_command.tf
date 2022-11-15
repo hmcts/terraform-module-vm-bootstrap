@@ -23,7 +23,7 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
   auto_upgrade_minor_version = true
 
   settings = jsonencode({
-    script = lower(var.os_type) == "linux" ? base64encode(file("${path.module}/${var.rc_script_file}")) : lower(var.os_type) == "windows" ? compact(tolist([file("${path.module}/${var.rc_script_file}")])) : null
+    script = rc_script
   })
 
 

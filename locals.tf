@@ -21,7 +21,7 @@ locals {
 
   #  Run command settings
 
-
+rc_script = lower(var.os_type) == "linux" ? base64encode(file("${path.module}/${var.rc_script_file}")) : lower(var.os_type) == "windows" ? compact(tolist([file("${path.module}/${var.rc_script_file}")])) : null
 
   # run_command_file = file("${path.module}/${var.rc_script_file}")
 
