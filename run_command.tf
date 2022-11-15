@@ -23,7 +23,7 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
   auto_upgrade_minor_version = true
 
   settings = jsonencode({
-    script = rc_script
+    script = local.rc_script
   })
 
 
