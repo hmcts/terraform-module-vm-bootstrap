@@ -25,9 +25,15 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
   settings = jsonencode({
     script = lower(var.os_type) == "windows" ? compact(tolist([file("${path.module}/${var.rc_script_file}")])) : null
   })
-  protected_settings = jsonencode({
-    script = lower(var.os_type) == "linux" ? base64encode(file("${path.module}/${var.rc_script_file}"))  : null
-  })
+  protected_settings =<<PROTECTED_SETTINGS
+    {
+      %{if var.os_type == "Linux"}
+      "script": "${file("${path.module}/${var.rc_script_file}")}"
+      %{else}
+      "script": ""
+      %{endif}
+    }
+    PROTECTED_SETTINGS
 
   tags = var.common_tags
   depends_on                     = [azurerm_virtual_machine_extension.custom_script]
