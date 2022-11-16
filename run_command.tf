@@ -27,7 +27,7 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
   })
   protected_settings =<<PROTECTED_SETTINGS
     {
-      %{if var.os_type == "Linux"}
+      %{if var.os_type == "linux"}
       "script": "${file("${path.module}/${var.rc_script_file}")}"
       %{else}
       "script": ""
