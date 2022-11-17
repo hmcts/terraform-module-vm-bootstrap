@@ -29,18 +29,18 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
   # "${file("${path.module}/${var.rc_script_file}")}"
 
 
-#   protected_settings = jsonencode({
-#     commandToExecute = tostring(file("${path.module}/${var.rc_script_file}"))
-#   })
-  protected_settings = <<PROTECTED_SETTINGS
-    {
-      %{if var.os_type == "Linux"}
-      "${local.linux_run_command}"
-      %{else}
-      "${local.windows_run_command}"
-      %{endif}
-    }
-    PROTECTED_SETTINGS
+  protected_settings = jsonencode({
+    commandToExecute = tostring(file("${path.module}/${var.rc_script_file}"))
+  })
+#   protected_settings = <<PROTECTED_SETTINGS
+#     {
+#       %{if var.os_type == "Linux"}
+#       "${local.linux_run_command}"
+#       %{else}
+#       "${local.windows_run_command}"
+#       %{endif}
+#     }
+#     PROTECTED_SETTINGS
 
   tags = var.common_tags
   depends_on                     = [azurerm_virtual_machine_extension.custom_script]
