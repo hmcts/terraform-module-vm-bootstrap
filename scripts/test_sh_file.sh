@@ -1,1 +1,1 @@
-mkdir TestFolder
+echo hello > /home/chirag_test.txt
