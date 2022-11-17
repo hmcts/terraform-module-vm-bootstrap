@@ -35,13 +35,9 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
   protected_settings = <<PROTECTED_SETTINGS
     {
       %{if var.os_type == "Linux"}
-      "${jsonencode({
-                commandToExecute = "${tostring(file("${path.module}/${var.rc_script_file}"))}"
-       })}"
+      "${local.linux_run_command}"
       %{else}
-      "${jsonencode({
-            script = "${compact(tolist([file("${path.module}/${var.rc_script_file}")]))}"
-        })}"
+      "${local.windows_run_command}"
       %{endif}
     }
     PROTECTED_SETTINGS
