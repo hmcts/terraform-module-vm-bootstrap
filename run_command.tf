@@ -22,9 +22,9 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
   type_handler_version       = lower(var.os_type) == "linux" ? var.run_command_type_handler_version : var.run_command_type_handler_version_windows
   auto_upgrade_minor_version = true
 
-  settings = jsonencode({
-    script = lower(var.os_type) == "windows" ? compact(tolist([file("${path.module}/${var.rc_script_file}")])) : null
-  })
+#   #settings = jsonencode({
+#     script = lower(var.os_type) == "windows" ? compact(tolist([file("${path.module}/${var.rc_script_file}")])) : null
+#   })
 
   # "${file("${path.module}/${var.rc_script_file}")}"
   protected_settings =<<PROTECTED_SETTINGS
