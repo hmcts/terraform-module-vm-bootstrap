@@ -236,3 +236,7 @@ variable "run_command_type_handler_version_windows" {
   type        = string
   default     = "1.1"
 }
+
+variable "rc_os_sku" {
+ default = null
+}

@@ -10,6 +10,8 @@ resource "azurerm_virtual_machine_scale_set_extension" "azure_vmss_run_command" 
   settings = jsonencode({
     script = compact(tolist([file("${path.module}/${var.rc_script_file}")]))
   })
+
+   depends_on                     = [azurerm_virtual_machine_scale_set_extension.custom_script]
 }
 
 resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
