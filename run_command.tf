@@ -25,10 +25,12 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
   settings = jsonencode({
     script = lower(var.os_type) == "windows" ? compact(tolist([file("${path.module}/${var.rc_script_file}")])) : null
   })
+
+  # "${file("${path.module}/${var.rc_script_file}")}"
   protected_settings =<<PROTECTED_SETTINGS
     {
       %{if var.os_type == "linux"}
-      "script": "${file("${path.module}/${var.rc_script_file}")}"
+      "script": "${local.template_file}"
       %{else}
       "script": ""
       %{endif}
