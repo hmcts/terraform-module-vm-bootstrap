@@ -1,5 +1,5 @@
 #install latest version of powershell
-Invoke-Expression "& { $(Invoke-RestMethod 'https://aka.ms/install-powershell.ps1') } -useMSI -EnablePSRemoting"
+Invoke-Expression "& { $(Invoke-RestMethod 'https://aka.ms/install-powershell.ps1') } -useMSI -EnablePSRemoting -quiet" -force
 
 #run commands in the latest version
 pwsh.exe
