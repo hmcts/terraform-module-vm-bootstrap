@@ -21,15 +21,6 @@ locals {
 
   #  Run command settings
 
-  # linux_run_command = jsonencode({
-  #               commandToExecute = tostring(file("${path.module}/${var.rc_script_file}"))
-  #      })
-
-  # windows_run_command = jsonencode({
-  #           script = compact(tolist([file("${path.module}/${var.rc_script_file}")]))
-  #       })
-
-  # run_command_file = file("${path.module}/${var.rc_script_file}")
 
 }
 

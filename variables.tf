@@ -238,5 +238,5 @@ variable "run_command_type_handler_version_windows" {
 }
 
 variable "rc_os_sku" {
- default = null
+  default = null
 }

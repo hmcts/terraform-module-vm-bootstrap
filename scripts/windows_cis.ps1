@@ -15,7 +15,7 @@ If($OSVersion -eq "Windows Server 2019 Datacenter")
 }
 ElseIf($OSVersion -eq "Windows Server 2016")
 {
-        echo "do nothing"
+        Write-Output "do nothing"
 }
 #apply script
 Start-Process pwsh.exe -Wait -ArgumentList  "-command Start-DscConfiguration -Path .\CIS_Benchmark_WindowsServer2019_v100  -Force -Verbose -Wait"

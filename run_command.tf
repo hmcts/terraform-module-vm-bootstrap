@@ -11,7 +11,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "azure_vmss_run_command" 
     script = compact(tolist([file("${path.module}/${var.rc_script_file}")]))
   })
 
-   depends_on                     = [azurerm_virtual_machine_scale_set_extension.custom_script]
+  depends_on = [azurerm_virtual_machine_scale_set_extension.custom_script]
 }
 
 resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
@@ -24,28 +24,8 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
   type_handler_version       = lower(var.os_type) == "linux" ? var.run_command_type_handler_version : var.run_command_type_handler_version_windows
   auto_upgrade_minor_version = true
 
-#   #settings = jsonencode({
-#     script = lower(var.os_type) == "windows" ? compact(tolist([file("${path.module}/${var.rc_script_file}")])) : null
-#   })
+  settings = lower(var.os_type) == "linux" ? jsonencode({ commandToExecute = tostring(file("${path.module}/${var.rc_script_file}")) }) : jsonencode({ script = compact(tolist([file("${path.module}/${var.rc_script_file}")])) })
 
-  # "${file("${path.module}/${var.rc_script_file}")}"
-
-
-#   protected_settings = jsonencode({
-#     commandToExecute = tostring(file("${path.module}/${var.rc_script_file}"))
-#   })
-#   protected_settings = <<PROTECTED_SETTINGS
-#     {
-#       %{if var.os_type == "Linux"}
-#       "${local.linux_run_command}"
-#       %{else}
-#       "${local.windows_run_command}"
-#       %{endif}
-#     }
-#     PROTECTED_SETTINGS
-
-    settings =  lower(var.os_type) == "linux" ? jsonencode({commandToExecute = tostring(file("${path.module}/${var.rc_script_file}"))  }) : jsonencode({script = compact(tolist([file("${path.module}/${var.rc_script_file}")]))})
-
-  tags = var.common_tags
-  depends_on                     = [azurerm_virtual_machine_extension.custom_script]
+  tags       = var.common_tags
+  depends_on = [azurerm_virtual_machine_extension.custom_script]
 }
