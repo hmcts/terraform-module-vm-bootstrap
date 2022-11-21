@@ -8,7 +8,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "custom_script" {
   type                         = lower(var.os_type) == "linux" ? "CustomScript" : lower(var.os_type) == "windows" ? "CustomScriptExtension" : null
   type_handler_version         = lower(var.os_type) == "linux" ? var.custom_script_type_handler_version : var.custom_script_type_handler_version_windows
   auto_upgrade_minor_version   = false
-  protected_settings = <<PROTECTED_SETTINGS
+  protected_settings           = <<PROTECTED_SETTINGS
     {
       %{if var.os_type == "Linux"}
       "script": "${local.template_file}"
@@ -29,7 +29,7 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
   type                       = lower(var.os_type) == "linux" ? "CustomScript" : lower(var.os_type) == "windows" ? "CustomScriptExtension" : null
   type_handler_version       = lower(var.os_type) == "linux" ? var.custom_script_type_handler_version : var.custom_script_type_handler_version_windows
   auto_upgrade_minor_version = false
-  protected_settings = <<PROTECTED_SETTINGS
+  protected_settings         = <<PROTECTED_SETTINGS
     {
       %{if var.os_type == "Linux"}
       "script": "${local.template_file}"

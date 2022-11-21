@@ -197,3 +197,46 @@ variable "splunk_group" {
   type        = string
   default     = "hmcts_forwarders"
 }
+
+
+# Run Command Variables
+
+variable "run_command" {
+  type    = bool
+  default = false
+}
+
+
+variable "run_command_settings" {
+  description = "The settings passed to the Run Command extension, these are specified as a JSON object in a string."
+  type        = string
+  default     = null
+}
+
+
+variable "rc_auto_upgrade_minor_version" {
+  type    = bool
+  default = false
+}
+
+
+variable "rc_script_file" {
+  description = "A path to a local file for the script"
+  default     = null
+}
+
+variable "run_command_type_handler_version" {
+  description = "Type handler version number"
+  type        = string
+  default     = "1.0"
+}
+
+variable "run_command_type_handler_version_windows" {
+  description = "Type handler version number for Windows VMs"
+  type        = string
+  default     = "1.1"
+}
+
+variable "rc_os_sku" {
+  default = null
+}
