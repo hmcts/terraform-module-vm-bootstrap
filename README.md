@@ -76,8 +76,8 @@ No modules.
 | <a name="input_virtual_machine_id"></a> [virtual\_machine\_id](#input\_virtual\_machine\_id) | Virtual machine resource id. | `string` | `null` | no |
 | <a name="input_virtual_machine_scale_set_id"></a> [virtual\_machine\_scale\_set\_id](#input\_virtual\_machine\_scale\_set\_id) | Virtual machine scale set resource id. | `string` | `null` | no |
 | <a name="input_virtual_machine_type"></a> [virtual\_machine\_type](#input\_virtual\_machine\_type) | vm or vmss. | `string` | n/a | yes |
-| <a name="input_run_command"></a> [install\_run\_command](#input\_install\_run\_command) | Install Run Command. | `bool` | `false` | no |
-| <a name="input_rc_script_file"></a> [rc\_script\_file](#input\_install\_run\_command) | The script file that need to run from scripts folder | `string` | `null` | no |
+| <a name="input_run_command"></a> [run\_command](#input\run\_command) | Install Run Command. | `bool` | `false` | no |
+| <a name="input_rc_script_file"></a> [rc\_script\_file](#input\rc\_script\_file) | The script file that need to run from scripts folder | `string` | `null` | no |
 ## Outputs
 
 No outputs.
