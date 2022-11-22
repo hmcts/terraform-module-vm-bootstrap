@@ -1,7 +1,4 @@
 
-#install latest version of powershell
-Invoke-Expression "& { $(Invoke-RestMethod 'https://aka.ms/install-powershell.ps1') } -useMSI -EnablePSRemoting -Quiet" 
-
 #Installing new version of Powershell and modules and packages
 
 Start-Process powershell -Verb runAs -Wait -ArgumentList  "-command Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/hmcts/CIS-harderning/master/windows-install.ps1'))"
