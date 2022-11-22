@@ -7,7 +7,10 @@ resource "azurerm_virtual_machine_scale_set_extension" "endpoint_protection" {
   type                         = "IaaSAntimalware"
   type_handler_version         = var.endpoint_protection_handler_version
   auto_upgrade_minor_version   = var.endpoint_protection_upgrade_minor_version
-  settings                     = local.endpoint_protection_settings
+  AntimalwareEnabled           = var.antimalwareenabled
+  RealtimeProtectionEnabled    = var.realtimeprotectionenabled
+  ScheduledScanSettings        = var.scheduledscansettings
+  #settings                     = local.endpoint_protection_settings  
 }
 
 resource "azurerm_virtual_machine_extension" "endpoint_protection" {
@@ -19,7 +22,10 @@ resource "azurerm_virtual_machine_extension" "endpoint_protection" {
   type                         = "IaaSAntimalware"
   type_handler_version         = var.endpoint_protection_handler_version
   auto_upgrade_minor_version   = var.endpoint_protection_upgrade_minor_version
-  settings                     = local.endpoint_protection_settings
+  AntimalwareEnabled           = var.antimalwareenabled
+  RealtimeProtectionEnabled    = var.realtimeprotectionenabled
+  ScheduledScanSettings        = var.scheduledscansettings  
+  #settings                     = local.endpoint_protection_settings
 
   tags = var.common_tags
 }

@@ -206,7 +206,7 @@ variable "install_endpoint_protection" {
 }
 
 variable "install_endpoint_protection_handler_version" {
-  description = "Install Endpoint Protection."
+  description = "Enable Antimalware Protection."
   type        = bool
   default     = true
 }
@@ -231,8 +231,10 @@ variable "realtimeprotectionenabled" {
 
 variable "scheduledscansettings" {
   description = "Enable Scanning"
-  type        = string
-  default     = ""
+  type        = map
+  default     = {
+    isEnabled = true
+  }
 }
 
 # Run Command Variables
