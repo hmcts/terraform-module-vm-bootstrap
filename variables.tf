@@ -233,7 +233,7 @@ variable "scheduledscansettings" {
   description = "Enable Scanning"
   type        = map
   default     = {
-    isEnabled = true
+    "isEnabled" = "true"
   }
 }
 
