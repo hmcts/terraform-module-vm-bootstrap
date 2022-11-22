@@ -217,6 +217,24 @@ variable "endpoint_protection_upgrade_minor_version" {
   default     = true
 }
 
+variable "antimalwareenabled" {
+  description = "Enable AntiMalware Protection"
+  type        = string
+  default     = ""
+}
+
+variable "realtimeprotectionenabled" {
+  description = "Enable Realtime Protection"
+  type        = string
+  default     = ""
+}
+
+variable "scheduledscansettings" {
+  description = "Enable Scanning"
+  type        = string
+  default     = ""
+}
+
 # Run Command Variables
 
 variable "run_command" {
