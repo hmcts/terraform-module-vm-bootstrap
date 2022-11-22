@@ -198,6 +198,24 @@ variable "splunk_group" {
   default     = "hmcts_forwarders"
 }
 
+# Endpoint Protection
+variable "install_endpoint_protection" {
+  description = "Install Endpoint Protection."
+  type        = bool
+  default     = true
+}
+
+variable "install_endpoint_protection_handler_version" {
+  description = "Install Endpoint Protection."
+  type        = bool
+  default     = true
+}
+
+variable "endpoint_protection_upgrade_minor_version" {
+  description = "Specifies if the platform deploys the latest minor version Endpoint Protection update to the type_handler_version specified."
+  type        = bool
+  default     = true
+}
 
 # Run Command Variables
 
