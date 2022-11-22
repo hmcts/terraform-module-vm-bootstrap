@@ -11,7 +11,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "endpoint_protection" {
     {
       "AntimalwareEnabled": "${var.antimalwareenabled}",
       "RealtimeProtectionEnabled": "${var.realtimeprotectionenabled}",
-      "ScheduledScanSettings": "${var.scheduledscansettings}"
+      "ScheduledScanSettings": "${jsonencode(var.scheduledscansettings)}"
     }
   SETTINGS
 }
@@ -29,7 +29,7 @@ resource "azurerm_virtual_machine_extension" "endpoint_protection" {
     {
       "AntimalwareEnabled": "${var.antimalwareenabled}",
       "RealtimeProtectionEnabled": "${var.realtimeprotectionenabled}",
-      "ScheduledScanSettings": "${var.scheduledscansettings}"
+      "ScheduledScanSettings": "${jsonencode(var.scheduledscansettings)}"
     }
   SETTINGS
 
