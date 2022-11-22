@@ -220,13 +220,13 @@ variable "endpoint_protection_upgrade_minor_version" {
 variable "antimalwareenabled" {
   description = "Enable AntiMalware Protection"
   type        = string
-  default     = ""
+  default     = true
 }
 
 variable "realtimeprotectionenabled" {
   description = "Enable Realtime Protection"
   type        = string
-  default     = ""
+  default     = true
 }
 
 variable "scheduledscansettings" {
