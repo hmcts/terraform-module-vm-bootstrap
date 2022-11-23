@@ -198,6 +198,47 @@ variable "splunk_group" {
   default     = "hmcts_forwarders"
 }
 
+# Endpoint Protection
+variable "install_endpoint_protection" {
+  description = "Install Endpoint Protection."
+  type        = bool
+  default     = true
+}
+
+variable "endpoint_protection_handler_version" {
+  description = "Enable Antimalware Protection."
+  type        = bool
+  default     = true
+}
+
+variable "endpoint_protection_upgrade_minor_version" {
+  description = "Specifies if the platform deploys the latest minor version Endpoint Protection update to the type_handler_version specified."
+  type        = bool
+  default     = true
+}
+
+variable "antimalwareenabled" {
+  description = "Enable AntiMalware Protection"
+  type        = string
+  default     = true
+}
+
+variable "realtimeprotectionenabled" {
+  description = "Enable Realtime Protection"
+  type        = string
+  default     = true
+}
+
+variable "scheduledscansettings" {
+  description = "Enable Scanning"
+  type        = map(string)
+  default = {
+    isEnabled = "true"
+    day       = "7"
+    time      = "120"
+    scanType  = "Quick"
+  }
+}
 
 # Run Command Variables
 
