@@ -231,9 +231,12 @@ variable "realtimeprotectionenabled" {
 
 variable "scheduledscansettings" {
   description = "Enable Scanning"
-  type        = map
-  default     = {
-    "isEnabled" = "true"
+  type        = map(string)
+  default = {
+    isEnabled = "true"
+    day       = "7"
+    time      = "120"
+    scanType  = "Quick"
   }
 }
 
