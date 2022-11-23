@@ -1,3 +1,11 @@
+#instal choco
+
+
+Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+# Install choco packages
+
+choco install powershell-core
 
 #Installing new version of Powershell and modules and packages
 
