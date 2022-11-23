@@ -207,8 +207,8 @@ variable "install_endpoint_protection" {
 
 variable "endpoint_protection_handler_version" {
   description = "Enable Antimalware Protection."
-  type        = bool
-  default     = true
+  type        = string
+  default     = "1.6"
 }
 
 variable "endpoint_protection_upgrade_minor_version" {
