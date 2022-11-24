@@ -5,7 +5,7 @@ Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://com
 
 # Install choco packages
 
-choco install powershell-core
+choco install powershell-core -y
 
 #Installing new version of Powershell and modules and packages
 
