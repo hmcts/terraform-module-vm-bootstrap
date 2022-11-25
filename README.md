@@ -8,6 +8,8 @@ Supported Agents:
 - Dynatrace OneAgent
 - Splunk Universal Forwarder
 - Tenable Nessus Agent
+- Run Command
+- Microsoft Antimalware
 
 ## Outdated Links
 
@@ -35,10 +37,12 @@ No modules.
 | [azurerm_virtual_machine_extension.custom_script](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_extension) | resource |
 | [azurerm_virtual_machine_extension.dynatrace_oneagent](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_extension) | resource |
 | [azurerm_virtual_machine_extension.run_command](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_extension) | resource |
+| [azurerm_virtual_machine_extension.endpoint_protection](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_extension) | resource |
 | [azurerm_virtual_machine_scale_set_extension.azure_monitor](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_scale_set_extension) | resource |
 | [azurerm_virtual_machine_scale_set_extension.custom_script](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_scale_set_extension) | resource |
 | [azurerm_virtual_machine_scale_set_extension.dynatrace_oneagent](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_scale_set_extension) | resource |
 | [azurerm_virtual_machine_scale_set_extension.run_command](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_scale_set_extension) | resource |
+| [azurerm_virtual_machine_scale_set_extension.endpoint_protection](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_scale_set_extension) | resource |
 
 ## Inputs
 
@@ -78,6 +82,7 @@ No modules.
 | <a name="input_virtual_machine_type"></a> [virtual\_machine\_type](#input\_virtual\_machine\_type) | vm or vmss. | `string` | n/a | yes |
 | <a name="input_run_command"></a> [run\_command](#input\run\_command) | Install Run Command. | `bool` | `false` | no |
 | <a name="input_rc_script_file"></a> [rc\_script\_file](#input\rc\_script\_file) | The script file that need to run from scripts folder | `string` | `null` | no |
+| <a name="input_install_endpoint_protection"></a> [install\_endpoint\_protection](#input\install\_endpoint\_protection) | Installation of MS Antimalware on Windows | `bool` | `true` | no |
 ## Outputs
 
 No outputs.
