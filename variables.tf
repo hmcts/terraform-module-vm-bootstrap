@@ -109,7 +109,7 @@ variable "dynatrace_auto_upgrade_minor_version" {
 variable "dynatrace_type_handler_version" {
   description = "Version of Dynatrace OneAgent - To find: az vm extension image list --location uksouth -p dynatrace.ruxit -o table"
   type        = string
-  default     = "2.182"
+  default     = "2.200"
 }
 
 variable "dynatrace_hostgroup" {
