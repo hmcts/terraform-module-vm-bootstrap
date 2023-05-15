@@ -121,19 +121,19 @@ fi
 if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"6."* ]]; then
     # Set for RHEL6 agent (RPM)
     INSTALL_FILE="nessusagent.rpm"
-    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/17922/download?i_agree_to_tenable_license_agreement=true"
+    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/19423/download?i_agree_to_tenable_license_agreement=true"
 elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"7."* ]]; then
     # Set for RHEL7 agent (RPM)
     INSTALL_FILE="nessusagent.rpm"
-    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/17923/download?i_agree_to_tenable_license_agreement=true"
+    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/19424/download?i_agree_to_tenable_license_agreement=true"
 elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"8."* ]]; then
     # Set for RHEL8 agent (RPM)
     INSTALL_FILE="nessusagent.rpm"
-    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/17925/download?i_agree_to_tenable_license_agreement=true"
+    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/19426/download?i_agree_to_tenable_license_agreement=true"
 else
     # Set for Debian agent (deb) AMD64
     INSTALL_FILE="nessusagent.deb"
-    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/17930/download?i_agree_to_tenable_license_agreement=true"
+    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/19421/download?i_agree_to_tenable_license_agreement=true"
 fi
 
 # Install nessus agent
@@ -158,6 +158,9 @@ else
     /opt/nessus_agent/sbin/nessuscli agent link --key=$KEY --groups=$GROUPS --host=$SERVER --port=8834
 fi
 }
+
+# Exit on error
+set -e
 
 if [ "${UF_INSTALL}" = "true" ]
 then
