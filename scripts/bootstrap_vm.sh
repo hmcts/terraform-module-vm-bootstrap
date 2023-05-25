@@ -19,13 +19,13 @@ OS_TYPE=$(hostnamectl | grep "Operating System" | cut -f2 -d: | sed -e 's/^[[:sp
 
 # Create boot-start systemd user
 if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
-groupadd splunk
-adduser --system -g splunk splunk
+getent group splunk || groupadd splunk
+id splunk || adduser --system -g splunk splunk
 elif [[ "$OS_TYPE" == *"Ubuntu"* ]]; then
 apt install acl
-adduser --system --group splunk
+id splunk || adduser --system --group splunk
 else
-adduser --system --group splunk
+id splunk || adduser --system --group splunk
 fi
 
 # Install splunk forwarder
