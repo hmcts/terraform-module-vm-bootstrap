@@ -99,7 +99,9 @@ $SPLUNK_HOME/bin/splunk start
 }
 
 get_download_id () {
-    wget https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 -O - | mv jq-linux64 /usr/bin/jq
+    wget -O jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
+    chmod +x ./jq
+    cp jq /usr/bin
     json_data=$(curl -L --request GET --url 'https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/' --header 'Accept: aplication/json')
     download_id=$(jq --arg desc "$1" '.. | select(.description? == $desc) | .id' <<< "$json_data")
     highest=$(echo "$download_id" | tr ' ' '\n' | sort -n | tail -n 1)
@@ -177,7 +179,7 @@ else
 fi
 
 # Start Service
-/sbin/service nessusagent start
+/bin/systemctl start nessusagent.service
 
 # Link agent
 NESSUS_STATUS=$(/opt/nessus_agent/sbin/nessuscli agent status -a | grep "Link status" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
