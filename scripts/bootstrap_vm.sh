@@ -179,7 +179,7 @@ else
 fi
 
 # Start Service
-/bin/systemctl start nessusagent.service
+/sbin/service nessusagent start
 
 # Link agent
 NESSUS_STATUS=$(/opt/nessus_agent/sbin/nessuscli agent status -a | grep "Link status" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
