@@ -29,6 +29,26 @@ function Install-SplunkUF {
         exit 1
     }
 }
+function Get-DownloadId {
+    param(
+      [string]$desc
+    )
+    # use Invoke-RestMethod to get the JSON data from the web url
+
+    $url = "https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/"
+    $response = Invoke-WebRequest -Uri $url -UseBasicParsing
+    
+    $json_data = $response.Content
+    # use ConvertFrom-Json to convert the JSON data to a PowerShell object
+    $json_object = $json_data | ConvertFrom-Json
+    # use a filter expression to select the id property of the objects that match the description
+
+    $download_id = $json_object.downloads | Where-Object {$_.description -eq $desc} | Select-Object -ExpandProperty id
+    # use Sort-Object and Select-Object to get the highest id value
+    $highest = $download_id | Sort-Object | Select-Object -Last 1
+    # write the output to the pipeline
+    Write-Output $highest
+  }
 
 function Install-NessusAgent {
     param
@@ -39,7 +59,8 @@ function Install-NessusAgent {
     )
 
     # Setup
-    $installerURI = 'https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/19417/download?i_agree_to_tenable_license_agreement=true'
+    $id = Get-DownloadId -desc "Windows Server 2012, Server 2012 R2, Server 2016, Server 2019, Server 2022, 10, and 11 (64-bit)"
+    $installerURI = "https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/$id/download?i_agree_to_tenable_license_agreement=true"
     $installerFile = $env:Temp + "\nessusagent.msi"
 
     # Download nessus

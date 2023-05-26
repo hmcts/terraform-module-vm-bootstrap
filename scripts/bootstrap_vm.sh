@@ -19,13 +19,13 @@ OS_TYPE=$(hostnamectl | grep "Operating System" | cut -f2 -d: | sed -e 's/^[[:sp
 
 # Create boot-start systemd user
 if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
-groupadd splunk
-adduser --system -g splunk splunk
+getent group splunk || groupadd splunk
+id splunk || adduser --system -g splunk splunk
 elif [[ "$OS_TYPE" == *"Ubuntu"* ]]; then
 apt install acl
-adduser --system --group splunk
+id splunk || adduser --system --group splunk
 else
-adduser --system --group splunk
+id splunk || adduser --system --group splunk
 fi
 
 # Install splunk forwarder
@@ -98,6 +98,30 @@ chown -R splunk:splunk $SPLUNK_HOME
 $SPLUNK_HOME/bin/splunk start
 }
 
+get_download_id () {
+  wget -O jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
+  chmod +x ./jq
+  cp jq /usr/bin
+  json_data=$(curl -L --request GET --url 'https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/' --header 'Accept: aplication/json')
+  download_id=$(jq --arg desc "$1" '.. | select(.description? == $desc) | .id' <<< "$json_data")
+  highest=$(echo "$download_id" | tr ' ' '\n' | sort -n | tail -n 1)
+  echo "$highest"
+}
+
+check_download_url () {
+ # use curl to get the HTTP status code
+  url="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/$1/download?i_agree_to_tenable_license_agreement=true"
+  urlstatus=$(curl -o /dev/null --silent --head --write-out '%%{http_code}' "$url")
+  # if the status code is 404, print a message and exit with 1
+  if [ "$urlstatus" == "404" ]; then
+    echo "The URL $url gives 404 error"
+    exit 1
+  else
+    echo "$url"
+  fi
+}
+
+
 install_nessus() {
 echo "Info: Installing Tenable Nessus"
 
@@ -120,29 +144,37 @@ fi
 # Download nessus agent
 if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"6."* ]]; then
     # Set for RHEL6 agent (RPM)
+    FILE_DESCRIPTION="Red Hat ES 6 / Oracle Linux 6 (including Unbreakable Enterprise Kernel) (x86_64)"
     INSTALL_FILE="nessusagent.rpm"
-    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/19423/download?i_agree_to_tenable_license_agreement=true"
+    id="$(get_download_id "$FILE_DESCRIPTION")"
+    DOWNLOAD_URL=$(check_download_url "$id")
 elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"7."* ]]; then
     # Set for RHEL7 agent (RPM)
+    FILE_DESCRIPTION="Red Hat ES 7 / CentOS 7 / Oracle Linux 7 (including Unbreakable Enterprise Kernel) (x86_64)"
     INSTALL_FILE="nessusagent.rpm"
-    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/19424/download?i_agree_to_tenable_license_agreement=true"
+    id="$(get_download_id "$FILE_DESCRIPTION")"
+    DOWNLOAD_URL=$(check_download_url "$id")
 elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"8."* ]]; then
     # Set for RHEL8 agent (RPM)
+    FILE_DESCRIPTION="Red Hat ES 8, 9 / Alma Linux 8, 9 / Rocky Linux 8, 9 / Oracle Linux 8, 9 / (including Unbreakable Enterprise Kernel) (x86_64)"
     INSTALL_FILE="nessusagent.rpm"
-    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/19426/download?i_agree_to_tenable_license_agreement=true"
+    id="$(get_download_id "$FILE_DESCRIPTION")"
+    DOWNLOAD_URL=$(check_download_url "$id")
 else
     # Set for Ubuntu agent (deb) AMD64
+    FILE_DESCRIPTION="Ubuntu 14.04, 16.04, 18.04, 20.04, 22.04 (amd64)"
     INSTALL_FILE="nessusagent.deb"
-    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/19431/download?i_agree_to_tenable_license_agreement=true"
+    id="$(get_download_id "$FILE_DESCRIPTION")"
+    DOWNLOAD_URL=$(check_download_url "$id")
 fi
 
 # Install nessus agent
 curl --retry 3 -# -L -k -o $INSTALL_FILE $DOWNLOAD_URL
 if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
-    rpm -Uh nessusagent.rpm
+    /opt/nessus_agent/sbin/nessuscli agent status || rpm -Uh nessusagent.rpm
     rm -rf nessusagent.rpm
 else
-    dpkg -i nessusagent.deb
+    /opt/nessus_agent/sbin/nessuscli agent status || dpkg -i nessusagent.deb
     rm -rf nessusagent.deb
 fi
 
