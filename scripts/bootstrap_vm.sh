@@ -171,10 +171,10 @@ fi
 # Install nessus agent
 curl --retry 3 -# -L -k -o $INSTALL_FILE $DOWNLOAD_URL
 if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
-    rpm -Uh nessusagent.rpm
+    /opt/nessus_agent/sbin/nessuscli agent status || rpm -Uh nessusagent.rpm
     rm -rf nessusagent.rpm
 else
-    dpkg -i nessusagent.deb
+    /opt/nessus_agent/sbin/nessuscli agent status || dpkg -i nessusagent.deb
     rm -rf nessusagent.deb
 fi
 
