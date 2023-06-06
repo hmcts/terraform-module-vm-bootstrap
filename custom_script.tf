@@ -2,6 +2,8 @@
 resource "azurerm_virtual_machine_scale_set_extension" "custom_script" {
   count = (var.install_splunk_uf == true || var.install_nessus_agent == true || var.additional_script_path != null) && var.virtual_machine_type == "vmss" ? 1 : 0
 
+  depends_on = [azurerm_virtual_machine_scale_set_extension.azure_monitor]
+
   name                         = var.custom_script_extension_name
   virtual_machine_scale_set_id = var.virtual_machine_scale_set_id
   publisher                    = lower(var.os_type) == "linux" ? "Microsoft.Azure.Extensions" : lower(var.os_type) == "windows" ? "Microsoft.Compute" : null
@@ -22,6 +24,8 @@ resource "azurerm_virtual_machine_scale_set_extension" "custom_script" {
 
 resource "azurerm_virtual_machine_extension" "custom_script" {
   count = (var.install_splunk_uf == true || var.install_nessus_agent == true || var.additional_script_path != null) && var.virtual_machine_type == "vm" ? 1 : 0
+
+  depends_on = [ azurerm_virtual_machine_extension.azure_monitor ]
 
   name                       = var.custom_script_extension_name
   virtual_machine_id         = var.virtual_machine_id
