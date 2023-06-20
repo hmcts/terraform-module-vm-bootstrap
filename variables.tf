@@ -205,6 +205,7 @@ variable "install_endpoint_protection" {
   default     = true
 }
 
+
 variable "endpoint_protection_handler_version" {
   description = "Enable Antimalware Protection."
   type        = string
@@ -280,4 +281,10 @@ variable "run_command_type_handler_version_windows" {
 
 variable "rc_os_sku" {
   default = null
+}
+
+variable "install_app_proxy" {
+  description = "Install Azure App Proxy."
+  default     = false
+  type        = bool
 }
