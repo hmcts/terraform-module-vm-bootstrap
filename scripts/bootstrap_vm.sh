@@ -111,7 +111,7 @@ get_download_id () {
 check_download_url () {
  # use curl to get the HTTP status code
   url="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/$1/download?i_agree_to_tenable_license_agreement=true"
-  urlstatus=$(curl -o /dev/null --silent --head --write-out '%{http_code}' "$url")
+  urlstatus=$(curl -o /dev/null --silent --head --write-out '%%{http_code}' "$url")
   # if the status code is 404, print a message and exit with 1
   if [ "$urlstatus" == "404" ]; then
     echo "The URL $url gives 404 error"
