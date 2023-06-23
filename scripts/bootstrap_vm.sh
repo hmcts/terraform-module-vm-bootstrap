@@ -201,5 +201,6 @@ fi
 
 if [ "${NESSUS_INSTALL}" = "true" ]
 then
-  install_nessus "${NESSUS_SERVER}" "${NESSUS_KEY}" "${NESSUS_GROUPS}"
+  # Install nessus if not present
+  /opt/nessus_agent/sbin/nessuscli agent status || install_nessus "${NESSUS_SERVER}" "${NESSUS_KEY}" "${NESSUS_GROUPS}"
 fi
