@@ -40,7 +40,7 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
       %{else}
       "fileUris": ${local.additional_template_file},
       "commandToExecute": "${var.additional_script_uri == null ? "" : "powershell -ExecutionPolicy Unrestricted -File ${var.additional_script_name} &&"} powershell -command \"[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('${local.template_file}')) | Out-File -filepath bootstrap_vm.ps1\" && powershell -ExecutionPolicy Unrestricted -File bootstrap_vm.ps1",
-      "managedIdentity" : "${var.additional_script_uri == null ? "{}" : { "clientId" : "${var.additional_script_mi_id}" } }"
+      "managedIdentity" : "${try({ "clientId" : var.additional_script_mi_id }, {})}"
       %{endif}
     }
     PROTECTED_SETTINGS
