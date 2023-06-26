@@ -281,3 +281,9 @@ variable "run_command_type_handler_version_windows" {
 variable "rc_os_sku" {
   default = null
 }
+
+variable "windows_aad_login" {
+  description = "Specifies if AADLoginForWindows should be added as an extension to the VM (Windows Only)"
+  type        = bool
+  default     = false
+}
