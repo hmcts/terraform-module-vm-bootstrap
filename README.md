@@ -83,6 +83,7 @@ No modules.
 | <a name="input_run_command"></a> [run\_command](#input\run\_command) | Install Run Command. | `bool` | `false` | no |
 | <a name="input_rc_script_file"></a> [rc\_script\_file](#input\rc\_script\_file) | The script file that need to run from scripts folder | `string` | `null` | no |
 | <a name="input_install_endpoint_protection"></a> [install\_endpoint\_protection](#input\install\_endpoint\_protection) | Installation of MS Antimalware on Windows | `bool` | `true` | no |
+| <a name="input_windows_aad_login"></a> [windows\_aad\_login](#input\windows\_aad\_login) | Enable AAD authentication to Windows VM | `bool` | `false` | no |
 ## Outputs
 
 No outputs.
