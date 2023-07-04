@@ -282,8 +282,14 @@ variable "rc_os_sku" {
   default = null
 }
 
+
 variable "windows_aad_login" {
   description = "Specifies if AADLoginForWindows should be added as an extension to the VM (Windows Only)"
   type        = bool
   default     = false
+}
+
+variable "additional_script_mi_id" {
+  description = "This variable will be used to pass Managed Identity ID when the additional script has been used"
+  default     = null
 }
