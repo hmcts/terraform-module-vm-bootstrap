@@ -43,10 +43,14 @@ rm -rf $INSTALL_FILE
 chown -R splunk:splunk $SPLUNK_HOME
 setfacl -R -m u:splunk:r /var/log
 
-if [  "$(systemctl is-active SplunkForwarder.service)" = "active"  ]; then
-  $SPLUNK_HOME/bin/splunk stop
-  sleep 10
+if [[ $(command -v systemctl) ]]; then
+  if [  "$(systemctl is-active SplunkForwarder.service)" = "active"  ]; then
+    $SPLUNK_HOME/bin/splunk stop
+    sleep 10
+  fi
+else
 fi
+
 
 # Create splunk admin user
 {
@@ -204,7 +208,7 @@ set -e
 
 if [ "${UF_INSTALL}" = "true" ]
 then
-  install_splunk_uf "${UF_USERNAME}" "${UF_PASSWORD}" "${UF_PASS4SYMMKEY}" "${UF_GROUP}"
+  install_splunk_uf "${UF_USERNAME}" "${UF_PASSWORD@Q}" "${UF_PASS4SYMMKEY@Q}" "${UF_GROUP}"
 fi
 
 if [ "${NESSUS_INSTALL}" = "true" ]
