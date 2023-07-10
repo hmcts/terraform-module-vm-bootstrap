@@ -15,7 +15,15 @@ UF_GROUP=$4
 export SPLUNK_HOME="$INSTALL_LOCATION/splunkforwarder"
 
 # Get OS type
-OS_TYPE=$(hostnamectl | grep "Operating System" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
+if command -v hostnamectl &> /dev/null
+then
+    OS_TYPE=$(hostnamectl | grep "Operating System" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
+elif command -v lsb_release &> /dev/null
+then
+    OS_TYPE=$(lsb_release -a | grep "Description" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
+else
+    echo "Operating System could not be determined."
+fi
 
 # Create boot-start systemd user
 if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
@@ -123,72 +131,72 @@ check_download_url () {
 
 
 install_nessus() {
-echo "Info: Installing Tenable Nessus"
+  echo "Info: Installing Tenable Nessus"
 
-# Setup
-SERVER=$1
-KEY=$2
-GROUPS=$3
+  # Setup
+  SERVER=$1
+  KEY=$2
+  GROUPS=$3
 
-# Get OS type
-if command -v hostnamectl &> /dev/null
-then
-    OS_TYPE=$(hostnamectl | grep "Operating System" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
-elif command -v lsb_release &> /dev/null
-then
-    OS_TYPE=$(lsb_release -a | grep "Description" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
-else
-    echo "Operating System could not be determined."
-fi
+  # Get OS type
+  if command -v hostnamectl &> /dev/null
+  then
+      OS_TYPE=$(hostnamectl | grep "Operating System" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
+  elif command -v lsb_release &> /dev/null
+  then
+      OS_TYPE=$(lsb_release -a | grep "Description" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
+  else
+      echo "Operating System could not be determined."
+  fi
 
-# Download nessus agent
-if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"6."* ]]; then
-    # Set for RHEL6 agent (RPM)
-    FILE_DESCRIPTION="Red Hat ES 6 / Oracle Linux 6 (including Unbreakable Enterprise Kernel) (x86_64)"
-    INSTALL_FILE="nessusagent.rpm"
-    id="$(get_download_id "$FILE_DESCRIPTION")"
-    DOWNLOAD_URL=$(check_download_url "$id")
-elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"7."* ]]; then
-    # Set for RHEL7 agent (RPM)
-    FILE_DESCRIPTION="Red Hat ES 7 / CentOS 7 / Oracle Linux 7 (including Unbreakable Enterprise Kernel) (x86_64)"
-    INSTALL_FILE="nessusagent.rpm"
-    id="$(get_download_id "$FILE_DESCRIPTION")"
-    DOWNLOAD_URL=$(check_download_url "$id")
-elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"8."* ]]; then
-    # Set for RHEL8 agent (RPM)
-    FILE_DESCRIPTION="Red Hat ES 8, 9 / Alma Linux 8, 9 / Rocky Linux 8, 9 / Oracle Linux 8, 9 / (including Unbreakable Enterprise Kernel) (x86_64)"
-    INSTALL_FILE="nessusagent.rpm"
-    id="$(get_download_id "$FILE_DESCRIPTION")"
-    DOWNLOAD_URL=$(check_download_url "$id")
-else
-    # Set for Ubuntu agent (deb) AMD64
-    FILE_DESCRIPTION="Ubuntu 14.04, 16.04, 18.04, 20.04, 22.04 (amd64)"
-    INSTALL_FILE="nessusagent.deb"
-    id="$(get_download_id "$FILE_DESCRIPTION")"
-    DOWNLOAD_URL=$(check_download_url "$id")
-fi
+  # Download nessus agent
+  if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"6."* ]]; then
+      # Set for RHEL6 agent (RPM)
+      FILE_DESCRIPTION="Red Hat ES 6 / Oracle Linux 6 (including Unbreakable Enterprise Kernel) (x86_64)"
+      INSTALL_FILE="nessusagent.rpm"
+      id="$(get_download_id "$FILE_DESCRIPTION")"
+      DOWNLOAD_URL=$(check_download_url "$id")
+  elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"7."* ]]; then
+      # Set for RHEL7 agent (RPM)
+      FILE_DESCRIPTION="Red Hat ES 7 / CentOS 7 / Oracle Linux 7 (including Unbreakable Enterprise Kernel) (x86_64)"
+      INSTALL_FILE="nessusagent.rpm"
+      id="$(get_download_id "$FILE_DESCRIPTION")"
+      DOWNLOAD_URL=$(check_download_url "$id")
+  elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"8."* ]]; then
+      # Set for RHEL8 agent (RPM)
+      FILE_DESCRIPTION="Red Hat ES 8, 9 / Alma Linux 8, 9 / Rocky Linux 8, 9 / Oracle Linux 8, 9 / (including Unbreakable Enterprise Kernel) (x86_64)"
+      INSTALL_FILE="nessusagent.rpm"
+      id="$(get_download_id "$FILE_DESCRIPTION")"
+      DOWNLOAD_URL=$(check_download_url "$id")
+  else
+      # Set for Ubuntu agent (deb) AMD64
+      FILE_DESCRIPTION="Ubuntu 14.04, 16.04, 18.04, 20.04, 22.04 (amd64)"
+      INSTALL_FILE="nessusagent.deb"
+      id="$(get_download_id "$FILE_DESCRIPTION")"
+      DOWNLOAD_URL=$(check_download_url "$id")
+  fi
 
-# Install nessus agent
-curl --retry 3 -# -L -k -o $INSTALL_FILE $DOWNLOAD_URL
-if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
-    /opt/nessus_agent/sbin/nessuscli agent status || rpm -Uh nessusagent.rpm
-    rm -rf nessusagent.rpm
-else
-    /opt/nessus_agent/sbin/nessuscli agent status || dpkg -i nessusagent.deb
-    rm -rf nessusagent.deb
-fi
+  # Install nessus agent
+  curl --retry 3 -# -L -k -o $INSTALL_FILE $DOWNLOAD_URL
+  if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
+      /opt/nessus_agent/sbin/nessuscli agent status || rpm -Uh nessusagent.rpm
+      rm -rf nessusagent.rpm
+  else
+      /opt/nessus_agent/sbin/nessuscli agent status || dpkg -i nessusagent.deb
+      rm -rf nessusagent.deb
+  fi
 
-# Start Service
-/sbin/service nessusagent start
+  # Start Service
+  /sbin/service nessusagent start
 
-# Link agent
-NESSUS_STATUS=$(/opt/nessus_agent/sbin/nessuscli agent status -a | grep "Link status" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
-if [[ "$NESSUS_STATUS" == "Connected to"* ]]; then
-    echo $NESSUS_STATUS
-else
-    echo "Connecting..."
-    /opt/nessus_agent/sbin/nessuscli agent link --key=$KEY --groups=$GROUPS --host=$SERVER --port=8834
-fi
+  # Link agent
+  NESSUS_STATUS=$(/opt/nessus_agent/sbin/nessuscli agent status -a | grep "Link status" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
+  if [[ "$NESSUS_STATUS" == "Connected to"* ]]; then
+      echo $NESSUS_STATUS
+  else
+      echo "Connecting..."
+      /opt/nessus_agent/sbin/nessuscli agent link --key=$KEY --groups=$GROUPS --host=$SERVER --port=8834
+  fi
 }
 
 # Exit on error
