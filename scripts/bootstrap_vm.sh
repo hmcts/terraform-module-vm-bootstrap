@@ -27,6 +27,19 @@ fi
 
 echo "Operating system type: $OS_TYPE"
 
+# Stop splunk UF
+if [[ $(command -v systemctl) ]]; then
+  if [  "$(systemctl is-active SplunkForwarder.service)" = "active"  ]; then
+    $SPLUNK_HOME/bin/splunk stop
+    sleep 10
+  fi
+else
+  if [[ "$($SPLUNK_HOME/bin/splunk status)" = "splunkd is running"*  ]]; then
+    $SPLUNK_HOME/bin/splunk stop
+    sleep 10
+  fi
+fi
+
 # Create boot-start systemd user
 if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
 getent group splunk || groupadd splunk
@@ -45,19 +58,6 @@ rm -rf $INSTALL_FILE
 chown -R splunk:splunk $SPLUNK_HOME
 setfacl -R -m u:splunk:r /var/log
 
-if [[ $(command -v systemctl) ]]; then
-  if [  "$(systemctl is-active SplunkForwarder.service)" = "active"  ]; then
-    $SPLUNK_HOME/bin/splunk stop
-    sleep 10
-  fi
-else
-  if [[ "$($SPLUNK_HOME/bin/splunk status)" = "splunkd is running"*  ]]; then
-    $SPLUNK_HOME/bin/splunk stop
-    sleep 10
-  fi
-fi
-
-
 # Create splunk admin user
 {
 cat <<EOF
@@ -66,8 +66,6 @@ USERNAME = $UF_USERNAME
 HASHED_PASSWORD = $($SPLUNK_HOME/bin/splunk hash-passwd $UF_PASSWORD)
 EOF
 } > $SPLUNK_HOME/etc/system/local/user-seed.conf
-
-$SPLUNK_HOME/bin/splunk stop
 
 # Start splunk forwarder
 $SPLUNK_HOME/bin/splunk start --accept-license --no-prompt --answer-yes
@@ -228,3 +226,4 @@ then
   # Install nessus if not present
   /opt/nessus_agent/sbin/nessuscli agent status || install_nessus "${NESSUS_SERVER}" "${NESSUS_KEY}" "${NESSUS_GROUPS}"
 fi
+#  install_splunk_uf "hmcts_soc_admin" "BNFJN0XWmkCJw0S78HLO" "$7$oNroXETNQ9CvUjVvOv+gF4vnXZMUcOV5AYqzGX8Dl4QPUgp1xrUu68laynlhotZaNcOhCQ/FXXYtSH1VehZ5YA==" "hmcts_forwarders"
