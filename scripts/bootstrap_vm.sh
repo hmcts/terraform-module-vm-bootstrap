@@ -220,7 +220,7 @@ set -e
 
 if [ "${UF_INSTALL}" = "true" ]
 then
-  install_splunk_uf "${UF_USERNAME}" "${UF_PASSWORD@Q}" "${UF_PASS4SYMMKEY@Q}" "${UF_GROUP}"
+  install_splunk_uf "${UF_USERNAME}" "${UF_PASSWORD}" "${UF_PASS4SYMMKEY}" "${UF_GROUP}"
 fi
 
 if [ "${NESSUS_INSTALL}" = "true" ]
