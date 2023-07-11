@@ -25,6 +25,8 @@ else
     echo "Operating System could not be determined."
 fi
 
+echo "Operating system type: $OS_TYPE"
+
 # Create boot-start systemd user
 if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
 getent group splunk || groupadd splunk
