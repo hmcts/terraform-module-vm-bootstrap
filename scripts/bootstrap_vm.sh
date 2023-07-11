@@ -220,7 +220,7 @@ set -e
 
 if [ "${UF_INSTALL}" = "true" ]
 then
-  install_splunk_uf "${UF_USERNAME}" "${UF_PASSWORD}" "${UF_PASS4SYMMKEY}" "${UF_GROUP}"
+  /opt/splunkforwarder/bin/splunk status || install_splunk_uf "${UF_USERNAME}" "${UF_PASSWORD}" "${UF_PASS4SYMMKEY}" "${UF_GROUP}"
 fi
 
 if [ "${NESSUS_INSTALL}" = "true" ]
