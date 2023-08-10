@@ -28,18 +28,3 @@ resource "azurerm_virtual_machine_extension" "dynatrace_oneagent" {
   tags = var.common_tags
 }
 
-  # Splunk UF
-  splunk_username     = data.azurerm_key_vault_secret.splunk_username.value
-  splunk_password     = data.azurerm_key_vault_secret.splunk_password.value
-  splunk_pass4symmkey = data.azurerm_key_vault_secret.splunk_pass4symmkey.value
-
-  # Tenable Nessus
-  nessus_server  = var.nessus_server
-  nessus_key     = data.azurerm_key_vault_secret.nessus_agent_key.value
-  nessus_groups  = "Platform-Operation-Bastions"
-
-  # Dynatrace OneAgent
-  dynatrace_hostgroup        = "Platform_Operation_Jumpboxes"
-  dynatrace_tenant_id        = var.dynatrace_tenant_id
-  dynatrace_token            = data.azurerm_key_vault_secret.token.value
-  dynatrace_server           = var.dynatrace_server
