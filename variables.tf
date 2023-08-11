@@ -287,7 +287,7 @@ variable "additional_script_mi_id" {
 }
 
 variable "cnp_vault_rg" {
-  default = "core-infra-prod"
+  default = "cnp-core-infra"
 }
 
 variable "soc_vault_rg" {
