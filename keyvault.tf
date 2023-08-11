@@ -37,6 +37,6 @@ data "azurerm_key_vault_secret" "splunk_password" {
 data "azurerm_key_vault_secret" "splunk_pass4symmkey" {
   provider = azurerm.soc
 
-  name         = var.splunk_pass4symmkey
+  name         = "Splunk-pass4SymmKey"
   key_vault_id = data.azurerm_key_vault.soc_vault.id
 }
