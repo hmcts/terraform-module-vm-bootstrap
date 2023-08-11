@@ -149,7 +149,7 @@ variable "install_nessus_agent" {
   default     = true
 }
 
-variable "nessus_server" {
+variable "≈" {
   description = "Nessus server endpoint - read input from keyvault."
   type        = string
   default     = ""
@@ -166,6 +166,11 @@ variable "nessus_groups" {
   type        = string
   default     = ""
 }
+
+variable "nessus_key_secret" {
+  type = string
+}
+
 
 # Splunk UF
 variable "install_splunk_uf" {
@@ -298,27 +303,6 @@ variable "soc_vault_rg" {
 
 variable "soc_vault_name" {}
 
-
-variable "splunk_username_secret" {
-  default = "splunk-gui-admin-username"
-}
-
-variable "splunk_password_secret" {
-  default = "splunk-gui-admin-password"
-}
-
-variable "splunk_pass4symmkey_secret" {
-  default = "pass4SymmKey-forwarders-plaintext"
-}
-
-# Tenable Nessus
-variable "nessus_server" {
-  type = string
-}
-
-variable "nessus_key_secret" {
-  type = string
-}
 
 variable "env" {
   type    = string
