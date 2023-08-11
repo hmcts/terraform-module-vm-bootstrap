@@ -289,17 +289,17 @@ variable "additional_script_mi_id" {
 
 variable "cnp_vault_rg" {
   description = "The resource group where the cnp key vault is located"
-  default     =  "test"
+  default     =  "core-infra"-{var.env}
 }
 
 variable "soc_vault_rg" {
   description = "The resource group where the soc key vault is located"
-  default     = "test"
+  default     = "soc-core-infra"
 }
 
 variable "soc_vault_name" {
   description = "The name of the soc key vault"
-  default     = "test"
+  default     = "soc"
 }
 
 variable "splunk_username_secret" {
@@ -324,5 +324,5 @@ variable "nessus_key_secret" {
 
 variable "env" {
   type    = string
-  default = ""
+  default = "prod"
 }
