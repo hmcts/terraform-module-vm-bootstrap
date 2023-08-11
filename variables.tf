@@ -297,6 +297,11 @@ variable "soc_vault_rg" {
   default     = ""
 }
 
+variable "soc_vault_name" {
+  description = "The name of the soc key vault"
+  default     = ""
+}
+
 variable "splunk_username_secret" {
   description = "The secret name for the splunk username"
   default     = ""
@@ -317,11 +322,7 @@ variable "nessus_key_secret" {
   default     = ""
 }
 
-variable "dynatrace_env" {
-  type = map(string)
-  default = {
-    "sandbox"    = "sbox"
-    "aat"        = "aat"
-    "production" = "prod"
-  }
+variable "env" {
+  type    = string
+  default = ""
 }
