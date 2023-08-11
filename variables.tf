@@ -167,11 +167,6 @@ variable "nessus_groups" {
   default     = ""
 }
 
-variable "nessus_key_secret" {
-  type = string
-}
-
-
 # Splunk UF
 variable "install_splunk_uf" {
   description = "Install Splunk UF."
@@ -301,8 +296,9 @@ variable "soc_vault_rg" {
   default = "soc-core-infra-prod-rg"
 }
 
-variable "soc_vault_name" {}
-
+variable "soc_vault_name" {
+  default = "soc-prod"
+}
 
 variable "env" {
   type    = string
