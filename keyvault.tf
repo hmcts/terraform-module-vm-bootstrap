@@ -13,7 +13,7 @@ data "azurerm_key_vault_secret" "token" {
 data "azurerm_key_vault" "soc_vault" {
   provider            = azurerm.soc
   name                = "soc-${var.env}"
-  resource_group_name = var.soc_vault_rg"
+  resource_group_name = var.soc_vault_rg
 }
 
 # Splunk UF
