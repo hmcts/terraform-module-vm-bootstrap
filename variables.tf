@@ -299,6 +299,3 @@ variable "soc_vault_name" {
   default = "soc-prod"
 }
 
-variable "env" {
-  description = "The deployment environment (sandbox, aat, prod etc..)"
-}
