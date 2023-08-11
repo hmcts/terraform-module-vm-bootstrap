@@ -19,24 +19,24 @@ data "azurerm_key_vault" "soc_vault" {
 # Splunk UF
 data "azurerm_key_vault_secret" "splunk_username" {
   provider     = azurerm.soc
-  name         = var.splunk_username_secret
+  name         = var.splunk_username
   key_vault_id = data.azurerm_key_vault.soc_vault.id
 }
 
 data "azurerm_key_vault_secret" "splunk_password" {
   provider     = azurerm.soc
-  name         = var.splunk_password_secret
+  name         = var.splunk_password
   key_vault_id = data.azurerm_key_vault.soc_vault.id
 }
 
 data "azurerm_key_vault_secret" "splunk_pass4symmkey" {
   provider     = azurerm.soc
-  name         = var.splunk_pass4symmkey_secret
+  name         = var.splunk_pass4symmkey
   key_vault_id = data.azurerm_key_vault.soc_vault.id
 }
 
 data "azurerm_key_vault_secret" "nessus_agent_key" {
   provider = azurerm.soc
-  name         = var.nessus_key_secret
+  name         = var.nessus_key
   key_vault_id = data.azurerm_key_vault.soc_vault.id
 }
