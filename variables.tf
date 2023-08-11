@@ -288,8 +288,7 @@ variable "additional_script_mi_id" {
 }
 
 variable "cnp_vault_rg" {
-  description = "The resource group where the cnp key vault is located"
-  default     =  "core-infra-{var.env}"
+  default = "core-infra-prod"
 }
 
 variable "soc_vault_rg" {
@@ -301,6 +300,5 @@ variable "soc_vault_name" {
 }
 
 variable "env" {
-  type    = string
-  default = "prod"
+  description = "The deployment environment (sandbox, aat, prod etc..)"
 }
