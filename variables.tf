@@ -293,33 +293,31 @@ variable "cnp_vault_rg" {
 }
 
 variable "soc_vault_rg" {
-  description = "The resource group where the soc key vault is located"
-  default     = "soc-core-infra"
+  default = "soc-core-infra-prod-rg"
 }
 
-variable "soc_vault_name" {
-  description = "The name of the soc key vault"
-  default     = "soc"
-}
+variable "soc_vault_name" {}
+
 
 variable "splunk_username_secret" {
-  description = "The secret name for the splunk username"
-  default     = ""
+  default = "splunk-gui-admin-username"
 }
 
 variable "splunk_password_secret" {
-  description = "The secret name for the splunk password"
-  default     = ""
+  default = "splunk-gui-admin-password"
 }
 
 variable "splunk_pass4symmkey_secret" {
-  description = "The secret name for the splunk pass4symmkey"
-  default     = ""
+  default = "pass4SymmKey-forwarders-plaintext"
+}
+
+# Tenable Nessus
+variable "nessus_server" {
+  type = string
 }
 
 variable "nessus_key_secret" {
-  description = "The secret name for the nessus key"
-  default     = ""
+  type = string
 }
 
 variable "env" {
