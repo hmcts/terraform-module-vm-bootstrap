@@ -177,19 +177,19 @@ variable "install_splunk_uf" {
 variable "splunk_username" {
   description = "Splunk universal forwarder local admin username - read input from keyvault."
   type        = string
-  default     = ""
+  default     = "splunk-gui-admin-username"
 }
 
 variable "splunk_password" {
   description = "Splunk universal forwarder local admin password - read input from keyvault."
   type        = string
-  default     = ""
+  default     = "splunk-gui-admin-password"
 }
 
 variable "splunk_pass4symmkey" {
   description = "Splunk universal forwarder communication security key - read input from keyvault."
   type        = string
-  default     = ""
+  default     = "Splunk-pass4SymmKey"
 }
 
 variable "splunk_group" {
