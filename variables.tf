@@ -186,7 +186,7 @@ variable "splunk_password" {
   default     = "splunk-gui-admin-password"
 }
 
-variable "splunk_pass4symmkey" {
+variable "" {
   description = "Splunk universal forwarder communication security key - read input from keyvault."
   type        = string
   default     = "splunk-pass4symmkey"
