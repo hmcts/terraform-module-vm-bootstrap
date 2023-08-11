@@ -115,7 +115,7 @@ variable "dynatrace_type_handler_version" {
 variable "dynatrace_hostgroup" {
   description = "Define the hostgroup to which the VM belongs."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "dynatrace_network_zone" {
@@ -127,19 +127,18 @@ variable "dynatrace_network_zone" {
 variable "dynatrace_tenant_id" {
   description = "The Dynatrace environment ID."
   type        = string
-  default     = ""
 }
 
 variable "dynatrace_token" {
   description = "The Dynatrace PaaS token."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "dynatrace_server" {
   description = "The server URL, if you want to configure an alternative communication endpoint."
   type        = string
-  default     = ""
+  default     = null
 }
 
 # Nessus Agent
@@ -152,19 +151,19 @@ variable "install_nessus_agent" {
 variable "nessus_server" {
   description = "Nessus server endpoint - read input from keyvault."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "nessus_key" {
   description = "Nessus linking key - read input from keyvault."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "nessus_groups" {
   description = "Nessus agent groups."
   type        = string
-  default     = ""
+  default     = null
 }
 
 # Splunk UF
@@ -177,19 +176,19 @@ variable "install_splunk_uf" {
 variable "splunk_username" {
   description = "Splunk universal forwarder local admin username - read input from keyvault."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "splunk_password" {
   description = "Splunk universal forwarder local admin password - read input from keyvault."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "splunk_pass4symmkey" {
   description = "Splunk universal forwarder communication security key - read input from keyvault."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "splunk_group" {
@@ -299,3 +298,6 @@ variable "soc_vault_name" {
   default = "soc-prod"
 }
 
+variable "env" {
+  description = "The deployment environment (sandbox, aat, prod etc..)"
+}
