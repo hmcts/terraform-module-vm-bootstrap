@@ -12,7 +12,7 @@ data "azurerm_key_vault_secret" "token" {
 
 data "azurerm_key_vault" "soc_vault" {
   provider            = azurerm.soc
-  name                = var.soc_vault_name
+  name                = var.soc_vault_name-${var.env}-rg
   resource_group_name = var.soc_vault_rg
 }
 
