@@ -149,7 +149,7 @@ variable "install_nessus_agent" {
   default     = true
 }
 
-variable "≈" {
+variable "nessus_server" {
   description = "Nessus server endpoint - read input from keyvault."
   type        = string
   default     = ""
