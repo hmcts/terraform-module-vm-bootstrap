@@ -316,3 +316,12 @@ variable "nessus_key_secret" {
   description = "The secret name for the nessus key"
   default     = ""
 }
+
+variable "dynatrace_env" {
+  type = map(string)
+  default = {
+    "sandbox"    = "sbox"
+    "aat"        = "aat"
+    "production" = "prod"
+  }
+}
