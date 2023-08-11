@@ -289,17 +289,17 @@ variable "additional_script_mi_id" {
 
 variable "cnp_vault_rg" {
   description = "The resource group where the cnp key vault is located"
-  default     = ""
+  default "test"
 }
 
 variable "soc_vault_rg" {
   description = "The resource group where the soc key vault is located"
-  default     = ""
+  default     = "test"
 }
 
 variable "soc_vault_name" {
   description = "The name of the soc key vault"
-  default     = ""
+  default     = "test"
 }
 
 variable "splunk_username_secret" {
