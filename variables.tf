@@ -286,3 +286,33 @@ variable "additional_script_mi_id" {
   description = "This variable will be used to pass Managed Identity ID when the additional script has been used"
   default     = null
 }
+
+variable "cnp_vault_rg" {
+  description = "The resource group where the cnp key vault is located"
+  default     = ""
+}
+
+variable "soc_vault_rg" {
+  description = "The resource group where the soc key vault is located"
+  default     = ""
+}
+
+variable "splunk_username_secret" {
+  description = "The secret name for the splunk username"
+  default     = ""
+}
+
+variable "splunk_password_secret" {
+  description = "The secret name for the splunk password"
+  default     = ""
+}
+
+variable "splunk_pass4symmkey_secret" {
+  description = "The secret name for the splunk pass4symmkey"
+  default     = ""
+}
+
+variable "nessus_key_secret" {
+  description = "The secret name for the nessus key"
+  default     = ""
+}
