@@ -124,15 +124,6 @@ variable "dynatrace_network_zone" {
   default     = "azure.cft"
 }
 
-variable "dynatrace_tenant_id" {
-  type    = map(string)
-  description = "The Dynatrace environment ID."
-  default = {
-    nonprod     = "yrk32651"
-    prod        = "ebe20728"
-  }
-}
-
 variable "dynatrace_token" {
   description = "The Dynatrace PaaS token."
   type        = string
