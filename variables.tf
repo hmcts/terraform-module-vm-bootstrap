@@ -133,7 +133,7 @@ variable "dynatrace_tenant_id" {
 variable "dynatrace_token" {
   description = "The Dynatrace PaaS token."
   type        = string
-  default     = null
+  default     = ""
 }
 
 variable "dynatrace_server" {
