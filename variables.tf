@@ -152,7 +152,7 @@ variable "install_nessus_agent" {
 variable "nessus_server" {
   description = "Nessus server endpoint - read input from keyvault."
   type        = string
-  default     = null
+  default     = """
 }
 
 variable "nessus_key" {
@@ -164,7 +164,7 @@ variable "nessus_key" {
 variable "nessus_groups" {
   description = "Nessus agent groups."
   type        = string
-  default     = """
+  default     = ""
 }
 
 # Splunk UF
