@@ -124,6 +124,12 @@ variable "dynatrace_network_zone" {
   default     = "azure.cft"
 }
 
+variable "dynatrace_tenant_id" {
+  description = "The Dynatrace environment ID."
+  type        = string
+  default     = ""
+}
+
 variable "dynatrace_token" {
   description = "The Dynatrace PaaS token."
   type        = string
