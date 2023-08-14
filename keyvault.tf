@@ -39,3 +39,10 @@ data "azurerm_key_vault_secret" "splunk_pass4symmkey" {
   name         = "splunk-pass4symmkey"
   key_vault_id = data.azurerm_key_vault.soc_vault.id
 }
+
+data "azurerm_key_vault_secret" "nessus_agent_key" {
+  provider = azurerm.soc
+
+  name         = var.nessus_key
+  key_vault_id = data.azurerm_key_vault.soc_vault.id
+}
