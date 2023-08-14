@@ -27,4 +27,3 @@ resource "azurerm_virtual_machine_extension" "dynatrace_oneagent" {
 
   tags = var.common_tags
 }
-
