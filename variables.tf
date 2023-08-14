@@ -152,7 +152,7 @@ variable "install_nessus_agent" {
 variable "nessus_server" {
   description = "Nessus server endpoint - read input from keyvault."
   type        = string
-  default     = """
+  default     = ""
 }
 
 variable "nessus_key" {
