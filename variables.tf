@@ -287,13 +287,16 @@ variable "additional_script_mi_id" {
 }
 
 variable "cnp_vault_rg" {
+  default = ""
 }
 
 variable "soc_vault_rg" {
+  default = ""
 }
 
-variable "soc_vault_name" {}
-
+variable "soc_vault_name" {
+  default = ""
+}
 
 variable "env" {
   description = "The deployment environment (sandbox, aat, prod etc..)"
