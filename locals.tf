@@ -12,7 +12,7 @@ locals {
     UF_PASS4SYMMKEY = var.splunk_pass4symmkey == null || var.splunk_pass4symmkey == "" ? data.azurerm_key_vault_secret.splunk_pass4symmkey.value : var.splunk_pass4symmkey
     UF_GROUP        = var.splunk_group,
     NESSUS_INSTALL  = var.install_nessus_agent == null || var.install_nessus_agent == "" ? data.azurerm_key_vault_secret.nessus_agent_key.value : var.install_nessus_agent
-    NESSUS_SERVER   = var.nessus_server == null || var.nessus_server == "" ? data.azurerm_key_vault_secret.nessus_agent_key.value : var.nessus_server
+    NESSUS_SERVER   = var.nessus_server
     NESSUS_KEY      = var.nessus_key == null || var.nessus_key == "" ? data.azurerm_key_vault_secret.nessus_agent_key.value : var.nessus_key
     NESSUS_GROUPS   = var.nessus_groups
   }), var.additional_script_path == null ? "" : file("${var.additional_script_path}")))
