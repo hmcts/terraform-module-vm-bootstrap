@@ -126,7 +126,9 @@ variable "dynatrace_network_zone" {
 
 variable "dynatrace_tenant_id" {
   description = "The Dynatrace environment ID."
-  type        = string
+  type        = map(string)
+  nonprod     = "yrk32651"
+  prod        = "ebe20728"
 }
 
 variable "dynatrace_token" {
