@@ -28,4 +28,3 @@ locals {
 
   additional_template_file = var.additional_script_uri != null ? format("%s%s%s", "[ ", "\"${var.additional_script_uri}\"", " ]") : "\"\""
 }
-
