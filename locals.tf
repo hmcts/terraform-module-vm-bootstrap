@@ -5,8 +5,12 @@ locals {
   # Dynatrace Tenant IDs per environment
 
   env = {
-    nonprod = "yrk32651"
-    prod    = "ebe20728"
+    nonprod = {
+      "dynatrace_tenant_id" = "yrk32651",
+    }
+    prod    = {
+      "dynatrace_tenant_id" = "ebe20728",
+    }
   }
 
   # Dynatrace OneAgent
