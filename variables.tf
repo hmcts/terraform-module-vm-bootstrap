@@ -131,7 +131,15 @@ variable "dynatrace_network_zone" {
 }
 
 variable "dynatrace_tenant_id" {
-  type = map(string)
+  description = "The tenant ID of your Dynatrace environment."
+  type        = string
+  default     = "ebe20728"
+}
+
+variable "nonprod_dynatrace_tenant_id"  {
+  description = "The tenant ID of your Dynatrace environment."
+  type        = string
+  default     = "yrk32651"
 }
 
 variable "dynatrace_server" {
