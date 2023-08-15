@@ -21,7 +21,7 @@ data "azurerm_key_vault" "soc_vault" {
 
 # Splunk UF
 data "azurerm_key_vault_secret" "splunk_username" {
-  provider = azurerm.soc
+  provider     = azurerm.soc
   name         = "splunk-gui-admin-username"
   key_vault_id = data.azurerm_key_vault.soc_vault.id
 }
