@@ -14,7 +14,7 @@ variable "os_type" {
 variable "env" {
   description = "Environment name."
   type        = string
-  default     = ""
+  default     = "nonprod"
 }
 
 variable "virtual_machine_id" {
