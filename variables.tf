@@ -136,6 +136,11 @@ variable "dynatrace_tenant_id" {
   default     = ""
 }
 
+variable "dynatrace_token" {
+  description = "The API token of your Dynatrace environment."
+  type        = string
+  default     = ""
+}
 
 variable "dynatrace_server" {
   description = "The server URL, if you want to configure an alternative communication endpoint."
