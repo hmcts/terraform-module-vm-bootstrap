@@ -14,7 +14,7 @@ variable "os_type" {
 variable "env" {
   description = "Environment name."
   type        = string
-  default     = "nonprod"
+  default     = ""
 }
 
 variable "virtual_machine_id" {
@@ -131,15 +131,12 @@ variable "dynatrace_network_zone" {
 }
 
 variable "dynatrace_tenant_id" {
-  description = "The Dynatrace environment ID."
-  type        = string
-  default     = ""
-}
-
-variable "dynatrace_token" {
-  description = "The Dynatrace PaaS token."
-  type        = string
-  default     = ""
+  description = "Dynatrace tenant ID."
+  type        = map(string)
+  default     = {
+    "nonprod" = local.env["nonprod"]
+    "prod"    = local.env["prod"]
+  }
 }
 
 variable "dynatrace_server" {
