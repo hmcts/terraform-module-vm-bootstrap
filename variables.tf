@@ -124,12 +124,6 @@ variable "dynatrace_network_zone" {
   default     = "azure.cft"
 }
 
-variable "dynatrace_tenant_id" {
-  description = "The Dynatrace environment ID."
-  type        = string
-  default     = ""
-}
-
 variable "dynatrace_token" {
   description = "The Dynatrace PaaS token."
   type        = string
@@ -288,17 +282,13 @@ variable "additional_script_mi_id" {
 }
 
 variable "cnp_vault_rg" {
-  default = ""
+  default = "cnp-core-infra"
 }
 
 variable "soc_vault_rg" {
-  default = ""
+  default = "soc-core-infra-prod-rg"
 }
 
 variable "soc_vault_name" {
-  default = ""
-}
-
-variable "env" {
-  description = "The deployment environment (sandbox, aat, prod etc..)"
+  default = "soc-prod"
 }
