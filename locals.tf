@@ -18,5 +18,4 @@ locals {
   }), var.additional_script_path == null ? "" : file("${var.additional_script_path}")))
 
   additional_template_file = var.additional_script_uri != null ? format("%s%s%s", "[ ", "\"${var.additional_script_uri}\"", " ]") : "\"\""
-
 }
