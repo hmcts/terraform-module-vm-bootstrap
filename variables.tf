@@ -164,7 +164,7 @@ variable "nessus_server" {
 variable "nessus_key" {
   description = "Nessus linking key - read input from keyvault."
   type        = string
-  default     = null
+  default     = ""
 }
 
 variable "nessus_groups" {
