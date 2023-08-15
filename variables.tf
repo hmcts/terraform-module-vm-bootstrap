@@ -142,12 +142,6 @@ variable "dynatrace_server" {
   default     = null
 }
 
-variable "dynatrace_env" {
-  description = "The Dynatrace environment."
-  type        = string
-  default     = ""
-}
-
 # Nessus Agent
 variable "install_nessus_agent" {
   description = "Install Nessus Agent."
