@@ -1,14 +1,14 @@
 data "azurerm_key_vault" "cnp_vault" {
   provider = azurerm.cnp
-  count = var.env == null || var.env == "" ? 0 : 1
+  count               = var.env == null || var.env == "" ? 0 : 1
   name                = "infra-vault-${var.env}"
   resource_group_name = var.cnp_vault_rg
 }
 
 data "azurerm_key_vault_secret" "token" {
   provider = azurerm.cnp
-  count = var.env == null || var.env == "" ? 0 : 1
-  name         = "dynatrace-${var.env}-token"
+  count           = var.env == null || var.env == "" ? 0 : 1
+  name            =  "dynatrace-${var.env}-token"
   key_vault_id = data.azurerm_key_vault.cnp_vault[0].id
 }
 
