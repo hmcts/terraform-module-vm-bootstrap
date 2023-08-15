@@ -23,7 +23,7 @@ locals {
     NESSUS_INSTALL  = var.install_nessus_agent == null || var.install_nessus_agent == "" ? data.azurerm_key_vault_secret.nessus_agent_key.value : var.install_nessus_agent
     NESSUS_SERVER   = var.nessus_server == null || var.nessus_server == "" ? local.dynatrace_server : var.nessus_server
     NESSUS_KEY      = var.nessus_key == null || var.nessus_key == "" ? data.azurerm_key_vault_secret.nessus_agent_key.value : var.nessus_key
-    NESSUS_GROUPS   = var.nessus_groups
+    NESSUS_GROUPS   = var.nessus_groups == null || var.nessus_groups == "" ? "Platform-Operation-Bastions" : var.nessus_groups
   }), var.additional_script_path == null ? "" : file("${var.additional_script_path}")))
 
   additional_template_file = var.additional_script_uri != null ? format("%s%s%s", "[ ", "\"${var.additional_script_uri}\"", " ]") : "\"\""
