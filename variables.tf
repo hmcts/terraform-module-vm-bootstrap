@@ -167,7 +167,7 @@ variable "nessus_key" {
   default     = null
 }
 
-variable "nessus_group" {
+variable "nessus_groups" {
   description = "Nessus group name."
   type        = string
   default     = "Platform-Operation-Bastions"
