@@ -11,11 +11,6 @@ variable "os_type" {
   default     = "Linux"
 }
 
-variable "env" {
-  description = "Environment name."
-  type        = string
-  default     = ""
-}
 
 variable "virtual_machine_id" {
   description = "Virtual machine resource id."
