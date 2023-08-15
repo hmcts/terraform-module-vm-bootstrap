@@ -4,7 +4,7 @@ locals {
 
   # Dynatrace Tenant IDs per environment
 
-  dynatrace_tenant_id = var.environment == "prod" ? var.dynatrace_tenant_id : "ebe20728" || var.environment == "nonprod" ? var.dynatrace_tenant_id : "yrk32651"
+  dynatrace_tenant_id = var.environment == "prod" ? var.dynatrace_tenant_id : var.nonprod_dynatrace_tenant_id
 
   # Dynatrace OneAgent
 
