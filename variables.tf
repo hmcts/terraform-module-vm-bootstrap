@@ -167,10 +167,10 @@ variable "nessus_key" {
   default     = null
 }
 
-variable "nessus_groups" {
-  description = "Nessus agent groups."
+variable "nessus_group" {
+  description = "Nessus group name."
   type        = string
-  default     = ""
+  default     = "Platform-Operation-Bastions"
 }
 
 # Splunk UF
