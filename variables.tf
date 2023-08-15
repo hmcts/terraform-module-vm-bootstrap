@@ -131,12 +131,7 @@ variable "dynatrace_network_zone" {
 }
 
 variable "dynatrace_tenant_id" {
-  description = "Dynatrace tenant ID."
-  type        = map(string)
-  default     = {
-    "nonprod" = local.env["nonprod"]
-    "prod"    = local.env["prod"]
-  }
+  type = map(string)
 }
 
 variable "dynatrace_server" {
