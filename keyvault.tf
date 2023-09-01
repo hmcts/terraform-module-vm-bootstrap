@@ -1,7 +1,7 @@
 data "azurerm_key_vault" "cnp_vault" {
   provider            = azurerm.cnp
   name                = "infra-vault-${var.env}"
-  resource_group_name = var.cnp_vault_rg
+  resource_group_name = local.cnp_vault_rg
 }
 
 data "azurerm_key_vault_secret" "token" {

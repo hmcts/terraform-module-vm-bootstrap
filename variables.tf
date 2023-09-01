@@ -297,6 +297,7 @@ variable "additional_script_mi_id" {
 variable "cnp_vault_rg" {
   description = "The name of the resource group where the CNP Key Vault is located."
   type        = string
+  default     = null
 }
 
 variable "soc_vault_rg" {
