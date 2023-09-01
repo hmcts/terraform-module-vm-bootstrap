@@ -19,6 +19,8 @@ If the tenable install is failing please check that the download link has not ex
 
 A virtual machine or virtual machine scale set.
 
+<!-- BEGIN_TF_DOCS -->
+
 ## Providers
 
 | Name | Version |
@@ -88,3 +90,5 @@ No modules.
 ## Outputs
 
 No outputs.
+
+<!-- END_TF_DOCS -->
