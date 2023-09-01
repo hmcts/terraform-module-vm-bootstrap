@@ -7,7 +7,7 @@ data "azurerm_key_vault" "cnp_vault" {
 data "azurerm_key_vault_secret" "token" {
   provider     = azurerm.cnp
   name         = "dynatrace-${var.env}-token"
-  key_vault_id = data.azurerm_key_vault.cnp_vault[0].id
+  key_vault_id = data.azurerm_key_vault.cnp_vault.id
 }
 
 data "azurerm_key_vault" "soc_vault" {
