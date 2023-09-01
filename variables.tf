@@ -295,13 +295,19 @@ variable "additional_script_mi_id" {
 }
 
 variable "cnp_vault_rg" {
-  default = "cnp-core-infra"
+  description = "The name of the resource group where the CNP Key Vault is located."
+  type        = string
+  default     = null
 }
 
 variable "soc_vault_rg" {
-  default = "soc-core-infra-prod-rg"
+  description = "The name of the resource group where the SOC Key Vault is located."
+  type        = string
+  default     = "soc-core-infra-prod-rg"
 }
 
 variable "soc_vault_name" {
-  default = "soc-prod"
+  description = "The name of the SOC Key Vault."
+  type        = string
+  default     = "soc-prod"
 }
