@@ -66,6 +66,7 @@ No modules.
 | <a name="input_dynatrace_tenant_id"></a> [dynatrace\_tenant\_id](#input\_dynatrace\_tenant\_id) | The Dynatrace environment ID. | `string` | `null` | no |
 | <a name="input_dynatrace_token"></a> [dynatrace\_token](#input\_dynatrace\_token) | The Dynatrace PaaS token. | `string` | `null` | no |
 | <a name="input_dynatrace_type_handler_version"></a> [dynatrace\_type\_handler\_version](#input\_dynatrace\_type\_handler\_version) | Version of Dynatrace OneAgent - To find: az vm extension image list --location uksouth -p dynatrace.ruxit -o table | `string` | `"2.182"` | no |
+| <a name="input_environment"></a> [env](#input\env) | PROD or NONPROD. | `string` | `"PROD"` | no |
 | <a name="input_install_azure_monitor"></a> [install\_azure\_monitor](#input\_install\_azure\_monitor) | Install Azure Monitor Agent. | `bool` | `true` | no |
 | <a name="input_install_dynatrace_oneagent"></a> [install\_dynatrace\_oneagent](#input\_install\_dynatrace\_oneagent) | Install Dynatrace OneAgent. | `bool` | `true` | no |
 | <a name="input_install_nessus_agent"></a> [install\_nessus\_agent](#input\_install\_nessus\_agent) | Install Nessus Agent. | `bool` | `false` | no |
