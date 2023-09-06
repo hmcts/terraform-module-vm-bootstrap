@@ -17,7 +17,7 @@ locals {
     {
       UF_INSTALL      = tostring(var.install_splunk_uf),
       UF_USERNAME     = var.splunk_username == null || var.splunk_username == "" ? (length(data.azurerm_key_vault_secret.splunk_username) > 0 ? data.azurerm_key_vault_secret.splunk_username[0].value : "") : var.splunk_username
-      UF_PASSWORD     = var.splunk_password == null || var.splunk_password == "" ? (length(data.azurerm_key_vault_secret.splunk_password) ? data.azurerm_key_vault_secret.splunk_password[0].value : "") : var.splunk_password
+      UF_PASSWORD     = var.splunk_password == null || var.splunk_password == "" ? (length(data.azurerm_key_vault_secret.splunk_password) > 0 ? data.azurerm_key_vault_secret.splunk_password[0].value : "") : var.splunk_password
       UF_PASS4SYMMKEY = var.splunk_pass4symmkey == null || var.splunk_pass4symmkey == "" ? (length(data.azurerm_key_vault_secret.splunk_pass4symmkey) > 0 ? data.azurerm_key_vault_secret.splunk_pass4symmkey[0].value : "") : var.splunk_pass4symmkey
       UF_GROUP        = var.splunk_group
       NESSUS_INSTALL  = tostring(var.install_nessus_agent)
