@@ -1,7 +1,7 @@
 resource "azurerm_virtual_machine_scale_set_extension" "dynatrace_oneagent" {
   count = var.install_dynatrace_oneagent == true && var.virtual_machine_type == "vmss" ? 1 : 0
 
-  depends_on = [ azurerm_virtual_machine_scale_set_extension.custom_script ]
+  depends_on = [azurerm_virtual_machine_scale_set_extension.azure_monitor]
 
   name                         = "Dynatrace"
   virtual_machine_scale_set_id = var.virtual_machine_scale_set_id
@@ -15,7 +15,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "dynatrace_oneagent" {
 resource "azurerm_virtual_machine_extension" "dynatrace_oneagent" {
   count = var.install_dynatrace_oneagent == true && var.virtual_machine_type == "vm" ? 1 : 0
 
-  depends_on = [ azurerm_virtual_machine_extension.custom_script ]
+  depends_on = [azurerm_virtual_machine_scale_set_extension.azure_monitor]
 
   name                       = "Dynatrace"
   virtual_machine_id         = var.virtual_machine_id

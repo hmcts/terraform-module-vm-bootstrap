@@ -1,3 +1,4 @@
+
 # VM/VMSS Extension General
 variable "common_tags" {
   description = "Common Tags"
@@ -9,6 +10,12 @@ variable "os_type" {
   description = "Windows or Linux."
   type        = string
   default     = "Linux"
+}
+
+variable "env" {
+  description = "Environment name."
+  type        = string
+
 }
 
 variable "virtual_machine_id" {
@@ -115,7 +122,7 @@ variable "dynatrace_type_handler_version" {
 variable "dynatrace_hostgroup" {
   description = "Define the hostgroup to which the VM belongs."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "dynatrace_network_zone" {
@@ -125,13 +132,13 @@ variable "dynatrace_network_zone" {
 }
 
 variable "dynatrace_tenant_id" {
-  description = "The Dynatrace environment ID."
+  description = "The tenant ID of your Dynatrace environment."
   type        = string
   default     = ""
 }
 
 variable "dynatrace_token" {
-  description = "The Dynatrace PaaS token."
+  description = "The API token of your Dynatrace environment."
   type        = string
   default     = ""
 }
@@ -139,7 +146,7 @@ variable "dynatrace_token" {
 variable "dynatrace_server" {
   description = "The server URL, if you want to configure an alternative communication endpoint."
   type        = string
-  default     = ""
+  default     = null
 }
 
 # Nessus Agent
@@ -158,13 +165,13 @@ variable "nessus_server" {
 variable "nessus_key" {
   description = "Nessus linking key - read input from keyvault."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "nessus_groups" {
-  description = "Nessus agent groups."
+  description = "Nessus group name."
   type        = string
-  default     = ""
+  default     = "Platform-Operation-Bastions"
 }
 
 # Splunk UF
@@ -177,19 +184,19 @@ variable "install_splunk_uf" {
 variable "splunk_username" {
   description = "Splunk universal forwarder local admin username - read input from keyvault."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "splunk_password" {
   description = "Splunk universal forwarder local admin password - read input from keyvault."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "splunk_pass4symmkey" {
   description = "Splunk universal forwarder communication security key - read input from keyvault."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "splunk_group" {
@@ -285,4 +292,22 @@ variable "rc_os_sku" {
 variable "additional_script_mi_id" {
   description = "This variable will be used to pass Managed Identity ID when the additional script has been used"
   default     = null
+}
+
+variable "cnp_vault_rg" {
+  description = "The name of the resource group where the CNP Key Vault is located."
+  type        = string
+  default     = null
+}
+
+variable "soc_vault_rg" {
+  description = "The name of the resource group where the SOC Key Vault is located."
+  type        = string
+  default     = "soc-core-infra-prod-rg"
+}
+
+variable "soc_vault_name" {
+  description = "The name of the SOC Key Vault."
+  type        = string
+  default     = "soc-prod"
 }
