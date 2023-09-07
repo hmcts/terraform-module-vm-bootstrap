@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+#set -vxn
 
 install_splunk_uf() {
 DOWNLOAD_URL="https://download.splunk.com/products/universalforwarder/releases/8.2.2.1/linux/splunkforwarder-8.2.2.1-ae6821b7c64b-Linux-x86_64.tgz"
@@ -179,7 +179,7 @@ else
 fi
 
 # Start Service
-/sbin/service nessusagent start || true
+/sbin/service nessusagent start
 
 # Link agent
 NESSUS_STATUS=$(/opt/nessus_agent/sbin/nessuscli agent status -a | grep "Link status" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
@@ -191,12 +191,15 @@ else
 fi
 }
 
+# Exit on error
+# set -e
+
 if [ "${UF_INSTALL}" = "true" ]
 then
-  install_splunk_uf "${UF_USERNAME}" "${UF_PASSWORD}" "${UF_PASS4SYMMKEY}" "${UF_GROUP}" ||  true
+  install_splunk_uf "${UF_USERNAME}" "${UF_PASSWORD}" "${UF_PASS4SYMMKEY}" "${UF_GROUP}"
 fi
 
 if [ "${NESSUS_INSTALL}" = "true" ]
 then
-  install_nessus "${NESSUS_SERVER}" "${NESSUS_KEY}" "${NESSUS_GROUPS}" || true
+  install_nessus "${NESSUS_SERVER}" "${NESSUS_KEY}" "${NESSUS_GROUPS}"
 fi
