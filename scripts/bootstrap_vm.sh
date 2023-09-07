@@ -192,7 +192,7 @@ fi
 }
 
 # Exit on error
-# set -e
+set +e
 
 if [ "${UF_INSTALL}" = "true" ]
 then
