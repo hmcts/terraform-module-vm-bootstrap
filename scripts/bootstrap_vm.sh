@@ -193,10 +193,10 @@ fi
 
 if [ "${UF_INSTALL}" = "true" ]
 then
-  install_splunk_uf "${UF_USERNAME}" "${UF_PASSWORD}" "${UF_PASS4SYMMKEY}" "${UF_GROUP}"
+  install_splunk_uf "${UF_USERNAME}" "${UF_PASSWORD}" "${UF_PASS4SYMMKEY}" "${UF_GROUP}" ||  true
 fi
 
 if [ "${NESSUS_INSTALL}" = "true" ]
 then
-  install_nessus "${NESSUS_SERVER}" "${NESSUS_KEY}" "${NESSUS_GROUPS}"
+  install_nessus "${NESSUS_SERVER}" "${NESSUS_KEY}" "${NESSUS_GROUPS}" || true
 fi
