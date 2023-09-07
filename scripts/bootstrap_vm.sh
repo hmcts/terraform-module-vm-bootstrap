@@ -1,5 +1,5 @@
 #!/bin/bash
-#set -vxn
+set -e
 
 install_splunk_uf() {
 DOWNLOAD_URL="https://download.splunk.com/products/universalforwarder/releases/8.2.2.1/linux/splunkforwarder-8.2.2.1-ae6821b7c64b-Linux-x86_64.tgz"
@@ -190,9 +190,6 @@ else
     /opt/nessus_agent/sbin/nessuscli agent link --key=$KEY --groups=$GROUPS --host=$SERVER --port=8834
 fi
 }
-
-# Exit on error
-set -e
 
 if [ "${UF_INSTALL}" = "true" ]
 then
