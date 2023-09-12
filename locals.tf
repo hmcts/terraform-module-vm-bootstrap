@@ -6,9 +6,9 @@ locals {
 
   dynatrace_tenant_id = var.env == "prod" ? "ebe20728" : "yrk32651"
 
-  dynatrace_server = var.env == "prod" ? "https://10.10.70.30:9999/e/ebe20728/api" : "https://yrk32651.live.dynatrace.com/api\n"
+  dynatrace_server = var.env == "prod" ? "https://10.10.70.30:9999/e/ebe20728/api" : "https://10.10.70.8:9999/e/yrk32651/api"
 
-  nessus_server = var.nessus_server == "prod" ? "nessus-scanners-prod000005.platform.hmcts.net" : "https://10.10.70.8:9999/e/yrk32651/api\n"
+  nessus_server = var.env == "prod" ? "nessus-scanners-prod000005.platform.hmcts.net" : "nessus-scanners-nonprod000005.platform.hmcts.net"
 
   # Dynatrace OneAgent
 
@@ -21,7 +21,7 @@ locals {
       UF_PASS4SYMMKEY = var.splunk_pass4symmkey == null || var.splunk_pass4symmkey == "" ? (length(data.azurerm_key_vault_secret.splunk_pass4symmkey) > 0 ? data.azurerm_key_vault_secret.splunk_pass4symmkey[0].value : "") : var.splunk_pass4symmkey
       UF_GROUP        = var.splunk_group
       NESSUS_INSTALL  = tostring(var.install_nessus_agent)
-      NESSUS_SERVER   = var.nessus_server == null || var.nessus_server == "" ? local.dynatrace_server : var.nessus_server
+      NESSUS_SERVER   = var.nessus_server == null || var.nessus_server == "" ? local.nessus_server : var.nessus_server
       NESSUS_KEY      = var.nessus_key == null || var.nessus_key == "" ? (length(data.azurerm_key_vault_secret.nessus_agent_key) > 0 ? data.azurerm_key_vault_secret.nessus_agent_key[0].value : "") : var.nessus_key
       NESSUS_GROUPS   = var.nessus_groups == null || var.nessus_groups == "" ? "Platform-Operation-Bastions" : var.nessus_groups
   }), var.additional_script_path == null ? "" : file("${var.additional_script_path}")))
