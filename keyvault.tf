@@ -1,7 +1,7 @@
 data "azurerm_key_vault" "cnp_vault" {
   count               = var.install_dynatrace_oneagent ? 1 : 0
   provider            = azurerm.cnp
-  name                = "infra-vault-${var.env}"
+  name                = var.env == "prod" ? "infra-vault-prod" : "infra-vault-nonprod"
   resource_group_name = local.cnp_vault_rg
 }
 
