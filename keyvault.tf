@@ -8,7 +8,7 @@ data "azurerm_key_vault" "cnp_vault" {
 data "azurerm_key_vault_secret" "token" {
   count        = var.install_dynatrace_oneagent ? 1 : 0
   provider     = azurerm.cnp
-  name         = "dynatrace-${var.env}-token"
+  name         = var.env == "prod" ? "dynatrace-prod-token" : "dynatrace-nonprod-token"
   key_vault_id = data.azurerm_key_vault.cnp_vault[0].id
 }
 
