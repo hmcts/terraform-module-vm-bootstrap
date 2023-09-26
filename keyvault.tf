@@ -47,25 +47,3 @@ data "azurerm_key_vault_secret" "nessus_agent_key" {
   name         = "nessus-agent-key-${var.env}"
   key_vault_id = data.azurerm_key_vault.soc_vault[0].id
 }
-
-#Jenkins MI access to CNP vault
-data "azurerm_client_config" "current" {
-}
-
-data "azuread_service_principal" "jenkins-mi" {
-  display_name = var.env == "sbox" ? "jenkins-ptlsbox-mi" : "jenkins-ptl-mi"
-}
-
-resource "azurerm_key_vault_access_policy" "jenkins-access" {
-  key_vault_id = data.azurerm_key_vault.cnp_vault.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = data.azuread_service_principal.jenkins-mi.display_name
-
-  key_permissions = [
-    "Get",
-  ]
-
-  secret_permissions = [
-    "Get",
-  ]
-}
