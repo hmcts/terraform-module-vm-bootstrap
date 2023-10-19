@@ -44,6 +44,6 @@ data "azurerm_key_vault_secret" "splunk_pass4symmkey" {
 data "azurerm_key_vault_secret" "nessus_agent_key" {
   count        = var.install_nessus_agent ? 1 : 0
   provider     = azurerm.soc
-  name         = var.nessus_key == null ? "nessus-agent-key-${var.env}" : var.nessus_key
+  name         = var.nessus_key == "" ? "nessus-agent-key-${var.env}" : var.nessus_key
   key_vault_id = data.azurerm_key_vault.soc_vault[0].id
 }
