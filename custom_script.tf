@@ -5,7 +5,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "custom_script" {
 
   depends_on = [azurerm_virtual_machine_scale_set_extension.endpoint_protection]
   lifecycle {
-    create_before_destroy = true
+    prevent_destroy = true
   }
   name                         = var.custom_script_extension_name
   virtual_machine_scale_set_id = var.virtual_machine_scale_set_id
