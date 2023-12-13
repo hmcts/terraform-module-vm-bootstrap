@@ -5,20 +5,20 @@ provider "azurerm" {
 provider "azurerm" {
   alias = "soc"
   features {}
-  subscription_id = "8ae5b3b6-0b12-4888-b894-4cec33c92292"
+  subscription_id            = "8ae5b3b6-0b12-4888-b894-4cec33c92292"
   skip_provider_registration = true
 }
 
 provider "azurerm" {
   alias = "cnp"
   features {}
-  subscription_id = "1c4f0704-a29e-403d-b719-b90c34ef14c9"
+  subscription_id            = "1c4f0704-a29e-403d-b719-b90c34ef14c9"
   skip_provider_registration = true
 }
 
 # Default variables for this test
 variables {
-   env                  = "nonprod"
+  env = "nonprod"
 }
 
 run "setup_vm" {
@@ -39,7 +39,7 @@ run "virtual_machine_no_extensions" {
 
   variables {
     virtual_machine_type = "vm"
-    virtual_machine_id = run.setup_vm.vm_id
+    virtual_machine_id   = run.setup_vm.vm_id
   }
 
   assert {
@@ -129,8 +129,8 @@ run "virtual_machine_no_azure_monitor_extension" {
   command = plan
 
   variables {
-    virtual_machine_type = "vm"
-    virtual_machine_id = run.setup_vm.vm_id
+    virtual_machine_type  = "vm"
+    virtual_machine_id    = run.setup_vm.vm_id
     install_azure_monitor = false
   }
 
@@ -147,7 +147,7 @@ run "virtual_machine_no_nessus" {
 
   variables {
     virtual_machine_type = "vm"
-    virtual_machine_id = run.setup_vm.vm_id
+    virtual_machine_id   = run.setup_vm.vm_id
     install_nessus_agent = false
   }
 
@@ -164,8 +164,8 @@ run "virtual_machine_no_splunk" {
 
   variables {
     virtual_machine_type = "vm"
-    virtual_machine_id = run.setup_vm.vm_id
-    install_splunk_uf = false
+    virtual_machine_id   = run.setup_vm.vm_id
+    install_splunk_uf    = false
   }
 
   assert {
@@ -182,8 +182,8 @@ run "virtual_machine_no_nessus_or_splunk" {
 
   variables {
     virtual_machine_type = "vm"
-    virtual_machine_id = run.setup_vm.vm_id
-    install_splunk_uf = false
+    virtual_machine_id   = run.setup_vm.vm_id
+    install_splunk_uf    = false
     install_nessus_agent = false
   }
 
@@ -199,8 +199,8 @@ run "virtual_machine_no_dynatrace" {
   command = plan
 
   variables {
-    virtual_machine_type = "vm"
-    virtual_machine_id = run.setup_vm.vm_id
+    virtual_machine_type       = "vm"
+    virtual_machine_id         = run.setup_vm.vm_id
     install_dynatrace_oneagent = false
   }
 

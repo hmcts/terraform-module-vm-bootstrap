@@ -40,14 +40,14 @@ resource "azurerm_network_interface" "test" {
 }
 
 resource "azurerm_linux_virtual_machine" "test" {
-  name                = "test-machine"
-  resource_group_name = azurerm_resource_group.test.name
-  location            = azurerm_resource_group.test.location
-  size                = "Standard_D2ds_v5"
-  admin_username      = "adminuser"
-  admin_password      = "example-$uper-$EcUrE-password"
+  name                            = "test-machine"
+  resource_group_name             = azurerm_resource_group.test.name
+  location                        = azurerm_resource_group.test.location
+  size                            = "Standard_D2ds_v5"
+  admin_username                  = "adminuser"
+  admin_password                  = "example-$uper-$EcUrE-password"
   disable_password_authentication = false
-  tags                = module.common_tags.common_tags
+  tags                            = module.common_tags.common_tags
   network_interface_ids = [
     azurerm_network_interface.test.id,
   ]
