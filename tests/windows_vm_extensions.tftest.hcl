@@ -19,20 +19,20 @@ provider "azurerm" {
 # Default variables for this test
 variables {
   env     = "nonprod"
-  os_type = "Linux"
+  os_type = "Windows"
 }
 
 run "setup_vm" {
   module {
-    source = "./tests/modules/setup_vm_linux"
+    source = "./tests/modules/setup_vm_windows"
   }
 }
 
-# Tests the default settings for extensions for a linux VM
+# Tests the default settings for extensions for a windows VM
 # - Should install azure monitor by default
 # - Should install a custom script extension by default (for nessus and splunk)
 # - Should install dynatrace by default
-# - Should not install endpoint protection for a linux VM
+# - Should install endpoint protection by default
 # - Should not install any scaleset extensions
 run "virtual_machine_no_extensions" {
 
@@ -49,12 +49,12 @@ run "virtual_machine_no_extensions" {
   }
 
   assert {
-    condition     = azurerm_virtual_machine_extension.azure_monitor[0].name == "AMALinux"
+    condition     = azurerm_virtual_machine_extension.azure_monitor[0].name == "AMAWindows"
     error_message = "Incorrect name for azure monitor extension"
   }
 
   assert {
-    condition     = azurerm_virtual_machine_extension.azure_monitor[0].type == "AzureMonitorLinuxAgent"
+    condition     = azurerm_virtual_machine_extension.azure_monitor[0].type == "AzureMonitorWindowsAgent"
     error_message = "Incorrect type for azure monitor extension"
   }
 
@@ -64,18 +64,18 @@ run "virtual_machine_no_extensions" {
   }
 
   assert {
-    condition     = azurerm_virtual_machine_extension.custom_script[0].publisher == "Microsoft.Azure.Extensions"
-    error_message = "Wrong publisher for a linux custom script"
+    condition     = azurerm_virtual_machine_extension.custom_script[0].publisher == "Microsoft.Compute"
+    error_message = "Wrong publisher for a windows custom script"
   }
 
   assert {
-    condition     = azurerm_virtual_machine_extension.custom_script[0].type == "CustomScript"
-    error_message = "Wrong type for a linux custom script"
+    condition     = azurerm_virtual_machine_extension.custom_script[0].type == "CustomScriptExtension"
+    error_message = "Wrong type for a windows custom script"
   }
 
   assert {
-    condition     = azurerm_virtual_machine_extension.custom_script[0].type_handler_version == "2.1"
-    error_message = "Wrong type handler version for a linux custom script"
+    condition     = azurerm_virtual_machine_extension.custom_script[0].type_handler_version == "1.9"
+    error_message = "Wrong type handler version for a windows custom script"
   }
 
   assert {
@@ -84,13 +84,13 @@ run "virtual_machine_no_extensions" {
   }
 
   assert {
-    condition     = azurerm_virtual_machine_extension.dynatrace_oneagent[0].type == "oneAgentLinux"
-    error_message = "Wrong type for linux dynatrace extension"
+    condition     = azurerm_virtual_machine_extension.dynatrace_oneagent[0].type == "oneAgentWindows"
+    error_message = "Wrong type for windows dynatrace extension"
   }
 
   assert {
-    condition     = length(azurerm_virtual_machine_extension.endpoint_protection) == 0
-    error_message = "Endpoint protection installed on a linux VM"
+    condition     = length(azurerm_virtual_machine_extension.endpoint_protection) == 1
+    error_message = "Endpoint protection not installed by default"
   }
 
   assert {
@@ -175,8 +175,26 @@ run "virtual_machine_no_splunk" {
   }
 }
 
+# Custom scipt should not install endpoint protection when disabled
+run "virtual_machine_no_endpoint_protection" {
+
+  command = plan
+
+  variables {
+    virtual_machine_type        = "vm"
+    virtual_machine_id          = run.setup_vm.vm_id
+    install_endpoint_protection = false
+  }
+
+  assert {
+    condition     = length(azurerm_virtual_machine_extension.endpoint_protection) == 0
+    error_message = "Endpoint protection installed when disabled"
+  }
+}
+
 # Custom scipt should not be installed when both nessus and splunk are disabled
 # TODO: add a test for additional script as that is installed here as well
+# TODO: add tests for run command
 run "virtual_machine_no_nessus_or_splunk" {
 
   command = plan
