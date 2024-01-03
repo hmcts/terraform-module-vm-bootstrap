@@ -27,14 +27,14 @@ resource "azurerm_subnet" "internal" {
 }
 
 resource "azurerm_windows_virtual_machine_scale_set" "test" {
-  name                            = "test-vmss"
-  resource_group_name             = azurerm_resource_group.test.name
-  location                        = azurerm_resource_group.test.location
-  sku                             = "Standard_D2ds_v5"
-  instances                       = 1
-  admin_username                  = "adminuser"
-  admin_password                  = "example-$uper-$EcUrE-password"
-  tags                            = module.common_tags.common_tags
+  name                = "test-vmss"
+  resource_group_name = azurerm_resource_group.test.name
+  location            = azurerm_resource_group.test.location
+  sku                 = "Standard_D2ds_v5"
+  instances           = 1
+  admin_username      = "adminuser"
+  admin_password      = "example-$uper-$EcUrE-password"
+  tags                = module.common_tags.common_tags
 
   source_image_reference {
     publisher = "MicrosoftWindowsServer"

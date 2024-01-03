@@ -39,10 +39,10 @@ run "virtual_machine_scale_set_no_extensions" {
   command = plan
 
   variables {
-    virtual_machine_type = "vmss"
-    virtual_machine_scale_set_id   = run.setup_vm.vmss_id
+    virtual_machine_type         = "vmss"
+    virtual_machine_scale_set_id = run.setup_vm.vmss_id
   }
-  
+
   assert {
     condition     = length(azurerm_virtual_machine_scale_set_extension.azure_monitor) == 1
     error_message = "Azure monitor installed by default"
@@ -130,9 +130,9 @@ run "virtual_machine_scale_set_no_azure_monitor_extension" {
   command = plan
 
   variables {
-    virtual_machine_type  = "vmss"
-    virtual_machine_scale_set_id    = run.setup_vm.vmss_id
-    install_azure_monitor = false
+    virtual_machine_type         = "vmss"
+    virtual_machine_scale_set_id = run.setup_vm.vmss_id
+    install_azure_monitor        = false
   }
 
   assert {
@@ -147,9 +147,9 @@ run "virtual_machine_scale_set_no_nessus" {
   command = plan
 
   variables {
-    virtual_machine_type = "vmss"
-    virtual_machine_scale_set_id   = run.setup_vm.vmss_id
-    install_nessus_agent = false
+    virtual_machine_type         = "vmss"
+    virtual_machine_scale_set_id = run.setup_vm.vmss_id
+    install_nessus_agent         = false
   }
 
   assert {
@@ -164,9 +164,9 @@ run "virtual_machine_scale_set_no_splunk" {
   command = plan
 
   variables {
-    virtual_machine_type = "vmss"
-    virtual_machine_scale_set_id   = run.setup_vm.vmss_id
-    install_splunk_uf    = false
+    virtual_machine_type         = "vmss"
+    virtual_machine_scale_set_id = run.setup_vm.vmss_id
+    install_splunk_uf            = false
   }
 
   assert {
@@ -181,9 +181,9 @@ run "virtual_machine_scale_set_no_endpoint_protection" {
   command = plan
 
   variables {
-    virtual_machine_type        = "vmss"
-    virtual_machine_scale_set_id          = run.setup_vm.vmss_id
-    install_endpoint_protection = false
+    virtual_machine_type         = "vmss"
+    virtual_machine_scale_set_id = run.setup_vm.vmss_id
+    install_endpoint_protection  = false
   }
 
   assert {
@@ -200,10 +200,10 @@ run "virtual_machine_scale_set_no_nessus_or_splunk" {
   command = plan
 
   variables {
-    virtual_machine_type = "vmss"
-    virtual_machine_scale_set_id   = run.setup_vm.vmss_id
-    install_splunk_uf    = false
-    install_nessus_agent = false
+    virtual_machine_type         = "vmss"
+    virtual_machine_scale_set_id = run.setup_vm.vmss_id
+    install_splunk_uf            = false
+    install_nessus_agent         = false
   }
 
   assert {
@@ -218,9 +218,9 @@ run "virtual_machine_scale_set_no_dynatrace" {
   command = plan
 
   variables {
-    virtual_machine_type       = "vmss"
-    virtual_machine_scale_set_id         = run.setup_vm.vmss_id
-    install_dynatrace_oneagent = false
+    virtual_machine_type         = "vmss"
+    virtual_machine_scale_set_id = run.setup_vm.vmss_id
+    install_dynatrace_oneagent   = false
   }
 
   assert {
