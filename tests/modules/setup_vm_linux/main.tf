@@ -1,7 +1,7 @@
 module "common_tags" {
   source = "github.com/hmcts/terraform-module-common-tags?ref=master"
 
-  builtFrom   = "hmcts/terraform-module-virtual-machine-scale-set"
+  builtFrom   = "hmcts/terraform-module-vm-bootstrap"
   environment = "ptlsbox"
   product     = "sds-platform"
 }
