@@ -12,7 +12,7 @@ variable "os_type" {
   default     = "Linux"
 
   validation {
-    condition     = contains(["Windows", "Linux"], lower(var.os_type))
+    condition     = contains(["windows", "linux"], lower(var.os_type))
     error_message = "Unknown OS type. Must be either 'Windows' or 'Linux'"
   }
 }
