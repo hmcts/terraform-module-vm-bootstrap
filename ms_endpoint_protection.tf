@@ -1,5 +1,5 @@
 resource "azurerm_virtual_machine_scale_set_extension" "endpoint_protection" {
-  count = var.install_endpoint_protection == true && var.os_type == "Windows" && var.virtual_machine_type == "vmss" ? 1 : 0
+  count = var.install_endpoint_protection == true && lower(var.os_type) == "windows" && var.virtual_machine_type == "vmss" ? 1 : 0
 
   depends_on = [azurerm_virtual_machine_scale_set_extension.dynatrace_oneagent]
 
@@ -19,7 +19,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "endpoint_protection" {
 }
 
 resource "azurerm_virtual_machine_extension" "endpoint_protection" {
-  count = var.install_endpoint_protection == true && var.os_type == "Windows" && var.virtual_machine_type == "vm" ? 1 : 0
+  count = var.install_endpoint_protection == true && lower(var.os_type) == "windows" && var.virtual_machine_type == "vm" ? 1 : 0
 
   depends_on = [azurerm_virtual_machine_extension.dynatrace_oneagent]
 

@@ -10,6 +10,11 @@ variable "os_type" {
   description = "Windows or Linux."
   type        = string
   default     = "Linux"
+
+  validation {
+    condition     = contains(["windows", "linux"], lower(var.os_type))
+    error_message = "Unknown OS type. Must be either 'Windows' or 'Linux'"
+  }
 }
 
 variable "env" {
