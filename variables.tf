@@ -210,6 +210,12 @@ variable "splunk_group" {
   default     = "hmcts_forwarders"
 }
 
+variable "install_clamav" {
+  description = "Install ClamAV on unix VMs."
+  type        = bool
+  default     = true
+}
+
 # Endpoint Protection
 variable "install_endpoint_protection" {
   description = "Install Endpoint Protection."
