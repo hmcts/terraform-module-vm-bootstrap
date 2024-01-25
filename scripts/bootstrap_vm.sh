@@ -208,7 +208,15 @@ install_clamav() {
     dpkg -i clamav.deb
   fi
 
-  chown -R clamav:clamav /usr/local/share/clamav
+  if [ ! -f /usr/local/etc/clamd.conf ]; then
+    sed '/^Example/ s/./#&/' /usr/local/etc/clamd.conf.sample >/usr/local/etc/clamd.conf
+  fi
+
+  if [ ! -f /usr/local/etc/freshclam.conf ]; then
+    sed '/^Example/ s/./#&/' /usr/local/etc/freshclam.conf.sample >/usr/local/etc/freshclam.conf
+  fi
+
+  chown -R clamav:clamav /var/lib/clamav
 }
 
 # Exit on error
