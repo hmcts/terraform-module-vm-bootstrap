@@ -194,6 +194,7 @@ install_clamav() {
   OS_TYPE=$(hostnamectl | grep "Operating System" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
 
   mkdir -p /var/lib/clamav
+  mkdir -p /usr/local/share/clamav
 
   if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
     getent group clamav || groupadd clamav
@@ -217,6 +218,10 @@ install_clamav() {
   fi
 
   chown -R clamav:clamav /var/lib/clamav
+  chown -R clamav:clamav /usr/local/share/clamav
+
+  freshclam
+  clamscan
 }
 
 # Exit on error
