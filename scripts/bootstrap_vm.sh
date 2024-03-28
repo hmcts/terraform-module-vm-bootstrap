@@ -2,8 +2,8 @@
 #set -vxn
 
 install_splunk_uf() {
-DOWNLOAD_URL="https://download.splunk.com/products/universalforwarder/releases/8.2.2.1/linux/splunkforwarder-8.2.2.1-ae6821b7c64b-Linux-x86_64.tgz"
-INSTALL_FILE="splunkforwarder-8.2.2.1-ae6821b7c64b-Linux-x86_64.tgz"
+DOWNLOAD_URL="https://download.splunk.com/products/universalforwarder/releases/9.2.1/linux/splunkforwarder-9.2.1-78803f08aabb-Linux-x86_64.tgz"
+INSTALL_FILE="splunkforwarder-9.2.1-78803f08aabb-Linux-x86_64.tgz"
 INSTALL_LOCATION="/opt"
 DEPLOYMENT_SERVER_URI="splunk-lm-prod-vm00.platform.hmcts.net:8089"
 FORWARD_SERVER_URI="splunk-cm-prod-vm00.platform.hmcts.net:8089"
