@@ -6,7 +6,7 @@ locals {
 
   dynatrace_tenant_id = var.env == "prod" ? "ebe20728" : "yrk32651"
 
-  dynatrace_server = var.env == "prod" ? "https://10.10.70.30:9999/e/ebe20728/api" : "https://10.10.70.8:9999/e/yrk32651/api"
+  dynatrace_server = var.env == "prod" ? "https://dynatrace-activegate-prod.platform.hmcts.net:9999/e/ebe20728/api" : "https://dynatrace-activegate-nonprod.platform.hmcts.net:9999/e/yrk32651/api"
 
   nessus_server = var.env == "prod" ? "nessus-scanners-prod000005.platform.hmcts.net" : "nessus-scanners-nonprod000005.platform.hmcts.net"
 
