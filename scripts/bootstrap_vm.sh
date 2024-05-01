@@ -144,7 +144,7 @@ fi
 # Download nessus agent
 if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"6."* ]]; then
     # Set for RHEL6 agent (RPM)
-    FILE_DESCRIPTION="Red Hat ES 6 / Oracle Linux 6 (including Unbreakable Enterprise Kernel) (x86_64)"
+    FILE_DESCRIPTION="Red Hat EL 6 / Oracle Linux 6 (including Unbreakable Enterprise Kernel) (x86_64)"
     INSTALL_FILE="nessusagent.rpm"
     id="$(get_download_id "$FILE_DESCRIPTION")"
     DOWNLOAD_URL=$(check_download_url "$id")
