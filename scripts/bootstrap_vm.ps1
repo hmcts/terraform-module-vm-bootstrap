@@ -8,10 +8,10 @@ function Install-SplunkUF {
     )
 
     # Setup
-    $installerURI = 'https://download.splunk.com/products/universalforwarder/releases/8.2.4/windows/splunkforwarder-8.2.4-87e2dda940d1-x64-release.msi'
-    $installerFile = $env:Temp + "\splunkforwarder-8.2.4-87e2dda940d1-x64-release.msi"
-    $indexServer = 'splunk-cm-prod-vm00.platform.hmcts.net:8089'
-    $deploymentServer = 'splunk-lm-prod-vm00.platform.hmcts.net:8089'
+    $installerURI = "https://download.splunk.com/products/universalforwarder/releases/9.2.1/windows/splunkforwarder-9.2.1-78803f08aabb-x64-release.msi"
+    $installerFile = $env:Temp + "\splunkforwarder-9.2.1-78803f08aabb-x64-release.msi"
+    $indexServer = "splunk-cm-prod-vm00.platform.hmcts.net:8089"
+    $deploymentServer = "splunk-lm-prod-vm00.platform.hmcts.net:8089"
 
     # Downloading & Installing Splunk Universal Forwarder
     Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Downloading Splunk Universal Forwarder installer."
