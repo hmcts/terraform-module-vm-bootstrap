@@ -123,83 +123,96 @@ check_download_url () {
 
 
 install_nessus() {
-echo "Info: Installing Tenable Nessus"
+  echo "Info: Installing Tenable Nessus"
 
-# Setup
-SERVER=$1
-KEY=$2
-GROUPS=$3
+  # Setup
+  SERVER=$1
+  KEY=$2
+  GROUPS=$3
 
-# Get OS type
-if command -v hostnamectl &> /dev/null
-then
+  # Get OS type
+  if command -v hostnamectl &> /dev/null
+  then
     OS_TYPE=$(hostnamectl | grep "Operating System" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
-elif command -v lsb_release &> /dev/null
-then
+  elif command -v lsb_release &> /dev/null
+  then
     OS_TYPE=$(lsb_release -a | grep "Description" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
-else
+  else
     echo "Operating System could not be determined."
-fi
+  fi
 
-# Download nessus agent
-if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"6."* ]]; then
+  # Download nessus agent
+  if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"6."* ]]; then
     # Set for RHEL6 agent (RPM)
     FILE_DESCRIPTION="Red Hat ES 6 / Oracle Linux 6 (including Unbreakable Enterprise Kernel) (x86_64)"
     INSTALL_FILE="nessusagent.rpm"
     id="$(get_download_id "$FILE_DESCRIPTION")"
     DOWNLOAD_URL=$(check_download_url "$id")
-elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"7."* ]]; then
+  elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"7."* ]]; then
     # Set for RHEL7 agent (RPM)
     FILE_DESCRIPTION="Red Hat ES 7 / CentOS 7 / Oracle Linux 7 (including Unbreakable Enterprise Kernel) (x86_64)"
     INSTALL_FILE="nessusagent.rpm"
     id="$(get_download_id "$FILE_DESCRIPTION")"
     DOWNLOAD_URL=$(check_download_url "$id")
-elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"8."* ]]; then
+  elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"8."* ]]; then
     # Set for RHEL8 agent (RPM)
     FILE_DESCRIPTION="Red Hat ES 8, 9 / Alma Linux 8, 9 / Rocky Linux 8, 9 / Oracle Linux 8, 9 / (including Unbreakable Enterprise Kernel) (x86_64)"
     INSTALL_FILE="nessusagent.rpm"
     id="$(get_download_id "$FILE_DESCRIPTION")"
     DOWNLOAD_URL=$(check_download_url "$id")
-else
+  else
     # Set for Ubuntu agent (deb) AMD64
     FILE_DESCRIPTION="Ubuntu 14.04, 16.04, 18.04, 20.04, 22.04 (amd64)"
     INSTALL_FILE="nessusagent.deb"
     id="$(get_download_id "$FILE_DESCRIPTION")"
     DOWNLOAD_URL=$(check_download_url "$id")
-fi
+  fi
 
-# Install nessus agent
-curl --retry 3 -# -L -k -o $INSTALL_FILE $DOWNLOAD_URL
-if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
-    /opt/nessus_agent/sbin/nessuscli agent status || rpm -Uh nessusagent.rpm
+
+  # Checks if the nessus CLI is installed 
+  # Install nessus agent
+  curl --retry 3 -# -L -k -o $INSTALL_FILE $DOWNLOAD_URL
+
+  if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
+    if [ ! -f "/opt/nessus_agent/sbin/nessuscli" ]; then
+      rpm -Uh nessusagent.rpm
+    fi
     rm -rf nessusagent.rpm
-else
-    /opt/nessus_agent/sbin/nessuscli agent status || dpkg -i nessusagent.deb
+  else
+    if [ ! -f "/opt/nessus_agent/sbin/nessuscli" ]; then
+      dpkg -i nessusagent.deb
+    fi
     rm -rf nessusagent.deb
-fi
+  fi
 
-# Start Service
-/sbin/service nessusagent start
+  # Check if nessuscli exists
+  if [ ! -f "/opt/nessus_agent/sbin/nessuscli" ]; then
+    echo "Error: Nessus agent installation failed. /opt/nessus_agent/sbin/nessuscli not found."
+    exit 1
+  fi
 
-# Link agent
-NESSUS_STATUS=$(/opt/nessus_agent/sbin/nessuscli agent status -a | grep "Link status" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
-if [[ "$NESSUS_STATUS" == "Connected to"* ]]; then
+  # Start Service
+  /sbin/service nessusagent start
+
+  # Link agent
+  NESSUS_STATUS=$(/opt/nessus_agent/sbin/nessuscli agent status -a | grep "Link status" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
+  if [[ "$NESSUS_STATUS" == "Connected to"* ]]; then
     echo $NESSUS_STATUS
-else
+  else
     echo "Connecting..."
     /opt/nessus_agent/sbin/nessuscli agent link --key=$KEY --groups=$GROUPS --host=$SERVER --port=8834
-fi
+  fi
 }
 
 # Exit on error
 set +e
 
-if [ "${UF_INSTALL}" = "true" ]
+if [ "true" = "true" ]
 then
-  install_splunk_uf "${UF_USERNAME}" "${UF_PASSWORD}" "${UF_PASS4SYMMKEY}" "${UF_GROUP}"
+  install_splunk_uf "hmcts_soc_admin" "BNFJN0XWmkCJw0S78HLO" "$7$oNroXETNQ9CvUjVvOv+gF4vnXZMUcOV5AYqzGX8Dl4QPUgp1xrUu68laynlhotZaNcOhCQ/FXXYtSH1VehZ5YA==" "hmcts_forwarders"
 fi
 
-if [ "${NESSUS_INSTALL}" = "true" ]
+if [ "true" = "true" ]
 then
-  install_nessus "${NESSUS_SERVER}" "${NESSUS_KEY}" "${NESSUS_GROUPS}"
+  install_nessus "nessus-scanners-prod000005.platform.hmcts.net" "86395175d0e6cf61a8915d84180ed64aa8e0e0ce38e52c64fd4bc8cb29418aea" "Prod-test"
 fi
