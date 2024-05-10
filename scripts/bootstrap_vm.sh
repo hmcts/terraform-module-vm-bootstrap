@@ -2,8 +2,8 @@
 #set -vxn
 
 install_splunk_uf() {
-DOWNLOAD_URL="https://download.splunk.com/products/universalforwarder/releases/8.2.2.1/linux/splunkforwarder-8.2.2.1-ae6821b7c64b-Linux-x86_64.tgz"
-INSTALL_FILE="splunkforwarder-8.2.2.1-ae6821b7c64b-Linux-x86_64.tgz"
+DOWNLOAD_URL="https://download.splunk.com/products/universalforwarder/releases/9.2.1/linux/splunkforwarder-9.2.1-78803f08aabb-Linux-x86_64.tgz"
+INSTALL_FILE="splunkforwarder-9.2.1-78803f08aabb-Linux-x86_64.tgz"
 INSTALL_LOCATION="/opt"
 DEPLOYMENT_SERVER_URI="splunk-lm-prod-vm00.platform.hmcts.net:8089"
 FORWARD_SERVER_URI="splunk-cm-prod-vm00.platform.hmcts.net:8089"
@@ -144,7 +144,7 @@ fi
 # Download nessus agent
 if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"6."* ]]; then
     # Set for RHEL6 agent (RPM)
-    FILE_DESCRIPTION="Red Hat ES 6 / Oracle Linux 6 (including Unbreakable Enterprise Kernel) (x86_64)"
+    FILE_DESCRIPTION="Red Hat EL 6 / Oracle Linux 6 (including Unbreakable Enterprise Kernel) (x86_64)"
     INSTALL_FILE="nessusagent.rpm"
     id="$(get_download_id "$FILE_DESCRIPTION")"
     DOWNLOAD_URL=$(check_download_url "$id")
