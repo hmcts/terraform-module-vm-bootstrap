@@ -207,10 +207,10 @@ set +e
 
 if [ "true" = "true" ]
 then
-  install_splunk_uf "hmcts_soc_admin" "BNFJN0XWmkCJw0S78HLO" "$7$oNroXETNQ9CvUjVvOv+gF4vnXZMUcOV5AYqzGX8Dl4QPUgp1xrUu68laynlhotZaNcOhCQ/FXXYtSH1VehZ5YA==" "hmcts_forwarders"
+  install_splunk_uf "${UF_USERNAME}" "${UF_PASSWORD}" "${UF_PASS4SYMMKEY}" "${UF_GROUP}"
 fi
 
 if [ "true" = "true" ]
 then
-  install_nessus "nessus-scanners-prod000005.platform.hmcts.net" "86395175d0e6cf61a8915d84180ed64aa8e0e0ce38e52c64fd4bc8cb29418aea" "Prod-test"
+  install_nessus "${NESSUS_SERVER}" "${NESSUS_KEY}" "${NESSUS_GROUPS}"
 fi
