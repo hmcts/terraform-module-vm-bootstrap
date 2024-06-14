@@ -140,6 +140,10 @@ elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"8."* ]]; then
     # Set for RHEL8 agent (RPM)
     INSTALL_FILE="nessusagent.rpm"
     DOWNLOAD_URL="https://www.tenable.com/downloads/api/v2/pages/nessus-agents/files/NessusAgent-latest-el8.x86_64.rpm"
+elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"9."* ]]; then
+    # Set for RHEL9 agent (RPM)
+    INSTALL_FILE="nessusagent.rpm"
+    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v2/pages/nessus-agents/files/NessusAgent-latest-el9.x86_64.rpm"
 else
     # Set for Ubuntu agent (deb) AMD64
     FILE_DESCRIPTION="Ubuntu 14.04, 16.04, 18.04, 20.04, 22.04 (amd64)"
