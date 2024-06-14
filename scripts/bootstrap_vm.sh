@@ -98,30 +98,6 @@ chown -R splunk:splunk $SPLUNK_HOME
 $SPLUNK_HOME/bin/splunk start
 }
 
-get_download_id () {
-  wget -O jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
-  chmod +x ./jq
-  cp jq /usr/bin
-  json_data=$(curl -L --request GET --url 'https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/' --header 'Accept: aplication/json')
-  download_id=$(jq --arg desc "$1" '.. | select(.description? == $desc) | .id' <<< "$json_data")
-  highest=$(echo "$download_id" | tr ' ' '\n' | sort -n | tail -n 1)
-  echo "$highest"
-}
-
-check_download_url () {
- # use curl to get the HTTP status code
-  url="https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/$1/download?i_agree_to_tenable_license_agreement=true"
-  urlstatus=$(curl -o /dev/null --silent --head --write-out '%%{http_code}' "$url")
-  # if the status code is 404, print a message and exit with 1
-  if [ "$urlstatus" == "404" ]; then
-    echo "The URL $url gives 404 error"
-    exit 1
-  else
-    echo "$url"
-  fi
-}
-
-
 install_nessus() {
 echo "Info: Installing Tenable Nessus"
 
@@ -141,31 +117,36 @@ else
     echo "Operating System could not be determined."
 fi
 
+# Download URLs for nessus agents are listed at: 
+#     https://www.tenable.com/downloads/api/v2/pages/nessus-agents
+# As of 14-Jun-2024, the downloads in the returned JSON all have the 'OS' field
+# set to 'null'. I've hardcoded them as a stop-gap. if later versions of the
+# agents list their OS, we may be able to automate the OS selection. JQ will
+# need to be available for this, we can just curl a release from github and
+# invoke it directly.
+# TODO: SHA265 hashes for the agent installers are provided, we should check
+#       them against the downloaded files before we install
+
 # Download nessus agent
 if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"6."* ]]; then
     # Set for RHEL6 agent (RPM)
-    FILE_DESCRIPTION="Red Hat ES 6 / Oracle Linux 6 (including Unbreakable Enterprise Kernel) (x86_64)"
     INSTALL_FILE="nessusagent.rpm"
-    id="$(get_download_id "$FILE_DESCRIPTION")"
-    DOWNLOAD_URL=$(check_download_url "$id")
+    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v2/pages/nessus-agents/files/NessusAgent-latest-el6.x86_64.rpm"
 elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"7."* ]]; then
     # Set for RHEL7 agent (RPM)
-    FILE_DESCRIPTION="Red Hat ES 7 / CentOS 7 / Oracle Linux 7 (including Unbreakable Enterprise Kernel) (x86_64)"
     INSTALL_FILE="nessusagent.rpm"
-    id="$(get_download_id "$FILE_DESCRIPTION")"
-    DOWNLOAD_URL=$(check_download_url "$id")
+    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v2/pages/nessus-agents/files/NessusAgent-latest-el7.x86_64.rpm"
 elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"8."* ]]; then
     # Set for RHEL8 agent (RPM)
-    FILE_DESCRIPTION="Red Hat ES 8, 9 / Alma Linux 8, 9 / Rocky Linux 8, 9 / Oracle Linux 8, 9 / (including Unbreakable Enterprise Kernel) (x86_64)"
     INSTALL_FILE="nessusagent.rpm"
-    id="$(get_download_id "$FILE_DESCRIPTION")"
-    DOWNLOAD_URL=$(check_download_url "$id")
+    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v2/pages/nessus-agents/files/NessusAgent-latest-el8.x86_64.rpm"
 else
     # Set for Ubuntu agent (deb) AMD64
     FILE_DESCRIPTION="Ubuntu 14.04, 16.04, 18.04, 20.04, 22.04 (amd64)"
+    # The only AMD64 build of the agent Tenable publish for ubuntu is for
+    # ubuntu 14.04. Should work on later versions?
     INSTALL_FILE="nessusagent.deb"
-    id="$(get_download_id "$FILE_DESCRIPTION")"
-    DOWNLOAD_URL=$(check_download_url "$id")
+    DOWNLOAD_URL="https://www.tenable.com/downloads/api/v2/pages/nessus-agents/files/NessusAgent-latest-ubuntu1404_amd64.deb"
 fi
 
 # Install nessus agent
