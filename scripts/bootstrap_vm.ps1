@@ -59,8 +59,8 @@ function Install-NessusAgent {
     )
 
     # Setup
-    $id = Get-DownloadId -desc "Windows Server 2012, Server 2012 R2, Server 2016, Server 2019, Server 2022, 10, and 11 (64-bit)"
-    $installerURI = "https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/$id/download?i_agree_to_tenable_license_agreement=true"
+    $id = Get-DownloadId -desc "Windows Server 2012, Server 2012 R2, Server 2016, Server 2019, Server 2022, 10, and 11 (x86_64)"
+    $installerURI = "https://www.tenable.com/downloads/api/v2/pages/nessus-agents/files/NessusAgent-latest-x64.msi"
     $installerFile = $env:Temp + "\nessusagent.msi"
 
     # Download nessus
