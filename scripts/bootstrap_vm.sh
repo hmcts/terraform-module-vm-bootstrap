@@ -195,7 +195,6 @@ if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"7."* ]]; then
     
     # Register the system and attach a subscription pool
     sudo subscription-manager register --username lss-sre@hmcts.net --password $ELS_PASSWORD
-    sudo subscription-manager attach --pool=2c948d44900ca9d401902c00cd9e75c1
 
     # Refresh subscription-manager and verify identity
     sudo subscription-manager refresh

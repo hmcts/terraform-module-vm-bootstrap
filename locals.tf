@@ -25,7 +25,6 @@ locals {
       NESSUS_KEY      = var.nessus_key == null || var.nessus_key == "" ? (length(data.azurerm_key_vault_secret.nessus_agent_key) > 0 ? data.azurerm_key_vault_secret.nessus_agent_key[0].value : "") : var.nessus_key
       NESSUS_GROUPS   = var.nessus_groups == null || var.nessus_groups == "" ? "Platform-Operation-Bastions" : var.nessus_groups
       ELS_PASSWORD    = var.els_password != "" ? var.els_password : (length(data.azurerm_key_vault_secret.redhat_password.value) > 0 ? data.azurerm_key_vault_secret.redhat_password.value : "")
-
   }), var.additional_script_path == null ? "" : file("${var.additional_script_path}")))
 
   additional_template_file = var.additional_script_uri != null ? format("%s%s%s", "[ ", "\"${var.additional_script_uri}\"", " ]") : "\"\""
