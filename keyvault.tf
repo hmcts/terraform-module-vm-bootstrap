@@ -49,11 +49,13 @@ data "azurerm_key_vault_secret" "nessus_agent_key" {
 }
 
 data "azurerm_key_vault" "redhat_vault" {
+  provider            = azurerm.cnp
   name                = var.redhat_vault_name
   resource_group_name = var.redhat_vault_rg
 }
 
 data "azurerm_key_vault_secret" "redhat_password" {
+  provider     = azurerm.cnp
   name         = "redhat-portal"
   key_vault_id = data.azurerm_key_vault.redhat_vault.id
 }
