@@ -188,3 +188,23 @@ if [ "${NESSUS_INSTALL}" = "true" ]
 then
   install_nessus "${NESSUS_SERVER}" "${NESSUS_KEY}" "${NESSUS_GROUPS}"
 fi
+
+# Check if the OS is RHEL 7
+if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"7."* ]]; then
+    echo "This is Red Hat Enterprise Linux 7."
+    
+    # Register the system and attach a subscription pool
+    sudo subscription-manager register --username lss-sre@abcts.net --password $ELS_PASSWORD
+    sudo subscription-manager attach --pool=2c948d44900ca9d401902c00cd9e75c1
+
+    # Refresh subscription-manager and verify identity
+    sudo subscription-manager refresh
+    sudo subscription-manager identity
+
+    # Install insights-client and register it
+    sudo yum install -y insights-client
+    sudo insights-client --register
+
+    # Enable repositories
+    sudo subscription-manager config --rhsm.manage_repos=1
+    sudo subscription-manager repos --enable rhel-7-server-els-rpms

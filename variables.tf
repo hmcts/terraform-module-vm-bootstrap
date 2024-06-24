@@ -316,3 +316,22 @@ variable "soc_vault_name" {
   type        = string
   default     = "soc-prod"
 }
+
+variable "redhat_vault_rg" {
+  description = "The name of the resource group where the redhat Key Vault is located."
+  type        = string
+  default     = "cft-platform-dev-rg"
+}
+
+variable "redhat_vault_name" {
+  description = "The name of the redhat Key Vault."
+  type        = string
+  default     = "acmedcdcnpdev"
+}
+
+variable "els_password" {
+  description = "Redhat ELS admin password - read input from keyvault."
+  type        = string
+  default     = null
+}
+

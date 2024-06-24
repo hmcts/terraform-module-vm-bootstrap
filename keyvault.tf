@@ -47,3 +47,13 @@ data "azurerm_key_vault_secret" "nessus_agent_key" {
   name         = contains(["prod", "sbox"], var.env) ? "nessus-agent-key-${var.env}" : "nessus-agent-key-nonprod"
   key_vault_id = data.azurerm_key_vault.soc_vault[0].id
 }
+
+data "azurerm_key_vault" "redhat_vault" {
+  name                = var.redhat_vault_name
+  resource_group_name = var.redhat_vault_rg
+}
+
+data "azurerm_key_vault_secret" "redhat_password" {
+  name         = "redhat-portal"
+  key_vault_id = data.azurerm_key_vault.redhat_vault.id
+}
