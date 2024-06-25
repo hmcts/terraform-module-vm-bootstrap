@@ -97,7 +97,7 @@ A virtual machine or virtual machine scale set.
 | <a name="input_rc_script_file"></a> [rc\_script\_file](#input\_rc\_script\_file) | A path to a local file for the script | `any` | `null` | no |
 | <a name="input_realtimeprotectionenabled"></a> [realtimeprotectionenabled](#input\_realtimeprotectionenabled) | Enable Realtime Protection | `string` | `true` | no |
 | <a name="input_redhat_vault_name"></a> [redhat\_vault\_name](#input\_redhat\_vault\_name) | The name of the redhat Key Vault. | `string` | `"infra-vault-nonprod"` | no |
-| <a name="input_redhat_vault_rg"></a> [redhat\_vault\_rg](#input\_redhat\_vault\_rg) | The name of the resource group where the redhat Key Vault is located. | `string` | `"cft-platform-dev-rg"` | no |
+| <a name="input_redhat_vault_rg"></a> [redhat\_vault\_rg](#input\_redhat\_vault\_rg) | The name of the resource group where the redhat Key Vault is located. | `string` | `"cnp-core-infra"` | no |
 | <a name="input_run_command"></a> [run\_command](#input\_run\_command) | n/a | `bool` | `false` | no |
 | <a name="input_run_command_settings"></a> [run\_command\_settings](#input\_run\_command\_settings) | The settings passed to the Run Command extension, these are specified as a JSON object in a string. | `string` | `null` | no |
 | <a name="input_run_command_type_handler_version"></a> [run\_command\_type\_handler\_version](#input\_run\_command\_type\_handler\_version) | Type handler version number | `string` | `"1.0"` | no |
