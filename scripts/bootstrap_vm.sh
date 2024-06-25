@@ -207,3 +207,11 @@ if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"7."* ]]; then
     # Enable repositories
     sudo subscription-manager config --rhsm.manage_repos=1
     sudo subscription-manager repos --enable rhel-7-server-els-rpms
+
+      echo "Configuration completed successfully."
+else
+    echo "This script is intended for Red Hat Enterprise Linux 7 only."
+fi
+
+
+   
