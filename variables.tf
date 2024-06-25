@@ -320,7 +320,7 @@ variable "soc_vault_name" {
 variable "redhat_vault_rg" {
   description = "The name of the resource group where the redhat Key Vault is located."
   type        = string
-  default     = "cft-platform-dev-rg"
+  default     = "cnp-core-infra"
 }
 
 variable "redhat_vault_name" {
