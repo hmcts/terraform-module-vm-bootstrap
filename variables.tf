@@ -326,7 +326,7 @@ variable "redhat_vault_rg" {
 variable "redhat_vault_name" {
   description = "The name of the redhat Key Vault."
   type        = string
-  default     = "acmedcdcnpdev"
+  default     = "infra-vault-nonprod"
 }
 
 variable "els_password" {
