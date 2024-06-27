@@ -194,7 +194,7 @@ if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"7."* ]]; then
     echo "This is Red Hat Enterprise Linux 7."
     
     # Register the system and attach a subscription pool
-    subscription-manager register --auto-attach
+    subscription-manager register --org=7324337 --activationkey=Rhel-els
 
 
     # Refresh subscription-manager and verify identity
