@@ -213,6 +213,3 @@ if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"7."* ]]; then
 else
     echo "This script is intended for Red Hat Enterprise Linux 7 only."
 fi
-
-
-   
