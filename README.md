@@ -45,10 +45,8 @@ A virtual machine or virtual machine scale set.
 | [azurerm_virtual_machine_scale_set_extension.dynatrace_oneagent](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_scale_set_extension) | resource |
 | [azurerm_virtual_machine_scale_set_extension.endpoint_protection](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_scale_set_extension) | resource |
 | [azurerm_key_vault.cnp_vault](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault) | data source |
-| [azurerm_key_vault.redhat_vault](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault) | data source |
 | [azurerm_key_vault.soc_vault](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault) | data source |
 | [azurerm_key_vault_secret.nessus_agent_key](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
-| [azurerm_key_vault_secret.redhat_password](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.splunk_pass4symmkey](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.splunk_password](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.splunk_username](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
@@ -79,7 +77,6 @@ A virtual machine or virtual machine scale set.
 | <a name="input_dynatrace_tenant_id"></a> [dynatrace\_tenant\_id](#input\_dynatrace\_tenant\_id) | The tenant ID of your Dynatrace environment. | `string` | `""` | no |
 | <a name="input_dynatrace_token"></a> [dynatrace\_token](#input\_dynatrace\_token) | The API token of your Dynatrace environment. | `string` | `""` | no |
 | <a name="input_dynatrace_type_handler_version"></a> [dynatrace\_type\_handler\_version](#input\_dynatrace\_type\_handler\_version) | Version of Dynatrace OneAgent - To find: az vm extension image list --location uksouth -p dynatrace.ruxit -o table | `string` | `"2.200"` | no |
-| <a name="input_els_password"></a> [els\_password](#input\_els\_password) | Redhat ELS admin password - read input from keyvault. | `string` | `null` | no |
 | <a name="input_endpoint_protection_handler_version"></a> [endpoint\_protection\_handler\_version](#input\_endpoint\_protection\_handler\_version) | Enable Antimalware Protection. | `string` | `"1.6"` | no |
 | <a name="input_endpoint_protection_upgrade_minor_version"></a> [endpoint\_protection\_upgrade\_minor\_version](#input\_endpoint\_protection\_upgrade\_minor\_version) | Specifies if the platform deploys the latest minor version Endpoint Protection update to the type\_handler\_version specified. | `bool` | `true` | no |
 | <a name="input_env"></a> [env](#input\_env) | Environment name. | `string` | n/a | yes |
@@ -96,8 +93,6 @@ A virtual machine or virtual machine scale set.
 | <a name="input_rc_os_sku"></a> [rc\_os\_sku](#input\_rc\_os\_sku) | n/a | `any` | `null` | no |
 | <a name="input_rc_script_file"></a> [rc\_script\_file](#input\_rc\_script\_file) | A path to a local file for the script | `any` | `null` | no |
 | <a name="input_realtimeprotectionenabled"></a> [realtimeprotectionenabled](#input\_realtimeprotectionenabled) | Enable Realtime Protection | `string` | `true` | no |
-| <a name="input_redhat_vault_name"></a> [redhat\_vault\_name](#input\_redhat\_vault\_name) | The name of the redhat Key Vault. | `string` | `"infra-vault-nonprod"` | no |
-| <a name="input_redhat_vault_rg"></a> [redhat\_vault\_rg](#input\_redhat\_vault\_rg) | The name of the resource group where the redhat Key Vault is located. | `string` | `"cnp-core-infra"` | no |
 | <a name="input_run_command"></a> [run\_command](#input\_run\_command) | n/a | `bool` | `false` | no |
 | <a name="input_run_command_settings"></a> [run\_command\_settings](#input\_run\_command\_settings) | The settings passed to the Run Command extension, these are specified as a JSON object in a string. | `string` | `null` | no |
 | <a name="input_run_command_type_handler_version"></a> [run\_command\_type\_handler\_version](#input\_run\_command\_type\_handler\_version) | Type handler version number | `string` | `"1.0"` | no |
