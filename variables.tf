@@ -318,4 +318,3 @@ variable "soc_vault_name" {
 }
 
 
-

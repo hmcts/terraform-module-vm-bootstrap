@@ -47,5 +47,3 @@ data "azurerm_key_vault_secret" "nessus_agent_key" {
   name         = contains(["prod", "sbox"], var.env) ? "nessus-agent-key-${var.env}" : "nessus-agent-key-nonprod"
   key_vault_id = data.azurerm_key_vault.soc_vault[0].id
 }
-
-
