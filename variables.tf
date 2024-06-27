@@ -316,5 +316,3 @@ variable "soc_vault_name" {
   type        = string
   default     = "soc-prod"
 }
-
-
