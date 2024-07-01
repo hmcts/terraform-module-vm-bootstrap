@@ -24,7 +24,7 @@ locals {
       NESSUS_SERVER   = var.nessus_server == null || var.nessus_server == "" ? local.nessus_server : var.nessus_server
       NESSUS_KEY      = var.nessus_key == null || var.nessus_key == "" ? (length(data.azurerm_key_vault_secret.nessus_agent_key) > 0 ? data.azurerm_key_vault_secret.nessus_agent_key[0].value : "") : var.nessus_key
       NESSUS_GROUPS   = var.nessus_groups == null || var.nessus_groups == "" ? "Platform-Operation-Bastions" : var.nessus_groups
-      RHEL_CERT       = var.rhel_cert == null || var.rhel_cert == "" ? (length(data.azurerm_key_vault_certificate.rhel_cert) > 0 ? data.azurerm_key_vault_certificate.rhel_cert.value : "") : var.rhel_cert
+      RHEL_CERT       = var.rhel_cert == null || var.rhel_cert == "" ? (length(data.azurerm_key_vault_certificate.rhel_cert) > 0 ? data.azurerm_key_vault_certificate.rhel_cert.certificate : "") : var.rhel_cert
   }), var.additional_script_path == null ? "" : file("${var.additional_script_path}")))
 
   additional_template_file = var.additional_script_uri != null ? format("%s%s%s", "[ ", "\"${var.additional_script_uri}\"", " ]") : "\"\""
