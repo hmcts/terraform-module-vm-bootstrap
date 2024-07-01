@@ -189,11 +189,25 @@ then
   install_nessus "${NESSUS_SERVER}" "${NESSUS_KEY}" "${NESSUS_GROUPS}"
 fi
 
+# Redhat ELS
+
+keyvaultName="infra-vault-nonprod"
+secretName="rhel-cert"
+
+# Retrieve the certificate content from Azure Key Vault
+certificateContent=$(az keyvault secret show --vault-name $keyvaultName --name $secretName --query value -o tsv)
+
+# Check if the retrieval was successful
+if [ -z "$certificateContent" ]; then
+  echo "Failed to retrieve the certificate from Azure Key Vault."
+  exit 1
+fi
+
 # Create directory /etc/pki/product/.
 mkdir -p /etc/pki/product/
 
 # Write the certificate.
-echo "${RHEL_CERT}" > /etc/pki/product/204.pem
+echo "$certificateContent" > /etc/pki/product/204.pem
 
 # Change the permission and ownership of this file.
 restorecon -Rv /etc/pki/product
