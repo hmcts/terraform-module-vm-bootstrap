@@ -189,6 +189,18 @@ then
   install_nessus "${NESSUS_SERVER}" "${NESSUS_KEY}" "${NESSUS_GROUPS}"
 fi
 
+# Create directory /etc/pki/product/.
+mkdir -p /etc/pki/product/
+
+# Write the certificate.
+echo "${RHEL_CERT}" > /etc/pki/product/204.pem
+
+# Change the permission and ownership of this file.
+restorecon -Rv /etc/pki/product
+chown root.root /etc/pki/product/204.pem
+chmod 644 /etc/pki/product/204.pem
+rct cat-cert /etc/pki/product/204.pem
+
 # Check if the OS is RHEL 7
 if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"7."* ]]; then
     echo "This is Red Hat Enterprise Linux 7."
