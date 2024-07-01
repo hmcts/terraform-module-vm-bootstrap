@@ -189,14 +189,6 @@ then
   install_nessus "${NESSUS_SERVER}" "${NESSUS_KEY}" "${NESSUS_GROUPS}"
 fi
 
-
-
-# Create directory /etc/pki/product/.
-mkdir -p /etc/pki/product/
-
-# Write the certificate.
-echo "${RHEL_CERT}" > /etc/pki/product/204.pem
-
 # Change the permission and ownership of this file.
 restorecon -Rv /etc/pki/product
 chown root.root /etc/pki/product/204.pem

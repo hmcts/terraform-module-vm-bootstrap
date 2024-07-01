@@ -317,8 +317,3 @@ variable "soc_vault_name" {
   default     = "soc-prod"
 }
 
-variable "rhel_cert" {
-  description = "Redhat linking key - read input from keyvault."
-  type        = string
-  default     = null
-}
