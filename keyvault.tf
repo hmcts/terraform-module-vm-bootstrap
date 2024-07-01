@@ -54,7 +54,7 @@ data "azurerm_key_vault" "rhel_cert_vault" {
   resource_group_name = local.cnp_vault_rg
 }
 
-data "azurerm_key_vault_secret" "rhel_cert" {
+data "azurerm_key_vault_certificate" "rhel_cert" {
   provider     = azurerm.cnp
   name         = var.env == "prod" ? "rhel-cert-prod" : "rhel-cert"
   key_vault_id = data.azurerm_key_vault.rhel_cert_vault.id
