@@ -108,3 +108,31 @@ A virtual machine or virtual machine scale set.
 | <a name="input_virtual_machine_scale_set_id"></a> [virtual\_machine\_scale\_set\_id](#input\_virtual\_machine\_scale\_set\_id) | Virtual machine scale set resource id. | `string` | `null` | no |
 | <a name="input_virtual_machine_type"></a> [virtual\_machine\_type](#input\_virtual\_machine\_type) | vm or vmss. | `string` | n/a | yes |
 <!-- END_TF_DOCS -->
+
+## Redhat ELS for RHEL 7.*
+This README provides instructions for logging into Redhat ELS, checking the Subscription Manager and Insights-client, and other relevant details.
+
+## Logging into Redhat
+To log into Redhat, use the following credentials stored in the Key Vault (KV):
+
+Username: lss-sre@hmcts.net
+Password: https://portal.azure.com/#@HMCTS.NET/asset/Microsoft_Azure_KeyVault/Secret/https://acmedcdcnpdev.vault.azure.net/secrets/redhat-portal/cd61d615bffe415f8dd6c1907df3115b
+
+
+## Certificate Information
+The certificate is placed under the following directory:
+/etc/pki/product/204.pem
+
+## Checking Subscription Manager and Insights-client Installation
+Ensure that both the Subscription Manager and Insights-client are installed correctly and show an active status.
+
+## Inventory Check
+You can verify the status of both Subscription Manager and Insights-client by visiting the following inventory link:
+
+https://console.redhat.com/insights/inventory
+
+Both Subscription Manager and Insights-client should display an active status.
+
+Documentation links - https://tools.hmcts.net/confluence/display/~thomas.thornton/RHEL+7+ELS+Support
+
+For more detailed documentation, please refer to the RHEL 7 ELS Support Documentation.

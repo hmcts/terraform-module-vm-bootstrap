@@ -188,3 +188,34 @@ if [ "${NESSUS_INSTALL}" = "true" ]
 then
   install_nessus "${NESSUS_SERVER}" "${NESSUS_KEY}" "${NESSUS_GROUPS}"
 fi
+
+# Change the permission and ownership of this file.
+restorecon -Rv /etc/pki/product
+chown root.root /etc/pki/product/204.pem
+chmod 644 /etc/pki/product/204.pem
+rct cat-cert /etc/pki/product/204.pem
+
+# Check if the OS is RHEL 7
+if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"7."* ]]; then
+    echo "This is Red Hat Enterprise Linux 7."
+    
+    # Register the system and attach a subscription pool
+    subscription-manager register --org=7324337 --activationkey=Rhel-els
+
+
+    # Refresh subscription-manager and verify identity
+    subscription-manager refresh
+    subscription-manager identity
+
+    # Install insights-client and register it
+    yum install -y insights-client
+    insights-client --register
+
+    # Enable repositories
+    subscription-manager config --rhsm.manage_repos=1
+    subscription-manager repos --enable rhel-7-server-els-rpms
+
+      echo "Configuration completed successfully."
+else
+    echo "This script is intended for Red Hat Enterprise Linux 7 only."
+fi
