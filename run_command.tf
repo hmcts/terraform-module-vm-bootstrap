@@ -24,13 +24,9 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
   type_handler_version       = lower(var.os_type) == "linux" ? var.run_command_type_handler_version : var.run_command_type_handler_version_windows
   auto_upgrade_minor_version = true
 
-  settings = lower(var.os_type) == "linux" ? jsonencode({ commandToExecute = tostring(file("${path.module}/${var.rc_script_file}")) }) : jsonencode({ script = compact(tolist([file("${path.module}/${var.rc_script_file}")]))
-    parameters = [
-      {
-        name  = "arg1"
-        value = var.argument1
-      }
-    ]
+  settings = lower(var.os_type) == "linux" ? jsonencode({ commandToExecute = tostring(file("${path.module}/${var.rc_script_file}")) }) : jsonencode({ script = compact(tolist([templatefile("${path.module}/${var.rc_script_file}", {
+    arg1 = var.argument1
+    })]))
   })
 
   tags       = var.common_tags
