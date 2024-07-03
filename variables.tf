@@ -316,3 +316,9 @@ variable "soc_vault_name" {
   type        = string
   default     = "soc-prod"
 }
+
+variable "argument1" {
+  description = "This is a test"
+  type        = string
+  default     = "chirag test"
+}
