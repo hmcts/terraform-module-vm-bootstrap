@@ -25,7 +25,8 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
   auto_upgrade_minor_version = true
 
   settings = lower(var.os_type) == "linux" ? jsonencode({ commandToExecute = tostring(file("${path.module}/${var.rc_script_file}")) }) : jsonencode({ script = compact(tolist([templatefile("${path.module}/${var.rc_script_file}", {
-    arg1 = var.argument1
+    arg1                = var.argument1
+    STORAGE_ACCOUNT_KEY = "test"
     })]))
   })
 
