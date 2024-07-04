@@ -13,12 +13,15 @@ $destinationPath = "C:\Temp\windows_x64.msi"
 # Install Azure PowerShell module if not already installed
 if (-not (Get-Module -ListAvailable -Name Az.Storage)) {
     Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") Installing Az.Storage module"
+    Install-PackageProvider -Name NuGet -Force -Scope CurrentUser
     Install-Module -Name Az.Storage -AllowClobber -Force -Scope CurrentUser
+    Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") Finish Installing Az.Storage module"
 }
 
 # Connect to Azure Storage Account
 if ([string]::IsNullOrEmpty($storageAccountKey)) {
     Write-Error "Storage account key is null or empty. Please provide a valid key."
+    Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") Storage account key is null or empty. Please provide a valid key"
     exit 1
 }
 
