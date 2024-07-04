@@ -5,7 +5,7 @@ $logsPath = "C:\Packages\Plugins\run_command_logs.txt"
 Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") Running the powershell script to install XDR collectors"
 
 $storageAccountName = "cftptlintsvc"
-$storageAccountKey = "$STORAGE_ACCOUNT_KEY"
+$storageAccountKey = "${STORAGE_ACCOUNT_KEY}"
 $containerName = "xdr-collectors"
 $blobName = "windows_x64.msi"
 $destinationPath = "C:\Temp\windows_x64.msi"
@@ -16,6 +16,7 @@ if (-not (Get-Module -ListAvailable -Name Az.Storage)) {
     Install-Module -Name Az.Storage -AllowClobber -Force -Scope CurrentUser
 }
 
+Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") Checking storage account access"
 # Connect to Azure Storage Account
 $context = New-AzStorageContext -StorageAccountName $storageAccountName -StorageAccountKey $storageAccountKey
 

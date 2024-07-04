@@ -317,12 +317,6 @@ variable "soc_vault_name" {
   default     = "soc-prod"
 }
 
-variable "argument1" {
-  description = "This is a test"
-  type        = string
-  default     = "Using protected settings"
-}
-
 variable "run_command_sa_key" {
   description = "SA key for the run command"
   default     = null
