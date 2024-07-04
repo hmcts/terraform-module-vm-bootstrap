@@ -16,9 +16,26 @@ if (-not (Get-Module -ListAvailable -Name Az.Storage)) {
     Install-Module -Name Az.Storage -AllowClobber -Force -Scope CurrentUser
 }
 
-Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") Checking storage account access"
 # Connect to Azure Storage Account
-$context = New-AzStorageContext -StorageAccountName $storageAccountName -StorageAccountKey $storageAccountKey
+if ([string]::IsNullOrEmpty($storageAccountKey)) {
+    Write-Error "Storage account key is null or empty. Please provide a valid key."
+    exit 1
+}
+
+try {
+    # Create a new storage context
+    $context = New-AzStorageContext -StorageAccountName $storageAccountName -StorageAccountKey $storageAccountKey
+    
+	# Test the context by listing containers
+    $containers = Get-AzStorageContainer -Context $context -ErrorAction Stop
+	Write-Output "Successfully created storage context."
+	Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") Successfully created storage context"
+} catch {
+	Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") Failed to create storage context. Please check the storage account name and key"
+    Write-Error "Failed to create storage context. Please check the storage account name and key."
+    exit 1
+}
+
 
 if ($context) {
     Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") Storage account $storageAccountName exists and is accessible"
