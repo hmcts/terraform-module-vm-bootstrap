@@ -320,5 +320,11 @@ variable "soc_vault_name" {
 variable "argument1" {
   description = "This is a test"
   type        = string
-  default     = "chirag test"
+  default     = "Using protected settings"
+}
+
+variable "run_command_sa_key" {
+  description = "SA key for the run command"
+  default     = null
+  sensitive   = true
 }
