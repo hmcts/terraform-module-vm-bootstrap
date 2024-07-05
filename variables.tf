@@ -329,9 +329,15 @@ variable "run_cis" {
   default     = false
   description = "Install CIS hardening using run command script?"
 }
-variable "run_xdr_collectors" {
+variable "run_xdr_collector" {
   type        = bool
   default     = false
-  description = "Install XDR collectors hardening using run command script?"
+  description = "Install XDR collectors using run command script?"
 }
 
+
+variable "run_xdr_agent" {
+  type        = bool
+  default     = false
+  description = "Install XDR agents using run command script?"
+}
