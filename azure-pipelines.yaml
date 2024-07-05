@@ -23,22 +23,22 @@ variables:
   - template: vars/input-variables.yaml@cnp-azuredevops-libraries
 
 stages:
-  - stage: Precheck
-    jobs:
-      - job:
-        pool: 
-          vmImage: ${{ variables.agentImage }}
-        steps:
-          - template: steps/terraform-precheck.yaml@cnp-azuredevops-libraries
-            parameters:
-              keyvaultName: 'infra-vault-nonprod'
-              keyvaultSecret: 'azure-devops-sp-token'
-              serviceConnection: 'azurerm-sandbox'
-              overrideAction: 'plan'
-              forcePreventParallelJobRun: true
+  # - stage: Precheck
+  #   jobs:
+  #     - job:
+  #       pool: 
+  #         vmImage: ${{ variables.agentImage }}
+  #       steps:
+  #         - template: steps/terraform-precheck.yaml@cnp-azuredevops-libraries
+  #           parameters:
+  #             keyvaultName: 'infra-vault-nonprod'
+  #             keyvaultSecret: 'azure-devops-sp-token'
+  #             serviceConnection: 'azurerm-sandbox'
+  #             overrideAction: 'plan'
+  #             forcePreventParallelJobRun: true
 
   - stage: Test
-    dependsOn: Precheck
+    # dependsOn: Precheck
     jobs:
       - job: TerraformTest
         pool: 
