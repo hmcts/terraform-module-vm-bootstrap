@@ -93,10 +93,13 @@ A virtual machine or virtual machine scale set.
 | <a name="input_rc_os_sku"></a> [rc\_os\_sku](#input\_rc\_os\_sku) | n/a | `any` | `null` | no |
 | <a name="input_rc_script_file"></a> [rc\_script\_file](#input\_rc\_script\_file) | A path to a local file for the script | `any` | `null` | no |
 | <a name="input_realtimeprotectionenabled"></a> [realtimeprotectionenabled](#input\_realtimeprotectionenabled) | Enable Realtime Protection | `string` | `true` | no |
+| <a name="input_run_cis"></a> [run\_cis](#input\_run\_cis) | Install CIS hardening using run command script? | `bool` | `false` | no |
 | <a name="input_run_command"></a> [run\_command](#input\_run\_command) | n/a | `bool` | `false` | no |
+| <a name="input_run_command_sa_key"></a> [run\_command\_sa\_key](#input\_run\_command\_sa\_key) | SA key for the run command | `any` | `null` | no |
 | <a name="input_run_command_settings"></a> [run\_command\_settings](#input\_run\_command\_settings) | The settings passed to the Run Command extension, these are specified as a JSON object in a string. | `string` | `null` | no |
 | <a name="input_run_command_type_handler_version"></a> [run\_command\_type\_handler\_version](#input\_run\_command\_type\_handler\_version) | Type handler version number | `string` | `"1.0"` | no |
 | <a name="input_run_command_type_handler_version_windows"></a> [run\_command\_type\_handler\_version\_windows](#input\_run\_command\_type\_handler\_version\_windows) | Type handler version number for Windows VMs | `string` | `"1.1"` | no |
+| <a name="input_run_xdr_collectors"></a> [run\_xdr\_collectors](#input\_run\_xdr\_collectors) | Install XDR collectors hardening using run command script? | `bool` | `false` | no |
 | <a name="input_scheduledscansettings"></a> [scheduledscansettings](#input\_scheduledscansettings) | Enable Scanning | `map(string)` | <pre>{<br>  "day": "7",<br>  "isEnabled": "true",<br>  "scanType": "Quick",<br>  "time": "120"<br>}</pre> | no |
 | <a name="input_soc_vault_name"></a> [soc\_vault\_name](#input\_soc\_vault\_name) | The name of the SOC Key Vault. | `string` | `"soc-prod"` | no |
 | <a name="input_soc_vault_rg"></a> [soc\_vault\_rg](#input\_soc\_vault\_rg) | The name of the resource group where the SOC Key Vault is located. | `string` | `"soc-core-infra-prod-rg"` | no |
