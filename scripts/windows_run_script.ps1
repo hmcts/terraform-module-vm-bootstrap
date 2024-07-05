@@ -109,8 +109,9 @@ function Install-AGENT {
     $blobName = "HMCTS_Windows_x64_agent.msi"
     $destinationPath = "C:\Temp\Cortex_XDR_8_4_0\HMCTS_Windows_x64_agent.msi"
 
+    $tempFolder= "C:\Temp"
     $agentLogPath = "C:\Temp\Cortex_XDR_8_4_0\xdr_install.txt"
-    $folderPath = "C:\Temp"
+    $folderPath = "C:\Temp\Cortex_XDR_8_4_0"
     $endpointTags = "hmcts,server"
 
     $arguments = "/i `"$destinationPath`" /qn /l*v `"$agentLogPath`" ENDPOINT_TAGS=`"$endpointTags`""
@@ -149,13 +150,24 @@ function Install-AGENT {
 
 
          # Check if the folder exists, if not, create it
+         if (-Not (Test-Path -Path $tempFolder -PathType Container)) {
+            Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") Creating $tempFolder folder"
+            New-Item -Path $tempFolder -ItemType Directory
+            Write-Output "Folder created: $tempFolder"
+            
+        } else {
+            Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") $tempFolder folder exist"
+            Write-Output "Folder already exists: $tempFolder"
+        }
+
+         # Check if the folder exists, if not, create it
          if (-Not (Test-Path -Path $folderPath -PathType Container)) {
-            Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") Creating Temp folder"
+            Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") Creating $folderPath folder"
             New-Item -Path $folderPath -ItemType Directory
             Write-Output "Folder created: $folderPath"
             
         } else {
-            Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") Temp folder exist"
+            Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") $folderPath folder exist"
             Write-Output "Folder already exists: $folderPath"
         }
 
