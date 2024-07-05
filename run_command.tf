@@ -31,6 +31,7 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
     })]))
   })
 
+
   tags       = var.common_tags
   depends_on = [azurerm_virtual_machine_extension.custom_script]
 }
