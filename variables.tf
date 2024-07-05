@@ -323,3 +323,13 @@ variable "run_command_sa_key" {
   sensitive   = true
 }
 
+variable "run_cis" {
+  type        = bool
+  default     = false
+  description = "Install CIS hardening using run command script?"
+}
+variable "run_xdr_collectors" {
+  type        = bool
+  default     = false
+  description = "Install XDR collectors hardening using run command script?"
+}
