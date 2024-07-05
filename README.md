@@ -99,7 +99,8 @@ A virtual machine or virtual machine scale set.
 | <a name="input_run_command_settings"></a> [run\_command\_settings](#input\_run\_command\_settings) | The settings passed to the Run Command extension, these are specified as a JSON object in a string. | `string` | `null` | no |
 | <a name="input_run_command_type_handler_version"></a> [run\_command\_type\_handler\_version](#input\_run\_command\_type\_handler\_version) | Type handler version number | `string` | `"1.0"` | no |
 | <a name="input_run_command_type_handler_version_windows"></a> [run\_command\_type\_handler\_version\_windows](#input\_run\_command\_type\_handler\_version\_windows) | Type handler version number for Windows VMs | `string` | `"1.1"` | no |
-| <a name="input_run_xdr_collectors"></a> [run\_xdr\_collectors](#input\_run\_xdr\_collectors) | Install XDR collectors hardening using run command script? | `bool` | `false` | no |
+| <a name="input_run_xdr_agent"></a> [run\_xdr\_agent](#input\_run\_xdr\_agent) | Install XDR agents using run command script? | `bool` | `false` | no |
+| <a name="input_run_xdr_collector"></a> [run\_xdr\_collector](#input\_run\_xdr\_collector) | Install XDR collectors using run command script? | `bool` | `false` | no |
 | <a name="input_scheduledscansettings"></a> [scheduledscansettings](#input\_scheduledscansettings) | Enable Scanning | `map(string)` | <pre>{<br>  "day": "7",<br>  "isEnabled": "true",<br>  "scanType": "Quick",<br>  "time": "120"<br>}</pre> | no |
 | <a name="input_soc_vault_name"></a> [soc\_vault\_name](#input\_soc\_vault\_name) | The name of the SOC Key Vault. | `string` | `"soc-prod"` | no |
 | <a name="input_soc_vault_rg"></a> [soc\_vault\_rg](#input\_soc\_vault\_rg) | The name of the resource group where the SOC Key Vault is located. | `string` | `"soc-core-infra-prod-rg"` | no |
