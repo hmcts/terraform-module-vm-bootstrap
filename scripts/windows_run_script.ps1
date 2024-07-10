@@ -37,13 +37,14 @@ function Install-XDR {
 
     $logsPath = "C:\Packages\Plugins\run_command_logs.txt"
 
-    Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") Running the powershell script to install XDR collectors"
+    Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") Running the powershell script to install XDR collector"
 
     $storageAccountName = "cftptlintsvc"
     $storageAccountKey = "${STORAGE_ACCOUNT_KEY}"
     $containerName = "xdr-collectors"
     $blobName = "${ENV}/collector-windows_x64.msi"
     $destinationPath = "C:\Temp\windows_x64.msi"
+    $tempFolder= "C:\Temp"
 
     # Install Azure PowerShell module if not already installed
     if (-not (Get-Module -ListAvailable -Name Az.Storage)) {
@@ -78,6 +79,17 @@ function Install-XDR {
     if ($context) {
         Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") Storage account $storageAccountName exists and is accessible"
         # Download the blob (MSI file)
+
+        # Check if the folder exists, if not, create it
+        if (-Not (Test-Path -Path $tempFolder -PathType Container)) {
+            Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") Creating $tempFolder folder"
+            New-Item -Path $tempFolder -ItemType Directory
+            Write-Output "Folder created: $tempFolder"
+            
+        } else {
+            Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") $tempFolder folder exist"
+            Write-Output "Folder already exists: $tempFolder"
+        }
         if (Test-Path $destinationPath) {
             Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") file $destinationPath already exists"
         }
@@ -196,7 +208,7 @@ function Install-AGENT {
         # Install the MSI file
         Start-Process -FilePath "msiexec.exe" -ArgumentList $arguments -NoNewWindow -Wait
 
-        Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") XDR Collector installed"
+        Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") XDR Agent installed"
 
     } else {
         Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") Storage account $storageAccountName is not accessible"
