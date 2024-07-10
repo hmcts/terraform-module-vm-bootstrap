@@ -42,7 +42,7 @@ function Install-XDR {
     $storageAccountName = "cftptlintsvc"
     $storageAccountKey = "${STORAGE_ACCOUNT_KEY}"
     $containerName = "xdr-collectors"
-    $blobName = "windows_x64.msi"
+    $blobName = "${ENV}/collector-windows_x64.msi"
     $destinationPath = "C:\Temp\windows_x64.msi"
 
     # Install Azure PowerShell module if not already installed
@@ -106,7 +106,7 @@ function Install-AGENT {
     $storageAccountName = "cftptlintsvc"
     $storageAccountKey = "${STORAGE_ACCOUNT_KEY}"
     $containerName = "xdr-collectors"
-    $blobName = "HMCTS_Windows_x64_agent.msi"
+    $blobName = "${ENV}/agent-HMCTS_Windows_x64_agent.msi"
     $destinationPath = "C:\Temp\Cortex_XDR_8_4_0\HMCTS_Windows_x64_agent.msi"
 
     $tempFolder= "C:\Temp"
