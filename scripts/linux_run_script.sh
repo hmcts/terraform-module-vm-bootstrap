@@ -75,15 +75,13 @@ install_agent() {
     STRING_TO_APPEND="
 --endpoint-tags hmcts,server"
 
-    mkdir -p /XDR_DOWNLOAD
-
- 
+    mkdir -p XDR_DOWNLOAD
 
     if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
 
         # Download conf file
         local BLOB_NAME="${ENV}/agent-HMCTS_Linux_rpm/cortex.conf"
-        local LOCAL_FILE_PATH="./XDR_DOWNLOAD/cortex.conf"
+        local LOCAL_FILE_PATH="XDR_DOWNLOAD/cortex.conf"
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
         sudo echo "$STRING_TO_APPEND" >> $LOCAL_FILE_PATH
         sudo mkdir -p /etc/panw
@@ -91,7 +89,7 @@ install_agent() {
         
         # Install agent
         local BLOB_NAME="${ENV}/agent-HMCTS_Linux_rpm/cortex-8.4.0.123787.rpm"
-        local LOCAL_FILE_PATH="./XDR_DOWNLOAD/cortexagent.rpm"
+        local LOCAL_FILE_PATH="XDR_DOWNLOAD/cortexagent.rpm"
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
         rpm -qa | grep -i cortex-agent || rpm -Uh $LOCAL_FILE_PATH
         rm -rf $LOCAL_FILE_PATH
@@ -101,7 +99,7 @@ install_agent() {
 
         # Download conf file
         local BLOB_NAME="${ENV}/agent-HMCTS_Linux_deb/cortex.conf"
-        local LOCAL_FILE_PATH="./XDR_DOWNLOAD/cortex.conf"
+        local LOCAL_FILE_PATH="XDR_DOWNLOAD/cortex.conf"
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
         sudo echo "$STRING_TO_APPEND" >> $LOCAL_FILE_PATH
         sudo mkdir -p /etc/panw
@@ -109,7 +107,7 @@ install_agent() {
         
          # Install agent
         local BLOB_NAME="${ENV}/agent-HMCTS_Linux_deb/cortex-8.4.0.123787.deb"
-        local LOCAL_FILE_PATH="./XDR_DOWNLOAD/cortexagent.deb"
+        local LOCAL_FILE_PATH="XDR_DOWNLOAD/cortexagent.deb"
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
         dpkg -l | grep -i cortex-agent || dpkg -i $LOCAL_FILE_PATH
         rm -rf $LOCAL_FILE_PATH
