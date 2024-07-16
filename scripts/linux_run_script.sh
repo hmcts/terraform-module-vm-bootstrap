@@ -1,5 +1,13 @@
 #!/bin/bash
 
+
+# Create a directory to store the script
+mkdir -p /var/log/azure/preserved-scripts
+
+# Copy the script to the preserved location
+cp "$0" /var/log/azure/preserved-scripts/$(basename "$0").$(date +%Y%m%d%H%M%S)
+
+
    # Get OS type
     
     if [ -f /etc/os-release ]; then
@@ -133,6 +141,6 @@ fi
 
 if [ "${RUN_XDR_COLLECTOR}" = "true" ]
 then
-  install-collector
-    echo "nothing"
+#   install-collector
+    echo "Work in progress related to XDR collectors"
 fi
