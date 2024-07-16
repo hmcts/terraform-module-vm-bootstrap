@@ -28,7 +28,7 @@
 
 echo "entry 3"
 
-install-azcli() {
+install_azcli() {
     # Install Azure CLI (if not already installed)
     echo "entry 4"
     if ! command -v az &> /dev/null
@@ -62,7 +62,7 @@ gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.re
     
 }
 
-install-agent() {
+install_agent() {
     echo "Info: Installing XDR Agents"
     sudo yum install -y selinux-policy-devel
 
@@ -84,7 +84,7 @@ install-agent() {
         # Download conf file
         local BLOB_NAME="${ENV}/agent-HMCTS_Linux_rpm/cortex.conf"
         local LOCAL_FILE_PATH="./XDR_DOWNLOAD/cortex.conf"
-        download-blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
+        download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
         sudo echo "$STRING_TO_APPEND" >> $LOCAL_FILE_PATH
         sudo mkdir -p /etc/panw
         sudo cp $LOCAL_FILE_PATH /etc/panw/
@@ -92,7 +92,7 @@ install-agent() {
         # Install agent
         local BLOB_NAME="${ENV}/agent-HMCTS_Linux_rpm/cortex-8.4.0.123787.rpm"
         local LOCAL_FILE_PATH="./XDR_DOWNLOAD/cortexagent.rpm"
-        download-blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
+        download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
         rpm -qa | grep -i cortex-agent || rpm -Uh $LOCAL_FILE_PATH
         rm -rf $LOCAL_FILE_PATH
 
@@ -102,7 +102,7 @@ install-agent() {
         # Download conf file
         local BLOB_NAME="${ENV}/agent-HMCTS_Linux_deb/cortex.conf"
         local LOCAL_FILE_PATH="./XDR_DOWNLOAD/cortex.conf"
-        download-blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
+        download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
         sudo echo "$STRING_TO_APPEND" >> $LOCAL_FILE_PATH
         sudo mkdir -p /etc/panw
         sudo cp $LOCAL_FILE_PATH /etc/panw/
@@ -110,7 +110,7 @@ install-agent() {
          # Install agent
         local BLOB_NAME="${ENV}/agent-HMCTS_Linux_deb/cortex-8.4.0.123787.deb"
         local LOCAL_FILE_PATH="./XDR_DOWNLOAD/cortexagent.deb"
-        download-blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
+        download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
         dpkg -l | grep -i cortex-agent || dpkg -i $LOCAL_FILE_PATH
         rm -rf $LOCAL_FILE_PATH
 
@@ -118,7 +118,7 @@ install-agent() {
     fi
 }
 
-download-blob(){
+download_blob(){
     local STORAGE_ACCOUNT_NAME="$1"
     local SA_KEY="$2"
     local CONTAINER_NAME="$3"
@@ -132,12 +132,12 @@ download-blob(){
 if [ "${RUN_XDR_AGENT}" = "true" ]
 then
   echo "entry 5"
-  install-azcli
-  install-agent "${STORAGE_ACCOUNT_KEY}" "${ENV}"
+  install_azcli
+  install_agent "${STORAGE_ACCOUNT_KEY}" "${ENV}"
 fi
 
 if [ "${RUN_XDR_COLLECTOR}" = "true" ]
 then
-#   install-collector
+#   install_collector
     echo "Work in progress related to XDR collectors"
 fi
