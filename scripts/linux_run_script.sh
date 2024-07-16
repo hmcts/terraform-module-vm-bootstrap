@@ -1,13 +1,6 @@
 #!/bin/bash
-
-
-# Create a directory to store the script
-mkdir -p /var/log/azure/preserved-scripts
-
-# Copy the script to the preserved location
-cp "$0" /var/log/azure/preserved-scripts/$(basename "$0").$(date +%Y%m%d%H%M%S)
-
-
+    set -ex
+    echo "entry 1"
    # Get OS type
     
     if [ -f /etc/os-release ]; then
@@ -20,6 +13,7 @@ cp "$0" /var/log/azure/preserved-scripts/$(basename "$0").$(date +%Y%m%d%H%M%S)
     # Run the command only if the OS is not Ubuntu
     if [ "$OS" != "ubuntu" ]; then
         echo "Running command on $OS"
+        echo "entry 2"
         sudo yum install redhat-lsb-core -y
     else
         echo "Skipping command on Ubuntu"
@@ -32,9 +26,11 @@ cp "$0" /var/log/azure/preserved-scripts/$(basename "$0").$(date +%Y%m%d%H%M%S)
         echo "Operating System could not be determined."
     fi
 
+echo "entry 3"
 
 install-azcli() {
     # Install Azure CLI (if not already installed)
+    echo "entry 4"
     if ! command -v az &> /dev/null
     then
         sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
@@ -135,6 +131,7 @@ download-blob(){
 
 if [ "${RUN_XDR_AGENT}" = "true" ]
 then
+  echo "entry 5"
   install-azcli
   install-agent "${STORAGE_ACCOUNT_KEY}" "${ENV}"
 fi
