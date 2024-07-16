@@ -44,7 +44,7 @@ enabled=1
 gpgcheck=1
 gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/azure-cli.repo
 
-            sudo dnf install azure-cli
+            dnf install azure-cli
         elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"8."* ]]; then
             sudo dnf install -y https://packages.microsoft.com/config/rhel/8/packages-microsoft-prod.rpm
 
