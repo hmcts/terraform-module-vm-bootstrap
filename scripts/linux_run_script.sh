@@ -93,7 +93,6 @@ install_agent() {
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
         rpm -qa | grep -i cortex-agent || rpm -Uh $LOCAL_FILE_PATH
         rm -rf $LOCAL_FILE_PATH
-
         echo "Installation of Agents on RedHat VM completed"
     else
 
