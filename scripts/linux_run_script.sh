@@ -69,13 +69,14 @@ gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.re
 
 install_agent() {
     echo "Info: Installing XDR Agents"
-    if [ "$OS" == "ubuntu" ]; then
+
+    if [ "$OS" != "ubuntu" ]; then
+        sudo yum install -y selinux-policy-devel
+    else
         sudo apt-get update
         sudo apt-get install -y selinux-utils policycoreutils
-    else
-        sudo yum install -y selinux-policy-devel
     fi
-
+    
     local SA_KEY="$1"
     local ENV="$2"
 
@@ -125,11 +126,12 @@ install_agent() {
 
 install_collector() {
     echo "Info: Installing XDR Collectors"
-    if [ "$OS" == "ubuntu" ]; then
+    
+    if [ "$OS" != "ubuntu" ]; then
+        sudo yum install -y selinux-policy-devel
+    else
         sudo apt-get update
         sudo apt-get install -y selinux-utils policycoreutils
-    else
-        sudo yum install -y selinux-policy-devel
     fi
 
     local SA_KEY="$1"
