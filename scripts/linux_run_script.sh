@@ -34,8 +34,11 @@ install_azcli() {
     
     if ! command -v az &> /dev/null
     then
-        sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-        rpm -q dnf || sudo yum install dnf -y
+
+        if [ "$OS" != "ubuntu" ]; then
+            sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+            rpm -q dnf || sudo yum install dnf -y
+        fi
 
         if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"7."* ]]; then
                         echo -e "[azure-cli]
