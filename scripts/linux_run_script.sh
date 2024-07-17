@@ -77,7 +77,7 @@ install_agent() {
     local ENV="$2"
 
 
-    STRING_TO_APPEND="
+    local STRING_TO_APPEND="
 --endpoint-tags hmcts,server"
 
     mkdir -p XDR_DOWNLOAD
@@ -140,7 +140,6 @@ install_collector() {
         local BLOB_NAME="${ENV}/collector-1.4.1.1089.rpm/collector.conf"
         local LOCAL_FILE_PATH="XDR_DOWNLOAD/collector.conf"
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
-        sudo echo "$STRING_TO_APPEND" >> $LOCAL_FILE_PATH
         sudo mkdir -p /etc/panw
         sudo cp $LOCAL_FILE_PATH /etc/panw/
         
@@ -157,7 +156,6 @@ install_collector() {
         local BLOB_NAME="${ENV}/collector-1.4.1.1089.deb/collector.conf"
         local LOCAL_FILE_PATH="XDR_DOWNLOAD/collector.conf"
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
-        sudo echo "$STRING_TO_APPEND" >> $LOCAL_FILE_PATH
         sudo mkdir -p /etc/panw
         sudo cp $LOCAL_FILE_PATH /etc/panw/
         
