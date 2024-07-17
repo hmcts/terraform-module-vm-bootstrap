@@ -1,6 +1,6 @@
 #!/bin/bash
     set -ex
-    echo "entry 1"
+    
    # Get OS type
     
     if [ -f /etc/os-release ]; then
@@ -13,7 +13,7 @@
     # Run the command only if the OS is not Ubuntu
     if [ "$OS" != "ubuntu" ]; then
         echo "Running command on $OS"
-        echo "entry 2"
+        
         sudo yum install redhat-lsb-core -y
     else
         echo "Skipping command on Ubuntu"
@@ -26,11 +26,12 @@
         echo "Operating System could not be determined."
     fi
 
-echo "entry 3"
+    STORAGE_ACCOUNT_NAME="cftptlintsvc"    
+    CONTAINER_NAME="xdr-collectors"
 
 install_azcli() {
     # Install Azure CLI (if not already installed)
-    echo "entry 4"
+    
     if ! command -v az &> /dev/null
     then
         sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
@@ -65,14 +66,17 @@ gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.re
 
 install_agent() {
     echo "Info: Installing XDR Agents"
-    sudo yum install -y selinux-policy-devel
+    if [ "$OS" == "ubuntu" ]; then
+        sudo apt-get update
+        sudo apt-get install -y selinux-utils policycoreutils
+    else
+        sudo yum install -y selinux-policy-devel
+    fi
 
     local SA_KEY="$1"
     local ENV="$2"
 
-    STORAGE_ACCOUNT_NAME="cftptlintsvc"
-    
-    CONTAINER_NAME="xdr-collectors"
+
     STRING_TO_APPEND="
 --endpoint-tags hmcts,server"
 
@@ -116,6 +120,58 @@ install_agent() {
     fi
 }
 
+install_collector() {
+    echo "Info: Installing XDR Collectors"
+    if [ "$OS" == "ubuntu" ]; then
+        sudo apt-get update
+        sudo apt-get install -y selinux-utils policycoreutils
+    else
+        sudo yum install -y selinux-policy-devel
+    fi
+
+    local SA_KEY="$1"
+    local ENV="$2"
+
+    mkdir -p XDR_DOWNLOAD
+
+    if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
+
+        # Download collector file
+        local BLOB_NAME="${ENV}/collector-1.4.1.1089.rpm/collector.conf"
+        local LOCAL_FILE_PATH="XDR_DOWNLOAD/collector.conf"
+        download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
+        sudo echo "$STRING_TO_APPEND" >> $LOCAL_FILE_PATH
+        sudo mkdir -p /etc/panw
+        sudo cp $LOCAL_FILE_PATH /etc/panw/
+        
+        # Install collector
+        local BLOB_NAME="${ENV}/collector-1.4.1.1089.rpm/collector-1.4.1.1089.rpm"
+        local LOCAL_FILE_PATH="XDR_DOWNLOAD/collector.rpm"
+        download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
+        rpm -qa | grep -i xdr-collector || rpm -Uh $LOCAL_FILE_PATH
+        rm -rf $LOCAL_FILE_PATH
+        echo "Installation of collectors on RedHat VM completed"
+    else
+
+        # Download collector file
+        local BLOB_NAME="${ENV}/collector-1.4.1.1089.deb/collector.conf"
+        local LOCAL_FILE_PATH="XDR_DOWNLOAD/collector.conf"
+        download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
+        sudo echo "$STRING_TO_APPEND" >> $LOCAL_FILE_PATH
+        sudo mkdir -p /etc/panw
+        sudo cp $LOCAL_FILE_PATH /etc/panw/
+        
+         # Install collector
+        local BLOB_NAME="${ENV}/collector-1.4.1.1089.deb/collector-1.4.1.1089.deb"
+        local LOCAL_FILE_PATH="XDR_DOWNLOAD/collector.deb"
+        download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
+        dpkg -l | grep -i xdr-collector || dpkg -i $LOCAL_FILE_PATH
+        rm -rf $LOCAL_FILE_PATH
+
+        echo "Installation of collectors on Ubuntu VM completed"
+    fi
+}
+
 download_blob(){
     local STORAGE_ACCOUNT_NAME="$1"
     local SA_KEY="$2"
@@ -129,13 +185,12 @@ download_blob(){
 
 if [ "${RUN_XDR_AGENT}" = "true" ]
 then
-  echo "entry 5"
   install_azcli
   install_agent "${STORAGE_ACCOUNT_KEY}" "${ENV}"
 fi
 
 if [ "${RUN_XDR_COLLECTOR}" = "true" ]
 then
-#   install_collector
-    echo "Work in progress related to XDR collectors"
+  install_azcli
+  install_collector "${STORAGE_ACCOUNT_KEY}" "${ENV}"
 fi
