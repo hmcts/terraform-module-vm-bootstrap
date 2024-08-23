@@ -81,8 +81,6 @@ install_agent() {
     local ENV="$2"
     local XDR_TAGS="$3"
 
-    local DEFAULT_TAGS="${ENV},${XDR_TAGS}"
-
     local STRING_TO_APPEND="
 --endpoint-tags ${XDR_TAGS}"
 
