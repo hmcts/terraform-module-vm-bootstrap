@@ -81,8 +81,8 @@ install_agent() {
     local ENV="$2"
     local XDR_TAGS="$3"
 
-    DEFAULT_TAGS="hmcts,server"
-    ALL_TAGS="${DEFAULT_TAGS},${XDR_TAGS},${ENV}"
+    local DEFAULT_TAGS="hmcts,server"
+    local ALL_TAGS="${DEFAULT_TAGS},${XDR_TAGS},${ENV}"
 
     local STRING_TO_APPEND="
 --endpoint-tags ${ALL_TAGS}"
@@ -192,7 +192,7 @@ download_blob(){
 if [ "${RUN_XDR_AGENT}" = "true" ]
 then
   install_azcli
-  install_agent "${STORAGE_ACCOUNT_KEY}" "${ENV}"
+  install_agent "${STORAGE_ACCOUNT_KEY}" "${ENV}" "${XDR_TAGS}"
 fi
 
 if [ "${RUN_XDR_COLLECTOR}" = "true" ]
