@@ -137,6 +137,8 @@ install_collector() {
     local SA_KEY="$1"
     local ENV="$2"
 
+    local DEFAULT_TAGS="${ENV}"
+
     mkdir -p XDR_DOWNLOAD
 
     if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
