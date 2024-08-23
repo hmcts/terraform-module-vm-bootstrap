@@ -29,4 +29,7 @@ locals {
   additional_template_file = var.additional_script_uri != null ? format("%s%s%s", "[ ", "\"${var.additional_script_uri}\"", " ]") : "\"\""
 
   cnp_vault_rg = var.cnp_vault_rg == null ? var.env != "prod" ? "cnp-core-infra" : "core-infra-${var.env}" : var.cnp_vault_rg
+
+  xdr_tags_list = var.xdr_tags != null ? join(",", [values(var.xdr_tags), var.common_tags.application]) : ""
+
 }
