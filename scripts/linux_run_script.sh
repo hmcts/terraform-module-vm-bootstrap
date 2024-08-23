@@ -81,6 +81,8 @@ install_agent() {
     local ENV="$2"
     local XDR_TAGS="$3"
 
+    local DEFAULT_TAGS="${ENV},${XDR_TAGS}"
+
     local STRING_TO_APPEND="
 --endpoint-tags ${XDR_TAGS}"
 
@@ -136,8 +138,6 @@ install_collector() {
 
     local SA_KEY="$1"
     local ENV="$2"
-
-    local DEFAULT_TAGS="${ENV}"
 
     mkdir -p XDR_DOWNLOAD
 
