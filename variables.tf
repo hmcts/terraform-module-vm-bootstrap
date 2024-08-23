@@ -9,8 +9,8 @@ variable "common_tags" {
 
 variable "xdr_tags" {
   description = "XDR specific Tags"
-  type        = map(string)
-  default     = null
+  type        = string
+  default     = ""
 }
 
 variable "os_type" {
