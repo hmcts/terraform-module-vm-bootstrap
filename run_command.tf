@@ -29,13 +29,14 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
     RUN_XDR_COLLECTOR   = var.run_xdr_collector ? "true" : "false"
     RUN_XDR_AGENT       = var.run_xdr_agent ? "true" : "false"
     ENV                 = var.env == "prod" ? var.env : "nonprod"
-    SERVICE_TAGS        = local.xdr_tags_list
+    XDR_TAGS            = local.xdr_tags_list
     })) }) : jsonencode({ script = compact(tolist([templatefile("${path.module}/scripts/windows_run_script.ps1", {
       STORAGE_ACCOUNT_KEY = var.run_command_sa_key
       RUN_CIS             = var.rc_script_file == "scripts/windows_cis.ps1" || var.run_cis ? "true" : "false"
       RUN_XDR_COLLECTOR   = var.run_xdr_collector ? "true" : "false"
       RUN_XDR_AGENT       = var.run_xdr_agent ? "true" : "false"
       ENV                 = var.env == "prod" ? var.env : "nonprod"
+      XDR_TAGS            = local.xdr_tags_list
     })]))
   })
 

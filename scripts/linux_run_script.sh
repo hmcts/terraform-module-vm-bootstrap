@@ -81,8 +81,8 @@ install_agent() {
     local ENV="$2"
     local XDR_TAGS="$3"
 
-    local DEFAULT_TAGS="hmcts,server"
-    local ALL_TAGS="${DEFAULT_TAGS},${XDR_TAGS},${ENV}"
+    DEFAULT_TAGS="hmcts,server"
+    ALL_TAGS="${DEFAULT_TAGS},${XDR_TAGS},${ENV}"
 
     local STRING_TO_APPEND="
 --endpoint-tags ${ALL_TAGS}"
