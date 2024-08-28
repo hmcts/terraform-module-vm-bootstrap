@@ -30,6 +30,6 @@ locals {
 
   cnp_vault_rg = var.cnp_vault_rg == null ? var.env != "prod" ? "cnp-core-infra" : "core-infra-${var.env}" : var.cnp_vault_rg
 
-  xdr_tags_list = var.xdr_tags != null ? join(",", [var.xdr_tags, var.common_tags.application, "hmcts,server"]) : ""
+  xdr_tags_list = var.xdr_tags != null ? join(",", [var.xdr_tags, "hmcts,server"]) : "hmcts,server"
 
 }
