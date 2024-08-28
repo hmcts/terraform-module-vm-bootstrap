@@ -46,5 +46,5 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
 }
 
 output "XDR_TAGS" {
-  value = join(", ", local.xdr_tags_list)
+  value = local.xdr_tags_list
 }
