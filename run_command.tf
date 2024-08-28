@@ -24,7 +24,7 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
   type_handler_version       = lower(var.os_type) == "linux" ? var.run_command_type_handler_version : var.run_command_type_handler_version_windows
   auto_upgrade_minor_version = true
 
-  protected_settings = lower(var.os_type) == "linux" ? jsonencode({ commandToExecute = tostring(templatefile("${path.module}/scripts/linux_run_script.sh", {
+  settings = lower(var.os_type) == "linux" ? jsonencode({ commandToExecute = tostring(templatefile("${path.module}/scripts/linux_run_script.sh", {
     STORAGE_ACCOUNT_KEY = var.run_command_sa_key
     RUN_XDR_COLLECTOR   = var.run_xdr_collector ? "true" : "false"
     RUN_XDR_AGENT       = var.run_xdr_agent ? "true" : "false"
