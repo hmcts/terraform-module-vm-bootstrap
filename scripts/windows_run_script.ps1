@@ -124,7 +124,7 @@ function Install-AGENT {
     $tempFolder= "C:\Temp"
     $agentLogPath = "C:\Temp\Cortex_XDR_8_4_0\xdr_install.txt"
     $folderPath = "C:\Temp\Cortex_XDR_8_4_0"
-    $endpointTags = "hmcts,server"
+    $endpointTags = "${XDR_TAGS}"
 
     $arguments = "/i `"$destinationPath`" /qn /l*v `"$agentLogPath`" ENDPOINT_TAGS=`"$endpointTags`""
 
