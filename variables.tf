@@ -6,6 +6,13 @@ variable "common_tags" {
   default     = null
 }
 
+
+variable "xdr_tags" {
+  description = "XDR specific Tags"
+  type        = string
+  default     = ""
+}
+
 variable "os_type" {
   description = "Windows or Linux."
   type        = string

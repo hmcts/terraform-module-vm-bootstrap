@@ -79,10 +79,10 @@ install_agent() {
     
     local SA_KEY="$1"
     local ENV="$2"
-
+    local XDR_TAGS="$3"
 
     local STRING_TO_APPEND="
---endpoint-tags hmcts,server"
+--endpoint-tags ${XDR_TAGS}"
 
     mkdir -p XDR_DOWNLOAD
 
@@ -97,7 +97,7 @@ install_agent() {
         sudo cp $LOCAL_FILE_PATH /etc/panw/
         
         # Install agent
-        local BLOB_NAME="${ENV}/agent-HMCTS_Linux_rpm/cortex-8.4.0.123787.rpm"
+        local BLOB_NAME="${ENV}/agent-HMCTS_Linux_rpm_8.5.0.125392/cortex-8.5.0.125392.rpm"
         local LOCAL_FILE_PATH="XDR_DOWNLOAD/cortexagent.rpm"
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
         rpm -qa | grep -i cortex-agent || rpm -Uh $LOCAL_FILE_PATH
@@ -114,7 +114,7 @@ install_agent() {
         sudo cp $LOCAL_FILE_PATH /etc/panw/
         
          # Install agent
-        local BLOB_NAME="${ENV}/agent-HMCTS_Linux_deb/cortex-8.4.0.123787.deb"
+        local BLOB_NAME="${ENV}/agent-HMCTS_Linux_deb_8.5.0.125392/cortex-8.5.0.125392.deb"
         local LOCAL_FILE_PATH="XDR_DOWNLOAD/cortexagent.deb"
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
         dpkg -l | grep -i cortex-agent || dpkg -i $LOCAL_FILE_PATH
@@ -189,7 +189,7 @@ download_blob(){
 if [ "${RUN_XDR_AGENT}" = "true" ]
 then
   install_azcli
-  install_agent "${STORAGE_ACCOUNT_KEY}" "${ENV}"
+  install_agent "${STORAGE_ACCOUNT_KEY}" "${ENV}" "${XDR_TAGS}"
 fi
 
 if [ "${RUN_XDR_COLLECTOR}" = "true" ]
