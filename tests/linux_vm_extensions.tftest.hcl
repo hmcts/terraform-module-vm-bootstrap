@@ -1,6 +1,4 @@
-provider "azurerm" {
-  features {}
-}
+
 
 provider "azurerm" {
   alias = "soc"
