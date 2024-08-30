@@ -348,3 +348,8 @@ variable "run_xdr_agent" {
   default     = false
   description = "Install XDR agents using run command script?"
 }
+variable "xdr_env" {
+  description = "Set environment for XDR Agent to make sure which environment it should go to, defaults to prod"
+  type        = string
+  default     = "prod"
+}

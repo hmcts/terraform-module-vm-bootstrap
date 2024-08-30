@@ -111,6 +111,7 @@ A virtual machine or virtual machine scale set.
 | <a name="input_virtual_machine_id"></a> [virtual\_machine\_id](#input\_virtual\_machine\_id) | Virtual machine resource id. | `string` | `null` | no |
 | <a name="input_virtual_machine_scale_set_id"></a> [virtual\_machine\_scale\_set\_id](#input\_virtual\_machine\_scale\_set\_id) | Virtual machine scale set resource id. | `string` | `null` | no |
 | <a name="input_virtual_machine_type"></a> [virtual\_machine\_type](#input\_virtual\_machine\_type) | vm or vmss. | `string` | n/a | yes |
+| <a name="input_xdr_env"></a> [xdr\_env](#input\_xdr\_env) | Set environment for XDR Agent to make sure which environment it should go to, defaults to prod | `string` | `"prod"` | no |
 | <a name="input_xdr_tags"></a> [xdr\_tags](#input\_xdr\_tags) | XDR specific Tags | `string` | `""` | no |
 
 ## Outputs

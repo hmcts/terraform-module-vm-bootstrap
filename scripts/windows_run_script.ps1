@@ -118,13 +118,13 @@ function Install-AGENT {
     $storageAccountName = "cftptlintsvc"
     $storageAccountKey = "${STORAGE_ACCOUNT_KEY}"
     $containerName = "xdr-collectors"
-    $blobName = "${ENV}/agent-HMCTS_Windows_x64_agent.msi"
+    $blobName = "${ENV}/${ENV}_agent-HMCTS_Windows_x64_agent.msi"
     $destinationPath = "C:\Temp\Cortex_XDR_8_4_0\HMCTS_Windows_x64_agent.msi"
 
     $tempFolder= "C:\Temp"
     $agentLogPath = "C:\Temp\Cortex_XDR_8_4_0\xdr_install.txt"
     $folderPath = "C:\Temp\Cortex_XDR_8_4_0"
-    $endpointTags = "hmcts,server"
+    $endpointTags = "${XDR_TAGS}"
 
     $arguments = "/i `"$destinationPath`" /qn /l*v `"$agentLogPath`" ENDPOINT_TAGS=`"$endpointTags`""
 
