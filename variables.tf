@@ -374,14 +374,14 @@ variable "log_analytics_workspace_names" {
   description = "A map of environments and their corresponding log analytics workspace names."
 }
 
-variable "vm_resource_group_name" {
-  description = "The name of the resource group where the VM is located."
+variable "resource_group_name" {
+  description = "The name of the resource group where the VM/VMSS is located."
   type        = string
   default     = null
 }
 
-variable "vm_location" {
-  description = "The region in Azure that the VM is deployed to."
+variable "location" {
+  description = "The region in Azure that the VM/VMSS is deployed to."
   type        = string
   default     = null
 }
