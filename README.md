@@ -89,6 +89,7 @@ A virtual machine or virtual machine scale set.
 | <a name="input_install_endpoint_protection"></a> [install\_endpoint\_protection](#input\_install\_endpoint\_protection) | Install Endpoint Protection. | `bool` | `true` | no |
 | <a name="input_install_nessus_agent"></a> [install\_nessus\_agent](#input\_install\_nessus\_agent) | Install Nessus Agent. | `bool` | `true` | no |
 | <a name="input_install_splunk_uf"></a> [install\_splunk\_uf](#input\_install\_splunk\_uf) | Install Splunk UF. | `bool` | `true` | no |
+| <a name="input_location"></a> [location](#input\_location) | The region in Azure that the VM/VMSS is deployed to. | `string` | `null` | no |
 | <a name="input_log_analytics_workspace_names"></a> [log\_analytics\_workspace\_names](#input\_log\_analytics\_workspace\_names) | A map of environments and their corresponding log analytics workspace names. | `map(string)` | <pre>{<br>  "aat": "hmcts-nonprod",<br>  "demo": "hmcts-nonprod",<br>  "ithc": "hmcts-qa",<br>  "nonprod": "hmcts-nonprod",<br>  "perftest": "hmcts-qa",<br>  "prod": "hmcts-prod",<br>  "production": "hmcts-prod",<br>  "sandbox": "hmcts-sandbox",<br>  "sbox": "hmcts-sandbox",<br>  "staging": "hmcts-nonprod",<br>  "stg": "hmcts-nonprod",<br>  "test": "hmcts-qa"<br>}</pre> | no |
 | <a name="input_nessus_groups"></a> [nessus\_groups](#input\_nessus\_groups) | Nessus group name. | `string` | `"Platform-Operation-Bastions"` | no |
 | <a name="input_nessus_key"></a> [nessus\_key](#input\_nessus\_key) | Nessus linking key - read input from keyvault. | `string` | `null` | no |
@@ -98,6 +99,7 @@ A virtual machine or virtual machine scale set.
 | <a name="input_rc_os_sku"></a> [rc\_os\_sku](#input\_rc\_os\_sku) | n/a | `any` | `null` | no |
 | <a name="input_rc_script_file"></a> [rc\_script\_file](#input\_rc\_script\_file) | A path to a local file for the script | `any` | `null` | no |
 | <a name="input_realtimeprotectionenabled"></a> [realtimeprotectionenabled](#input\_realtimeprotectionenabled) | Enable Realtime Protection | `string` | `true` | no |
+| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The name of the resource group where the VM/VMSS is located. | `string` | `null` | no |
 | <a name="input_run_cis"></a> [run\_cis](#input\_run\_cis) | Install CIS hardening using run command script? | `bool` | `false` | no |
 | <a name="input_run_command"></a> [run\_command](#input\_run\_command) | n/a | `bool` | `false` | no |
 | <a name="input_run_command_sa_key"></a> [run\_command\_sa\_key](#input\_run\_command\_sa\_key) | SA key for the run command | `string` | `""` | no |
@@ -116,8 +118,6 @@ A virtual machine or virtual machine scale set.
 | <a name="input_virtual_machine_id"></a> [virtual\_machine\_id](#input\_virtual\_machine\_id) | Virtual machine resource id. | `string` | `null` | no |
 | <a name="input_virtual_machine_scale_set_id"></a> [virtual\_machine\_scale\_set\_id](#input\_virtual\_machine\_scale\_set\_id) | Virtual machine scale set resource id. | `string` | `null` | no |
 | <a name="input_virtual_machine_type"></a> [virtual\_machine\_type](#input\_virtual\_machine\_type) | vm or vmss. | `string` | n/a | yes |
-| <a name="input_vm_location"></a> [vm\_location](#input\_vm\_location) | The region in Azure that the VM is deployed to. | `string` | `null` | no |
-| <a name="input_vm_resource_group_name"></a> [vm\_resource\_group\_name](#input\_vm\_resource\_group\_name) | The name of the resource group where the VM is located. | `string` | `null` | no |
 | <a name="input_xdr_env"></a> [xdr\_env](#input\_xdr\_env) | Set environment for XDR Agent to make sure which environment it should go to, defaults to prod | `string` | `"prod"` | no |
 | <a name="input_xdr_tags"></a> [xdr\_tags](#input\_xdr\_tags) | XDR specific Tags | `string` | `""` | no |
 
