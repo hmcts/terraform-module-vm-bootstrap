@@ -19,8 +19,10 @@ provider "azurerm" {
 
 # Default variables for this test
 variables {
-  env     = "nonprod"
-  os_type = "Windows"
+  env                 = "nonprod"
+  os_type             = "Windows"
+  location            = "uksouth"
+  resource_group_name = "test-rg"
 }
 
 run "setup_vm" {

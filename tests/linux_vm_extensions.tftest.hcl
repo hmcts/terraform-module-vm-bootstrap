@@ -19,8 +19,10 @@ provider "azurerm" {
 
 # Default variables for this test
 variables {
-  env     = "nonprod"
-  os_type = "Linux"
+  env                 = "nonprod"
+  os_type             = "Linux"
+  location            = "uksouth"
+  resource_group_name = "test-rg"
 }
 
 run "setup_vm" {
@@ -42,8 +44,6 @@ run "virtual_machine_no_extensions" {
   variables {
     virtual_machine_type   = "vm"
     virtual_machine_id     = run.setup_vm.vm_id
-    vm_location            = "uksouth"
-    vm_resource_group_name = "test-rg"
   }
 
   assert {
