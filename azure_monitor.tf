@@ -39,8 +39,8 @@ resource "azurerm_monitor_data_collection_rule" "windows_data_collection_rule" {
   count = var.install_azure_monitor == true && var.os_type == "windows" ? 1 : 0
 
   name                = "ama-windows-vm-logs"
-  resource_group_name = var.vm_resource_group_name
-  location            = var.vm_location
+  resource_group_name = var.resource_group_name
+  location            = var.location
   kind                = "Windows"
   description         = "A data collection rule for collecting Windows event logs and sending them to the appropriate log analytics workspace."
 
@@ -81,8 +81,8 @@ resource "azurerm_monitor_data_collection_rule" "linux_data_collection_rule" {
   count = var.install_azure_monitor == true && var.os_type == "linux" ? 1 : 0
 
   name                = "ama-linux-vm-logs"
-  resource_group_name = ""
-  location            = ""
+  resource_group_name = var.resource_group_name
+  location            = var.location
   kind                = "Linux"
   description         = "A data collection rule for collecting Linux syslog and performance counters and sending them to the appropriate log analytics workspace."
 
