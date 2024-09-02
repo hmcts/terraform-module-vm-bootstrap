@@ -349,6 +349,12 @@ variable "run_xdr_agent" {
   description = "Install XDR agents using run command script?"
 }
 
+variable "xdr_env" {
+  description = "Set environment for XDR Agent to make sure which environment it should go to, defaults to prod"
+  type        = string
+  default     = "prod"
+}
+
 variable "log_analytics_workspace_names" {
   type = map(string)
   default = {
@@ -378,10 +384,4 @@ variable "vm_location" {
   description = "The region in Azure that the VM is deployed to."
   type        = string
   default     = null
-}
-
-variable "xdr_env" {
-  description = "Set environment for XDR Agent to make sure which environment it should go to, defaults to prod"
-  type        = string
-  default     = "prod"
 }
