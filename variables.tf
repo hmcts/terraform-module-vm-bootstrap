@@ -348,3 +348,34 @@ variable "run_xdr_agent" {
   default     = false
   description = "Install XDR agents using run command script?"
 }
+
+variable "log_analytics_workspace_names" {
+  type = map(string)
+  default = {
+    "production" = "hmcts-prod"
+    "prod"       = "hmcts-prod"
+    "nonprod"    = "hmcts-nonprod"
+    "aat"        = "hmcts-nonprod"
+    "staging"    = "hmcts-nonprod"
+    "stg"        = "hmcts-nonprod"
+    "demo"       = "hmcts-nonprod"
+    "perftest"   = "hmcts-qa"
+    "test"       = "hmcts-qa"
+    "ithc"       = "hmcts-qa"
+    "sandbox"    = "hmcts-sandbox"
+    "sbox"       = "hmcts-sandbox"
+  }
+  description = "A map of environments and their corresponding log analytics workspace names."
+}
+
+variable "vm_resource_group_name" {
+  description = "The name of the resource group where the VM is located."
+  type        = string
+  default     = null
+}
+
+variable "vm_location" {
+  description = "The region in Azure that the VM is deployed to."
+  type        = string
+  default     = null
+}
