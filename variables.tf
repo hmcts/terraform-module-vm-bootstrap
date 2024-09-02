@@ -379,3 +379,9 @@ variable "vm_location" {
   type        = string
   default     = null
 }
+
+variable "xdr_env" {
+  description = "Set environment for XDR Agent to make sure which environment it should go to, defaults to prod"
+  type        = string
+  default     = "prod"
+}
