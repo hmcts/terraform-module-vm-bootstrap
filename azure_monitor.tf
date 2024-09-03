@@ -108,7 +108,7 @@ resource "azurerm_monitor_data_collection_rule" "linux_data_collection_rule" {
   data_sources {
     performance_counter {
       streams                       = ["Microsoft-Perf"]
-      sampling_frequency_in_seconds = 360
+      sampling_frequency_in_seconds = 300
       counter_specifiers            = ["% Used Inodes", "% Used Space", "Disk Reads/sec", "Disk Transfers/sec", "Disk Writes/sec", "Free Megabytes"]
       name                          = "ms-performance"
     }
