@@ -387,14 +387,8 @@ variable "log_analytics_sub_id" {
   }
 }
 
-variable "resource_group_name" {
-  description = "The name of the resource group where the VM/VMSS is located."
-  type        = string
-  default     = null
-}
-
 variable "location" {
-  description = "The region in Azure that the VM/VMSS is deployed to."
+  description = "The region in Azure that the Data collection rule will be deployed to."
   type        = string
-  default     = null
+  default     = "UK South"
 }

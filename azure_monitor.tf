@@ -38,10 +38,9 @@ data "azurerm_log_analytics_workspace" "workspace" {
 }
 
 resource "azurerm_monitor_data_collection_rule" "windows_data_collection_rule" {
-  count = var.install_azure_monitor == true && lower(var.os_type) == "windows" ? 1 : 0
-
+  provider            = azurerm.loganalytics
   name                = "ama-windows-vm-logs"
-  resource_group_name = var.resource_group_name
+  resource_group_name = data.azurerm_log_analytics_workspace.workspace.resource_group_name
   location            = var.location
   kind                = "Windows"
   description         = "A data collection rule for collecting Windows event logs and sending them to the appropriate log analytics workspace."
@@ -80,10 +79,9 @@ resource "azurerm_monitor_data_collection_rule" "windows_data_collection_rule" {
 }
 
 resource "azurerm_monitor_data_collection_rule" "linux_data_collection_rule" {
-  count = var.install_azure_monitor == true && lower(var.os_type) == "linux" ? 1 : 0
-
+  provider            = azurerm.loganalytics
   name                = "ama-linux-vm-logs"
-  resource_group_name = var.resource_group_name
+  resource_group_name = data.azurerm_log_analytics_workspace.workspace.resource_group_name
   location            = var.location
   kind                = "Linux"
   description         = "A data collection rule for collecting Linux syslog and performance counters and sending them to the appropriate log analytics workspace."
@@ -127,5 +125,40 @@ resource "azurerm_monitor_data_collection_rule" "linux_data_collection_rule" {
       name           = "ms-syslog-info"
     }
   }
+}
 
+resource "azurerm_monitor_data_collection_rule_association" "linux_vm_dcra" {
+  count = var.install_azure_monitor == true && lower(var.os_type) == "linux" && var.virtual_machine_type == "vm" ? 1 : 0
+
+  name                    = "vm-${var.virtual_machine_id}-dcra"
+  target_resource_id      = var.virtual_machine_id
+  data_collection_rule_id = azurerm_monitor_data_collection_rule.linux_data_collection_rule.id
+  description             = "Association between a linux VM and the appropriate data collection rule."
+}
+
+resource "azurerm_monitor_data_collection_rule_association" "linux_vmss_dcra" {
+  count = var.install_azure_monitor == true && lower(var.os_type) == "linux" && var.virtual_machine_type == "vmss" ? 1 : 0
+
+  name                    = "vmss-${var.virtual_machine_scale_set_id}-dcra"
+  target_resource_id      = var.virtual_machine_scale_set_id
+  data_collection_rule_id = azurerm_monitor_data_collection_rule.linux_data_collection_rule.id
+  description             = "Association between a linux VMSS and the appropriate data collection rule."
+}
+
+resource "azurerm_monitor_data_collection_rule_association" "windows_vm_dcra" {
+  count = var.install_azure_monitor == true && lower(var.os_type) == "linux" && var.virtual_machine_type == "vm" ? 1 : 0
+
+  name                    = "vm-${var.virtual_machine_id}-dcra"
+  target_resource_id      = var.virtual_machine_id
+  data_collection_rule_id = azurerm_monitor_data_collection_rule.linux_data_collection_rule.id
+  description             = "Association between a linux VM and the appropriate data collection rule."
+}
+
+resource "azurerm_monitor_data_collection_rule_association" "windows_vmss_dcra" {
+  count = var.install_azure_monitor == true && lower(var.os_type) == "windows" && var.virtual_machine_type == "vmss" ? 1 : 0
+
+  name                    = "vmss-${var.virtual_machine_scale_set_id}-dcra"
+  target_resource_id      = var.virtual_machine_scale_set_id
+  data_collection_rule_id = azurerm_monitor_data_collection_rule.windows_data_collection_rule.id
+  description             = "Association between a windows VMSS and the appropriate data collection rule."
 }
