@@ -37,6 +37,10 @@ A virtual machine or virtual machine scale set.
 |------|------|
 | [azurerm_monitor_data_collection_rule.linux_data_collection_rule](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_data_collection_rule) | resource |
 | [azurerm_monitor_data_collection_rule.windows_data_collection_rule](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_data_collection_rule) | resource |
+| [azurerm_monitor_data_collection_rule_association.linux_vm_dcra](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_data_collection_rule_association) | resource |
+| [azurerm_monitor_data_collection_rule_association.linux_vmss_dcra](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_data_collection_rule_association) | resource |
+| [azurerm_monitor_data_collection_rule_association.windows_vm_dcra](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_data_collection_rule_association) | resource |
+| [azurerm_monitor_data_collection_rule_association.windows_vmss_dcra](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_data_collection_rule_association) | resource |
 | [azurerm_virtual_machine_extension.azure_monitor](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_extension) | resource |
 | [azurerm_virtual_machine_extension.azure_vm_run_command](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_extension) | resource |
 | [azurerm_virtual_machine_extension.custom_script](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_extension) | resource |
@@ -90,7 +94,7 @@ A virtual machine or virtual machine scale set.
 | <a name="input_install_endpoint_protection"></a> [install\_endpoint\_protection](#input\_install\_endpoint\_protection) | Install Endpoint Protection. | `bool` | `true` | no |
 | <a name="input_install_nessus_agent"></a> [install\_nessus\_agent](#input\_install\_nessus\_agent) | Install Nessus Agent. | `bool` | `true` | no |
 | <a name="input_install_splunk_uf"></a> [install\_splunk\_uf](#input\_install\_splunk\_uf) | Install Splunk UF. | `bool` | `true` | no |
-| <a name="input_location"></a> [location](#input\_location) | The region in Azure that the VM/VMSS is deployed to. | `string` | `null` | no |
+| <a name="input_location"></a> [location](#input\_location) | The region in Azure that the Data collection rule will be deployed to. | `string` | `"UK South"` | no |
 | <a name="input_log_analytics_sub_id"></a> [log\_analytics\_sub\_id](#input\_log\_analytics\_sub\_id) | A map of log analytics workspace names and their subscription IDs. | `map(string)` | <pre>{<br>  "hmcts-nonprod": "1c4f0704-a29e-403d-b719-b90c34ef14c9",<br>  "hmcts-prod": "8999dec3-0104-4a27-94ee-6588559729d1",<br>  "hmcts-qa": "7a4e3bd5-ae3a-4d0c-b441-2188fee3ff1c",<br>  "hmcts-sandbox": "bf308a5c-0624-4334-8ff8-8dca9fd43783"<br>}</pre> | no |
 | <a name="input_log_analytics_workspace_names"></a> [log\_analytics\_workspace\_names](#input\_log\_analytics\_workspace\_names) | A map of environments and their corresponding log analytics workspace names. | `map(string)` | <pre>{<br>  "aat": "hmcts-nonprod",<br>  "demo": "hmcts-nonprod",<br>  "ithc": "hmcts-qa",<br>  "nonprod": "hmcts-nonprod",<br>  "perftest": "hmcts-qa",<br>  "prod": "hmcts-prod",<br>  "production": "hmcts-prod",<br>  "ptl": "hmcts-prod",<br>  "ptlsbox": "hmcts-sandbox",<br>  "sandbox": "hmcts-sandbox",<br>  "sbox": "hmcts-sandbox",<br>  "staging": "hmcts-nonprod",<br>  "stg": "hmcts-nonprod",<br>  "test": "hmcts-qa"<br>}</pre> | no |
 | <a name="input_nessus_groups"></a> [nessus\_groups](#input\_nessus\_groups) | Nessus group name. | `string` | `"Platform-Operation-Bastions"` | no |
@@ -101,7 +105,6 @@ A virtual machine or virtual machine scale set.
 | <a name="input_rc_os_sku"></a> [rc\_os\_sku](#input\_rc\_os\_sku) | n/a | `any` | `null` | no |
 | <a name="input_rc_script_file"></a> [rc\_script\_file](#input\_rc\_script\_file) | A path to a local file for the script | `any` | `null` | no |
 | <a name="input_realtimeprotectionenabled"></a> [realtimeprotectionenabled](#input\_realtimeprotectionenabled) | Enable Realtime Protection | `string` | `true` | no |
-| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The name of the resource group where the VM/VMSS is located. | `string` | `null` | no |
 | <a name="input_run_cis"></a> [run\_cis](#input\_run\_cis) | Install CIS hardening using run command script? | `bool` | `false` | no |
 | <a name="input_run_command"></a> [run\_command](#input\_run\_command) | n/a | `bool` | `false` | no |
 | <a name="input_run_command_sa_key"></a> [run\_command\_sa\_key](#input\_run\_command\_sa\_key) | SA key for the run command | `string` | `""` | no |
