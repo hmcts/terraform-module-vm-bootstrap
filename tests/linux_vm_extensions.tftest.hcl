@@ -42,8 +42,8 @@ run "virtual_machine_no_extensions" {
   command = plan
 
   variables {
-    virtual_machine_type   = "vm"
-    virtual_machine_id     = run.setup_vm.vm_id
+    virtual_machine_type = "vm"
+    virtual_machine_id   = run.setup_vm.vm_id
   }
 
   assert {
