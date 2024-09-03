@@ -32,4 +32,8 @@ locals {
 
   xdr_tags_list = var.xdr_tags != null ? join(",", [var.xdr_tags, "hmcts,server"]) : "hmcts,server"
 
+  log_analytics_workspace = var.log_analytics_workspace_names[var.env]
+
+  log_analytics_subscription = var.log_analytics_sub_id[local.log_analytics_workspace]
+
 }

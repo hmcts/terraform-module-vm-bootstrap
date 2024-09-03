@@ -27,10 +27,12 @@ resource "azurerm_virtual_machine_extension" "azure_monitor" {
 }
 
 data "azurerm_resource_group" "log_analytics_rg" {
-  name = "oms-automation"
+  provider = azurerm.loganalytics
+  name     = "oms-automation"
 }
 
 data "azurerm_log_analytics_workspace" "workspace" {
+  provider            = azurerm.loganalytics
   name                = var.log_analytics_workspace_names[var.env]
   resource_group_name = data.azurerm_resource_group.log_analytics_rg.name
 }

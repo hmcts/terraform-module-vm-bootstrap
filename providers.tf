@@ -6,3 +6,9 @@ terraform {
     }
   }
 }
+
+provider "azurerm" {
+  alias = "loganalytics"
+  features {}
+  subscription_id = local.log_analytics_subscription
+}
