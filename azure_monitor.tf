@@ -146,7 +146,7 @@ resource "azurerm_monitor_data_collection_rule_association" "linux_vmss_dcra" {
 }
 
 resource "azurerm_monitor_data_collection_rule_association" "windows_vm_dcra" {
-  count = var.install_azure_monitor == true && lower(var.os_type) == "linux" && var.virtual_machine_type == "vm" ? 1 : 0
+  count = var.install_azure_monitor == true && lower(var.os_type) == "windows" && var.virtual_machine_type == "vm" ? 1 : 0
 
   name                    = "vm-${var.virtual_machine_id}-dcra"
   target_resource_id      = var.virtual_machine_id
