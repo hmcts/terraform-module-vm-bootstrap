@@ -49,13 +49,13 @@ resource "azurerm_monitor_data_collection_rule" "windows_data_collection_rule" {
   destinations {
     log_analytics {
       workspace_resource_id = data.azurerm_log_analytics_workspace.workspace.id
-      name                  = "windows-vm-log-collection"
+      name                  = local.log_analytics_workspace
     }
   }
 
   data_flow {
     streams      = ["Microsoft-WindowsEvent"]
-    destinations = ["windows-vm-log-collection"]
+    destinations = [local.log_analytics_workspace]
   }
 
   data_sources {
@@ -91,18 +91,18 @@ resource "azurerm_monitor_data_collection_rule" "linux_data_collection_rule" {
   destinations {
     log_analytics {
       workspace_resource_id = data.azurerm_log_analytics_workspace.workspace.id
-      name                  = "linux-vm-log-collection"
+      name                  = local.log_analytics_workspace
     }
   }
 
   data_flow {
     streams      = ["Microsoft-Perf"]
-    destinations = ["linux-vm-log-collection"]
+    destinations = [local.log_analytics_workspace]
   }
 
   data_flow {
     streams      = ["Microsoft-Syslog"]
-    destinations = ["linux-vm-log-collection"]
+    destinations = [local.log_analytics_workspace]
   }
 
   data_sources {
