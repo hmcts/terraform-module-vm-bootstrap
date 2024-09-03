@@ -38,7 +38,7 @@ data "azurerm_log_analytics_workspace" "workspace" {
 }
 
 resource "azurerm_monitor_data_collection_rule" "windows_data_collection_rule" {
-  count = var.install_azure_monitor == true && var.os_type == "windows" ? 1 : 0
+  count = var.install_azure_monitor == true && lower(var.os_type) == "windows" ? 1 : 0
 
   name                = "ama-windows-vm-logs"
   resource_group_name = var.resource_group_name
@@ -80,7 +80,7 @@ resource "azurerm_monitor_data_collection_rule" "windows_data_collection_rule" {
 }
 
 resource "azurerm_monitor_data_collection_rule" "linux_data_collection_rule" {
-  count = var.install_azure_monitor == true && var.os_type == "linux" ? 1 : 0
+  count = var.install_azure_monitor == true && lower(var.os_type) == "linux" ? 1 : 0
 
   name                = "ama-linux-vm-logs"
   resource_group_name = var.resource_group_name
