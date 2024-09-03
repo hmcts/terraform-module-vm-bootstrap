@@ -151,7 +151,7 @@ resource "azurerm_monitor_data_collection_rule_association" "windows_vm_dcra" {
   name                    = "vm-${var.virtual_machine_id}-dcra"
   target_resource_id      = var.virtual_machine_id
   data_collection_rule_id = azurerm_monitor_data_collection_rule.linux_data_collection_rule.id
-  description             = "Association between a linux VM and the appropriate data collection rule."
+  description             = "Association between a windows VM and the appropriate data collection rule."
 }
 
 resource "azurerm_monitor_data_collection_rule_association" "windows_vmss_dcra" {
