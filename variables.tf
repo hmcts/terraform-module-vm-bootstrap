@@ -366,9 +366,9 @@ variable "log_analytics_workspace_names" {
     "staging"    = "hmcts-nonprod"
     "stg"        = "hmcts-nonprod"
     "demo"       = "hmcts-nonprod"
-    "perftest"   = "hmcts-qa"
-    "test"       = "hmcts-qa"
-    "ithc"       = "hmcts-qa"
+    "perftest"   = "hmcts-nonprod"
+    "test"       = "hmcts-nonprod"
+    "ithc"       = "hmcts-nonprod"
     "sandbox"    = "hmcts-sandbox"
     "sbox"       = "hmcts-sandbox"
     "ptlsbox"    = "hmcts-sandbox"
@@ -382,7 +382,6 @@ variable "log_analytics_sub_id" {
   default = {
     "hmcts-prod"    = "8999dec3-0104-4a27-94ee-6588559729d1"
     "hmcts-nonprod" = "1c4f0704-a29e-403d-b719-b90c34ef14c9"
-    "hmcts-qa"      = "7a4e3bd5-ae3a-4d0c-b441-2188fee3ff1c"
     "hmcts-sandbox" = "bf308a5c-0624-4334-8ff8-8dca9fd43783"
   }
 }
