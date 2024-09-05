@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "azurerm" {
-  alias = "loganalytics"
+  alias = "dcr"
   features {}
   subscription_id = local.log_analytics_subscription
 }
