@@ -36,6 +36,6 @@ locals {
   log_analytics_subscription = var.log_analytics_sub_id[local.log_analytics_workspace]
 
   vm_name   = var.virtual_machine_id != null ? regex("virtualMachines/([^/]+)", var.virtual_machine_id)[0] : null
-  vmss_name = var.virtual_machine_scale_set_id != null ? regex("virtualMachines/([^/]+)", var.virtual_machine_scale_set_id)[0] : null
+  vmss_name = var.virtual_machine_scale_set_id != null ? regex("virtualMachineScaleSets/([^/]+)", var.virtual_machine_scale_set_id)[0] : null
 
 }
