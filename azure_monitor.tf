@@ -45,7 +45,7 @@ data "azurerm_monitor_data_collection_rule" "windows_data_collection_rule" {
 
 
 resource "azurerm_monitor_data_collection_rule_association" "linux_vm_dcra" {
-  count = var.install_azure_monitor == true && lower(var.os_type) == "linux" && var.virtual_machine_type == "vm" ? 1 : 0
+  count = var.install_azure_monitor == true && lower(var.os_type) == "linux" && var.virtual_machine_type == "vm" && contains(["sbox", "sandbox"], var.env) ? 1 : 0
 
   name                    = "vm-${local.vm_name}-dcra"
   target_resource_id      = var.virtual_machine_id
@@ -54,7 +54,7 @@ resource "azurerm_monitor_data_collection_rule_association" "linux_vm_dcra" {
 }
 
 resource "azurerm_monitor_data_collection_rule_association" "linux_vmss_dcra" {
-  count = var.install_azure_monitor == true && lower(var.os_type) == "linux" && var.virtual_machine_type == "vmss" ? 1 : 0
+  count = var.install_azure_monitor == true && lower(var.os_type) == "linux" && var.virtual_machine_type == "vmss" && contains(["sbox", "sandbox"], var.env) ? 1 : 0
 
   name                    = "vmss-${local.vmss_name}-dcra"
   target_resource_id      = var.virtual_machine_scale_set_id
@@ -63,7 +63,7 @@ resource "azurerm_monitor_data_collection_rule_association" "linux_vmss_dcra" {
 }
 
 resource "azurerm_monitor_data_collection_rule_association" "windows_vm_dcra" {
-  count = var.install_azure_monitor == true && lower(var.os_type) == "windows" && var.virtual_machine_type == "vm" ? 1 : 0
+  count = var.install_azure_monitor == true && lower(var.os_type) == "windows" && var.virtual_machine_type == "vm" && contains(["sbox", "sandbox"], var.env) ? 1 : 0
 
   name                    = "vm-${local.vm_name}-dcra"
   target_resource_id      = var.virtual_machine_id
@@ -72,7 +72,7 @@ resource "azurerm_monitor_data_collection_rule_association" "windows_vm_dcra" {
 }
 
 resource "azurerm_monitor_data_collection_rule_association" "windows_vmss_dcra" {
-  count = var.install_azure_monitor == true && lower(var.os_type) == "windows" && var.virtual_machine_type == "vmss" ? 1 : 0
+  count = var.install_azure_monitor == true && lower(var.os_type) == "windows" && var.virtual_machine_type == "vmss" && contains(["sbox", "sandbox"], var.env) ? 1 : 0
 
   name                    = "vmss-${local.vmss_name}-dcra"
   target_resource_id      = var.virtual_machine_scale_set_id
