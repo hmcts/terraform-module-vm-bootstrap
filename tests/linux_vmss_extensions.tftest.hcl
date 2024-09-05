@@ -19,8 +19,9 @@ provider "azurerm" {
 
 # Default variables for this test
 variables {
-  env     = "nonprod"
-  os_type = "Linux"
+  env                 = "nonprod"
+  os_type             = "Linux"
+  location            = "uksouth"
 }
 
 run "setup_vm" {
