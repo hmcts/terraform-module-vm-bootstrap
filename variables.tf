@@ -324,7 +324,6 @@ variable "soc_vault_name" {
   default     = "soc-prod"
 }
 
-
 variable "run_command_sa_key" {
   description = "SA key for the run command"
   default     = ""
