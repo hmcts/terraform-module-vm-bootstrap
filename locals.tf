@@ -32,9 +32,6 @@ locals {
 
   xdr_tags_list = var.xdr_tags != null ? join(",", [var.xdr_tags, "hmcts,server"]) : "hmcts,server"
 
-  log_analytics_workspace    = var.log_analytics_workspace_names[var.env]
-  log_analytics_subscription = var.log_analytics_sub_id[local.log_analytics_workspace]
-
   vm_name   = var.virtual_machine_id != null ? regex("virtualMachines/([^/]+)", var.virtual_machine_id)[0] : null
   vmss_name = var.virtual_machine_scale_set_id != null ? regex("virtualMachineScaleSets/([^/]+)", var.virtual_machine_scale_set_id)[0] : null
 
