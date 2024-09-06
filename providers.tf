@@ -6,9 +6,3 @@ terraform {
     }
   }
 }
-
-provider "azurerm" {
-  alias = "dcr"
-  features {}
-  subscription_id = local.log_analytics_subscription
-}

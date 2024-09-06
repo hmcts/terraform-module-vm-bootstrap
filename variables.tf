@@ -324,7 +324,6 @@ variable "soc_vault_name" {
   default     = "soc-prod"
 }
 
-
 variable "run_command_sa_key" {
   description = "SA key for the run command"
   default     = ""
@@ -353,37 +352,6 @@ variable "xdr_env" {
   description = "Set environment for XDR Agent to make sure which environment it should go to, defaults to prod"
   type        = string
   default     = "prod"
-}
-
-variable "log_analytics_workspace_names" {
-  type = map(string)
-  default = {
-    "production" = "hmcts-prod"
-    "prod"       = "hmcts-prod"
-    "ptl"        = "hmcts-prod"
-    "nonprod"    = "hmcts-nonprod"
-    "aat"        = "hmcts-nonprod"
-    "staging"    = "hmcts-nonprod"
-    "stg"        = "hmcts-nonprod"
-    "demo"       = "hmcts-nonprod"
-    "perftest"   = "hmcts-nonprod"
-    "test"       = "hmcts-nonprod"
-    "ithc"       = "hmcts-nonprod"
-    "sandbox"    = "hmcts-sandbox"
-    "sbox"       = "hmcts-sandbox"
-    "ptlsbox"    = "hmcts-sandbox"
-  }
-  description = "A map of environments and their corresponding log analytics workspace names."
-}
-
-variable "log_analytics_sub_id" {
-  description = "A map of log analytics workspace names and their subscription IDs."
-  type        = map(string)
-  default = {
-    "hmcts-prod"    = "8999dec3-0104-4a27-94ee-6588559729d1"
-    "hmcts-nonprod" = "1c4f0704-a29e-403d-b719-b90c34ef14c9"
-    "hmcts-sandbox" = "bf308a5c-0624-4334-8ff8-8dca9fd43783"
-  }
 }
 
 variable "location" {
