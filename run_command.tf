@@ -24,7 +24,7 @@ resource "azurerm_virtual_machine_scale_set_extension" "azure_vmss_run_command" 
     })]))
   })
 
-  tags       = var.common_tags
+
   depends_on = [azurerm_virtual_machine_scale_set_extension.custom_script]
 }
 
