@@ -2,13 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source                = "hashicorp/azurerm"
-      configuration_aliases = [azurerm.cnp, azurerm.soc]
+      configuration_aliases = [azurerm.cnp, azurerm.soc, azurerm.dcr]
     }
   }
-}
-
-provider "azurerm" {
-  alias = "dcr"
-  features {}
-  subscription_id = local.log_analytics_subscription
 }
