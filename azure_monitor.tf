@@ -27,7 +27,8 @@ resource "azurerm_virtual_machine_extension" "azure_monitor" {
 }
 
 data "azurerm_resource_group" "la_rg" {
-  name = "oms-automation"
+  provider = azurerm.dcr
+  name     = "oms-automation"
 }
 
 data "azurerm_monitor_data_collection_rule" "linux_data_collection_rule" {
