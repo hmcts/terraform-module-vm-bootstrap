@@ -46,8 +46,17 @@ install_azcli() {
             sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
             rpm -q dnf || sudo yum install dnf -y
         fi
+        if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"6."* ]]; then
+            echo -e "[azure-cli]
+name=Azure CLI
+baseurl=https://packages.microsoft.com/yumrepos/azure-cli
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/azure-cli.repo
 
-        if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"7."* ]]; then
+            sudo yum clean all
+            sudo yum -v install azure-cli -y
+        elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"7."* ]]; then
             echo -e "[azure-cli]
 name=Azure CLI
 baseurl=https://packages.microsoft.com/yumrepos/azure-cli
@@ -57,11 +66,11 @@ gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.re
 
             sudo dnf clean all
             sudo dnf -v install azure-cli -y
-        elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"8."* ]]; then
+        elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"8."* ]]; then
             sudo dnf install -y https://packages.microsoft.com/config/rhel/8/packages-microsoft-prod.rpm
 
             sudo dnf install azure-cli
-        elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"9."* ]]; then
+        elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"9."* ]]; then
             sudo dnf install -y https://packages.microsoft.com/config/rhel/9.0/packages-microsoft-prod.rpm
 
             sudo dnf install azure-cli
@@ -120,7 +129,7 @@ install_agent() {
         sudo mkdir -p /etc/panw
         sudo cp $LOCAL_FILE_PATH /etc/panw/
 
-         # Install agent
+        # Install agent
         local BLOB_NAME="${ENV}/${ENV}_agent-HMCTS_Linux_deb_8.5.0.125392/cortex-8.5.0.125392.deb"
         local LOCAL_FILE_PATH="XDR_DOWNLOAD/cortexagent.deb"
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
@@ -171,7 +180,7 @@ install_collector() {
         sudo mkdir -p /etc/panw
         sudo cp $LOCAL_FILE_PATH /etc/panw/
 
-         # Install collector
+        # Install collector
         local BLOB_NAME="${ENV}/collector-1.4.1.1089.deb/collector-1.4.1.1089.deb"
         local LOCAL_FILE_PATH="XDR_DOWNLOAD/collector.deb"
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
@@ -195,12 +204,12 @@ download_blob(){
 
 if [ "${RUN_XDR_AGENT}" = "true" ]
 then
-  install_azcli
-  install_agent "${STORAGE_ACCOUNT_KEY}" "${ENV}" "${XDR_TAGS}"
+    install_azcli
+    install_agent "${STORAGE_ACCOUNT_KEY}" "${ENV}" "${XDR_TAGS}"
 fi
 
 if [ "${RUN_XDR_COLLECTOR}" = "true" ]
 then
-  install_azcli
-  install_collector "${STORAGE_ACCOUNT_KEY}" "${ENV}"
+    install_azcli
+    install_collector "${STORAGE_ACCOUNT_KEY}" "${ENV}"
 fi
