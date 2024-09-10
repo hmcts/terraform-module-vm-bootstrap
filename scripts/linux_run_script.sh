@@ -47,15 +47,18 @@ install_azcli() {
             rpm -q dnf || sudo yum install dnf -y
         fi
         if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"6."* ]]; then
-            echo -e "[azure-cli]
-name=Azure CLI
-baseurl=https://packages.microsoft.com/yumrepos/azure-cli
-enabled=1
-gpgcheck=1
-gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/azure-cli.repo
+            echo "Setup Python3.6 and PIP"
+            sudo wget https://www.python.org/ftp/python/3.6.15/Python-3.6.15.tgz
+            sudo tar xzf Python-3.6.15.tgz
+            cd Python-3.6.15
+            sudo ./configure --enable-optimizations
+            sudo make altinstall
+            sudo /usr/local/bin/pip3.6 install --upgrade pip
 
-            sudo yum clean all
-            sudo yum -v install azure-cli -y
+            echo "Install pip azure-cli"
+            sudo /usr/local/bin/pip3.6 install bcrypt==3.2.0
+            sudo /usr/local/bin/pip3.6 install azure-cli==2.11.0
+            cd -
         elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"7."* ]]; then
             echo -e "[azure-cli]
 name=Azure CLI
@@ -66,14 +69,15 @@ gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.re
 
             sudo dnf clean all
             sudo dnf -v install azure-cli -y
+
         elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"8."* ]]; then
             sudo dnf install -y https://packages.microsoft.com/config/rhel/8/packages-microsoft-prod.rpm
-
             sudo dnf install azure-cli
+
         elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"9."* ]]; then
             sudo dnf install -y https://packages.microsoft.com/config/rhel/9.0/packages-microsoft-prod.rpm
-
             sudo dnf install azure-cli
+
         else
             curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
         fi
@@ -197,7 +201,12 @@ download_blob(){
     local CONTAINER_NAME="$3"
     local BLOB_NAME="$4"
     local LOCAL_FILE_PATH="$5"
-    az storage blob download --account-name $STORAGE_ACCOUNT_NAME --account-key $SA_KEY --container-name $CONTAINER_NAME --name $BLOB_NAME --file $LOCAL_FILE_PATH
+
+    if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"6."* ]]; then
+        sudo /usr/local/bin/az storage blob download --account-name $STORAGE_ACCOUNT_NAME --account-key $SA_KEY --container-name $CONTAINER_NAME --name $BLOB_NAME --file $LOCAL_FILE_PATH
+    else
+        az storage blob download --account-name $STORAGE_ACCOUNT_NAME --account-key $SA_KEY --container-name $CONTAINER_NAME --name $BLOB_NAME --file $LOCAL_FILE_PATH
+    fi
 }
 
 
