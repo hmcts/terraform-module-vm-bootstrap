@@ -6,7 +6,7 @@ locals {
 
   dynatrace_tenant_id = var.env == "prod" ? "ebe20728" : "yrk32651"
 
-  dynatrace_server = var.env == "prod" ? "https://10.10.70.30:9999/e/ebe20728/api" : "https://10.10.70.8:9999/e/yrk32651/api"
+  dynatrace_server = var.env == "prod" ? "https://dynatrace-activegate-prod.platform.hmcts.net:9999/e/ebe20728/api" : "https://dynatrace-activegate-nonprod.platform.hmcts.net:9999/e/yrk32651/api"
 
   nessus_server = var.env == "prod" ? "nessus-scanners-prod000005.platform.hmcts.net" : "nessus-scanners-nonprod000005.platform.hmcts.net"
 
@@ -30,4 +30,10 @@ locals {
   additional_template_file = var.additional_script_uri != null ? format("%s%s%s", "[ ", "\"${var.additional_script_uri}\"", " ]") : "\"\""
 
   cnp_vault_rg = var.cnp_vault_rg == null ? var.env != "prod" ? "cnp-core-infra" : "core-infra-${var.env}" : var.cnp_vault_rg
+
+  xdr_tags_list = var.xdr_tags != null ? join(",", [var.xdr_tags, "hmcts,server"]) : "hmcts,server"
+
+  vm_name   = var.virtual_machine_id != null ? regex("virtualMachines/([^/]+)", var.virtual_machine_id)[0] : null
+  vmss_name = var.virtual_machine_scale_set_id != null ? regex("virtualMachineScaleSets/([^/]+)", var.virtual_machine_scale_set_id)[0] : null
+
 }

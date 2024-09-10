@@ -6,6 +6,13 @@ variable "common_tags" {
   default     = null
 }
 
+
+variable "xdr_tags" {
+  description = "XDR specific Tags"
+  type        = string
+  default     = ""
+}
+
 variable "os_type" {
   description = "Windows or Linux."
   type        = string
@@ -321,4 +328,40 @@ variable "soc_vault_name" {
   description = "The name of the SOC Key Vault."
   type        = string
   default     = "soc-prod"
+}
+
+variable "run_command_sa_key" {
+  description = "SA key for the run command"
+  default     = ""
+  sensitive   = true
+}
+
+variable "run_cis" {
+  type        = bool
+  default     = false
+  description = "Install CIS hardening using run command script?"
+}
+variable "run_xdr_collector" {
+  type        = bool
+  default     = false
+  description = "Install XDR collectors using run command script?"
+}
+
+
+variable "run_xdr_agent" {
+  type        = bool
+  default     = false
+  description = "Install XDR agents using run command script?"
+}
+
+variable "xdr_env" {
+  description = "Set environment for XDR Agent to make sure which environment it should go to, defaults to prod"
+  type        = string
+  default     = "prod"
+}
+
+variable "location" {
+  description = "The region in Azure that the Data collection rule will be deployed to."
+  type        = string
+  default     = "UK South"
 }

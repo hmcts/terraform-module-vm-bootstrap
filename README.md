@@ -86,6 +86,7 @@ A virtual machine or virtual machine scale set.
 | <a name="input_install_endpoint_protection"></a> [install\_endpoint\_protection](#input\_install\_endpoint\_protection) | Install Endpoint Protection. | `bool` | `true` | no |
 | <a name="input_install_nessus_agent"></a> [install\_nessus\_agent](#input\_install\_nessus\_agent) | Install Nessus Agent. | `bool` | `true` | no |
 | <a name="input_install_splunk_uf"></a> [install\_splunk\_uf](#input\_install\_splunk\_uf) | Install Splunk UF. | `bool` | `true` | no |
+| <a name="input_location"></a> [location](#input\_location) | The region in Azure that the Data collection rule will be deployed to. | `string` | `"UK South"` | no |
 | <a name="input_nessus_groups"></a> [nessus\_groups](#input\_nessus\_groups) | Nessus group name. | `string` | `"Platform-Operation-Bastions"` | no |
 | <a name="input_nessus_key"></a> [nessus\_key](#input\_nessus\_key) | Nessus linking key - read input from keyvault. | `string` | `null` | no |
 | <a name="input_nessus_server"></a> [nessus\_server](#input\_nessus\_server) | Nessus server endpoint - read input from keyvault. | `string` | `""` | no |
@@ -94,10 +95,14 @@ A virtual machine or virtual machine scale set.
 | <a name="input_rc_os_sku"></a> [rc\_os\_sku](#input\_rc\_os\_sku) | n/a | `any` | `null` | no |
 | <a name="input_rc_script_file"></a> [rc\_script\_file](#input\_rc\_script\_file) | A path to a local file for the script | `any` | `null` | no |
 | <a name="input_realtimeprotectionenabled"></a> [realtimeprotectionenabled](#input\_realtimeprotectionenabled) | Enable Realtime Protection | `string` | `true` | no |
+| <a name="input_run_cis"></a> [run\_cis](#input\_run\_cis) | Install CIS hardening using run command script? | `bool` | `false` | no |
 | <a name="input_run_command"></a> [run\_command](#input\_run\_command) | n/a | `bool` | `false` | no |
+| <a name="input_run_command_sa_key"></a> [run\_command\_sa\_key](#input\_run\_command\_sa\_key) | SA key for the run command | `string` | `""` | no |
 | <a name="input_run_command_settings"></a> [run\_command\_settings](#input\_run\_command\_settings) | The settings passed to the Run Command extension, these are specified as a JSON object in a string. | `string` | `null` | no |
 | <a name="input_run_command_type_handler_version"></a> [run\_command\_type\_handler\_version](#input\_run\_command\_type\_handler\_version) | Type handler version number | `string` | `"1.0"` | no |
 | <a name="input_run_command_type_handler_version_windows"></a> [run\_command\_type\_handler\_version\_windows](#input\_run\_command\_type\_handler\_version\_windows) | Type handler version number for Windows VMs | `string` | `"1.1"` | no |
+| <a name="input_run_xdr_agent"></a> [run\_xdr\_agent](#input\_run\_xdr\_agent) | Install XDR agents using run command script? | `bool` | `false` | no |
+| <a name="input_run_xdr_collector"></a> [run\_xdr\_collector](#input\_run\_xdr\_collector) | Install XDR collectors using run command script? | `bool` | `false` | no |
 | <a name="input_scheduledscansettings"></a> [scheduledscansettings](#input\_scheduledscansettings) | Enable Scanning | `map(string)` | <pre>{<br>  "day": "7",<br>  "isEnabled": "true",<br>  "scanType": "Quick",<br>  "time": "120"<br>}</pre> | no |
 | <a name="input_soc_vault_name"></a> [soc\_vault\_name](#input\_soc\_vault\_name) | The name of the SOC Key Vault. | `string` | `"soc-prod"` | no |
 | <a name="input_soc_vault_rg"></a> [soc\_vault\_rg](#input\_soc\_vault\_rg) | The name of the resource group where the SOC Key Vault is located. | `string` | `"soc-core-infra-prod-rg"` | no |
@@ -108,4 +113,40 @@ A virtual machine or virtual machine scale set.
 | <a name="input_virtual_machine_id"></a> [virtual\_machine\_id](#input\_virtual\_machine\_id) | Virtual machine resource id. | `string` | `null` | no |
 | <a name="input_virtual_machine_scale_set_id"></a> [virtual\_machine\_scale\_set\_id](#input\_virtual\_machine\_scale\_set\_id) | Virtual machine scale set resource id. | `string` | `null` | no |
 | <a name="input_virtual_machine_type"></a> [virtual\_machine\_type](#input\_virtual\_machine\_type) | vm or vmss. | `string` | n/a | yes |
+| <a name="input_xdr_env"></a> [xdr\_env](#input\_xdr\_env) | Set environment for XDR Agent to make sure which environment it should go to, defaults to prod | `string` | `"prod"` | no |
+| <a name="input_xdr_tags"></a> [xdr\_tags](#input\_xdr\_tags) | XDR specific Tags | `string` | `""` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_XDR_TAGS"></a> [XDR\_TAGS](#output\_XDR\_TAGS) | n/a |
 <!-- END_TF_DOCS -->
+
+## Redhat ELS for RHEL 7.*
+This README provides instructions for logging into Redhat ELS, checking the Subscription Manager and Insights-client, and other relevant details.
+
+## Logging into Redhat
+To log into Redhat, use the following credentials stored in the Key Vault (KV):
+
+Username: lss-sre@hmcts.net
+Password: https://portal.azure.com/#@HMCTS.NET/asset/Microsoft_Azure_KeyVault/Secret/https://acmedcdcnpdev.vault.azure.net/secrets/redhat-portal/cd61d615bffe415f8dd6c1907df3115b
+
+
+## Certificate Information
+The certificate is placed under the following directory:
+/etc/pki/product/204.pem
+
+## Checking Subscription Manager and Insights-client Installation
+Ensure that both the Subscription Manager and Insights-client are installed correctly and show an active status.
+
+## Inventory Check
+You can verify the status of both Subscription Manager and Insights-client by visiting the following inventory link:
+
+https://console.redhat.com/insights/inventory
+
+Both Subscription Manager and Insights-client should display an active status.
+
+Documentation links - https://tools.hmcts.net/confluence/display/~thomas.thornton/RHEL+7+ELS+Support
+
+For more detailed documentation, please refer to the RHEL 7 ELS Support Documentation.

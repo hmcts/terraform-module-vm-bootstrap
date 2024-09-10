@@ -8,8 +8,8 @@ function Install-SplunkUF {
     )
 
     # Setup
-    $installerURI = 'https://download.splunk.com/products/universalforwarder/releases/9.1.3/windows/splunkforwarder-9.1.3-d95b3299fa65-x64-release.msi'
-    $installerFile = $env:Temp + "\splunkforwarder-9.1.3-d95b3299fa65-x64-release.msi"
+    $installerURI = 'https://download.splunk.com/products/universalforwarder/releases/9.2.1/windows/splunkforwarder-9.2.1-78803f08aabb-x64-release.msi'
+    $installerFile = $env:Temp + "\splunkforwarder-9.2.1-78803f08aabb-x64-release.msi"
     $indexServer = 'splunk-cm-prod-vm00.platform.hmcts.net:8089'
     $deploymentServer = 'splunk-lm-prod-vm00.platform.hmcts.net:8089'
 
@@ -31,13 +31,13 @@ function Install-SplunkUF {
 }
 function Get-DownloadId {
     param(
-      [string]$desc
+        [string]$desc
     )
     # use Invoke-RestMethod to get the JSON data from the web url
 
     $url = "https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/"
     $response = Invoke-WebRequest -Uri $url -UseBasicParsing
-    
+
     $json_data = $response.Content
     # use ConvertFrom-Json to convert the JSON data to a PowerShell object
     $json_object = $json_data | ConvertFrom-Json
@@ -48,7 +48,7 @@ function Get-DownloadId {
     $highest = $download_id | Sort-Object | Select-Object -Last 1
     # write the output to the pipeline
     Write-Output $highest
-  }
+}
 
 function Install-NessusAgent {
     param
@@ -59,8 +59,8 @@ function Install-NessusAgent {
     )
 
     # Setup
-    $id = Get-DownloadId -desc "Windows Server 2012, Server 2012 R2, Server 2016, Server 2019, Server 2022, 10, and 11 (64-bit)"
-    $installerURI = "https://www.tenable.com/downloads/api/v1/public/pages/nessus-agents/downloads/$id/download?i_agree_to_tenable_license_agreement=true"
+    $id = Get-DownloadId -desc "Windows Server 2012, Server 2012 R2, Server 2016, Server 2019, Server 2022, 10, and 11 (x86_64)"
+    $installerURI = "https://www.tenable.com/downloads/api/v2/pages/nessus-agents/files/NessusAgent-latest-x64.msi"
     $installerFile = $env:Temp + "\nessusagent.msi"
 
     # Download nessus
