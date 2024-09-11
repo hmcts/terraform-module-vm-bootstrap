@@ -47,18 +47,12 @@ install_azcli() {
             rpm -q dnf || sudo yum install dnf -y
         fi
         if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"6."* ]]; then
-            echo "Setup Python3.6 and PIP"
-            sudo wget https://www.python.org/ftp/python/3.6.15/Python-3.6.15.tgz
-            sudo tar xzf Python-3.6.15.tgz
-            cd Python-3.6.15
-            sudo ./configure --enable-optimizations
-            sudo make altinstall
-            sudo /usr/local/bin/pip3.6 install --upgrade pip
-
-            echo "Install pip azure-cli"
-            sudo /usr/local/bin/pip3.6 install bcrypt==3.2.0
-            sudo /usr/local/bin/pip3.6 install azure-cli==2.11.0
-            cd -
+            echo "Setup azcopy cli utility"
+            sudo wget https://packages.microsoft.com/config/rhel/6/packages-microsoft-prod.rpm
+            sudo rpm -i packages-microsoft-prod.rpm
+            rm packages-microsoft-prod.rpm
+            sudo dnf update
+            sudo dnf install azcopy
         elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"7."* ]]; then
             echo -e "[azure-cli]
 name=Azure CLI
@@ -111,6 +105,7 @@ install_agent() {
         # Download conf file
         local BLOB_NAME="${ENV}/${ENV}_agent-HMCTS_Linux_rpm_8.5.0.125392/cortex.conf"
         local LOCAL_FILE_PATH="XDR_DOWNLOAD/cortex.conf"
+
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
         sudo echo "$STRING_TO_APPEND" >> $LOCAL_FILE_PATH
         sudo mkdir -p /etc/panw
@@ -203,7 +198,11 @@ download_blob(){
     local LOCAL_FILE_PATH="$5"
 
     if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"6."* ]]; then
-        sudo /usr/local/bin/az storage blob download --account-name $STORAGE_ACCOUNT_NAME --account-key $SA_KEY --container-name $CONTAINER_NAME --name $BLOB_NAME --file $LOCAL_FILE_PATH
+        # Need to pass a Shared Access Signature:
+        sudo azcopy "https://$STORAGE_ACCOUNT_NAME.blob.core.windows.net/$CONTAINER_NAME/$BLOB_NAME?$SAS" "$LOCAL_FILE_PATH"
+        # Or create and set MI using below and:
+        # https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-authorize-azure-active-directory?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json&bc=%2Fazure%2Fstorage%2Fblobs%2Fbreadcrumb%2Ftoc.json#authorize-by-using-a-user-assigned-managed-identity
+        sudo azcopy "https://$STORAGE_ACCOUNT_NAME.blob.core.windows.net/$CONTAINER_NAME/$BLOB_NAME" "$LOCAL_FILE_PATH"
     else
         az storage blob download --account-name $STORAGE_ACCOUNT_NAME --account-key $SA_KEY --container-name $CONTAINER_NAME --name $BLOB_NAME --file $LOCAL_FILE_PATH
     fi
