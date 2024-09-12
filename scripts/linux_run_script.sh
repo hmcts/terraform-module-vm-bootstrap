@@ -122,7 +122,6 @@ install_agent() {
         # Download conf file
         local BLOB_NAME="${ENV}/${ENV}_agent-HMCTS_Linux_rpm_8.5.0.125392/cortex.conf"
         local LOCAL_FILE_PATH="XDR_DOWNLOAD/cortex.conf"
-
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
         sudo echo "$STRING_TO_APPEND" >> $LOCAL_FILE_PATH
         sudo mkdir -p /etc/panw
