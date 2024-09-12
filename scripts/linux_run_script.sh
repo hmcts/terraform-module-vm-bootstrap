@@ -132,7 +132,7 @@ install_agent() {
         local BLOB_NAME="${ENV}/${ENV}_agent-HMCTS_Linux_rpm_8.5.0.125392/cortex-8.5.0.125392.rpm"
         local LOCAL_FILE_PATH="XDR_DOWNLOAD/cortexagent.rpm"
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
-        rpm -qa | grep -i cortex-agent || rpm -Uh $LOCAL_FILE_PATH
+        rpm -qa | grep -i cortex-agent || sudo rpm -Uh $LOCAL_FILE_PATH
         rm -rf $LOCAL_FILE_PATH
         echo "Installation of Agents on RedHat VM completed"
     else
@@ -184,7 +184,7 @@ install_collector() {
         local BLOB_NAME="${ENV}/collector-1.4.1.1089.rpm/collector-1.4.1.1089.rpm"
         local LOCAL_FILE_PATH="XDR_DOWNLOAD/collector.rpm"
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
-        rpm -qa | grep -i xdr-collector || rpm -Uh $LOCAL_FILE_PATH
+        rpm -qa | grep -i xdr-collector || sudo rpm -Uh $LOCAL_FILE_PATH
         rm -rf $LOCAL_FILE_PATH
         echo "Installation of collectors on RedHat VM completed"
     else
@@ -216,7 +216,7 @@ download_blob(){
 
     if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"6."* ]]; then
         # This command uses SA_KEY as a variable but it should be a SAS Token for RHEL 6 VMs
-        sudo azcopy "https://$STORAGE_ACCOUNT_NAME.blob.core.windows.net/$CONTAINER_NAME/$BLOB_NAME?$SA_KEY" "$LOCAL_FILE_PATH"
+        azcopy copy "https://$STORAGE_ACCOUNT_NAME.blob.core.windows.net/$CONTAINER_NAME/$BLOB_NAME?$SA_KEY" "$LOCAL_FILE_PATH"
     else
         az storage blob download --account-name $STORAGE_ACCOUNT_NAME --account-key $SA_KEY --container-name $CONTAINER_NAME --name $BLOB_NAME --file $LOCAL_FILE_PATH
     fi
