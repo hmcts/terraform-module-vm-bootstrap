@@ -110,7 +110,6 @@ install_agent() {
     mkdir -p XDR_DOWNLOAD
 
     if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
-        if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"6."* ]]; then
         # Download conf file
         local BLOB_NAME="${ENV}/${ENV}_agent-HMCTS_Linux_rpm_8.5.0.125392/cortex.conf"
         local LOCAL_FILE_PATH="XDR_DOWNLOAD/cortex.conf"
