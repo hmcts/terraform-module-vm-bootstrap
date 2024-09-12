@@ -1,6 +1,4 @@
 resource "azurerm_virtual_machine_scale_set_extension" "azure_vmss_run_command" {
-  count = var.run_command == true && var.virtual_machine_type == "vmss" ? 1 : 0
-
   name                         = "${lower(var.os_type)}-run-command"
   virtual_machine_scale_set_id = var.virtual_machine_scale_set_id
   publisher                    = "Microsoft.CPlat.Core"
