@@ -29,4 +29,7 @@ locals {
   additional_template_file = var.additional_script_uri != null ? format("%s%s%s", "[ ", "\"${var.additional_script_uri}\"", " ]") : "\"\""
 
   cnp_vault_rg = var.cnp_vault_rg == null ? var.env != "prod" ? "cnp-core-infra" : "core-infra-${var.env}" : var.cnp_vault_rg
+
+  vm_name   = var.virtual_machine_id != null ? regex("virtualMachines/([^/]+)", var.virtual_machine_id)[0] : null
+  vmss_name = var.virtual_machine_scale_set_id != null ? regex("virtualMachineScaleSets/([^/]+)", var.virtual_machine_scale_set_id)[0] : null
 }
