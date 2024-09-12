@@ -44,16 +44,23 @@ install_azcli() {
 
         if [ "$OS" != "ubuntu" ]; then
             sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-            rpm -q dnf || sudo yum install dnf -y
         fi
         if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"6."* ]]; then
-            echo "Setup azcopy cli utility"
-            sudo wget https://packages.microsoft.com/config/rhel/6/packages-microsoft-prod.rpm
-            sudo rpm -i packages-microsoft-prod.rpm
-            rm packages-microsoft-prod.rpm
-            sudo dnf update
-            sudo dnf install azcopy
+            echo "Downloading AzCopy"
+            sudo wget https://aka.ms/downloadazcopy-v10-linux
+            sudo tar -xvf downloadazcopy-v10-linux
+
+            echo "Adding AzCopy to path"
+            sudo rm -f /usr/bin/azcopy
+            sudo cp ./azcopy_linux_amd64_*/azcopy /usr/bin/
+            sudo chmod 755 /usr/bin/azcopy
+
+            echo "Completing cleanup"
+            sudo rm -f downloadazcopy-v10-linux
+            sudo rm -rf ./azcopy_linux_amd64_*/
+
         elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"7."* ]]; then
+            rpm -q dnf || sudo yum install dnf -y
             echo -e "[azure-cli]
 name=Azure CLI
 baseurl=https://packages.microsoft.com/yumrepos/azure-cli
@@ -65,10 +72,12 @@ gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.re
             sudo dnf -v install azure-cli -y
 
         elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"8."* ]]; then
+            rpm -q dnf || sudo yum install dnf -y
             sudo dnf install -y https://packages.microsoft.com/config/rhel/8/packages-microsoft-prod.rpm
             sudo dnf install azure-cli
 
         elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"9."* ]]; then
+            rpm -q dnf || sudo yum install dnf -y
             sudo dnf install -y https://packages.microsoft.com/config/rhel/9.0/packages-microsoft-prod.rpm
             sudo dnf install azure-cli
 
@@ -101,7 +110,7 @@ install_agent() {
     mkdir -p XDR_DOWNLOAD
 
     if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
-
+        if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"6."* ]]; then
         # Download conf file
         local BLOB_NAME="${ENV}/${ENV}_agent-HMCTS_Linux_rpm_8.5.0.125392/cortex.conf"
         local LOCAL_FILE_PATH="XDR_DOWNLOAD/cortex.conf"
@@ -198,17 +207,12 @@ download_blob(){
     local LOCAL_FILE_PATH="$5"
 
     if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"6."* ]]; then
-        # Need to pass a Shared Access Signature:
-        sudo azcopy "https://$STORAGE_ACCOUNT_NAME.blob.core.windows.net/$CONTAINER_NAME/$BLOB_NAME?$SAS" "$LOCAL_FILE_PATH"
-        # Or create and set MI using below and:
-        # https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-authorize-azure-active-directory?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json&bc=%2Fazure%2Fstorage%2Fblobs%2Fbreadcrumb%2Ftoc.json#authorize-by-using-a-user-assigned-managed-identity
-        sudo azcopy "https://$STORAGE_ACCOUNT_NAME.blob.core.windows.net/$CONTAINER_NAME/$BLOB_NAME" "$LOCAL_FILE_PATH"
+        # This command uses SA_KEY as a variable but it should be a SAS Token for RHEL 6 VMs
+        sudo azcopy "https://$STORAGE_ACCOUNT_NAME.blob.core.windows.net/$CONTAINER_NAME/$BLOB_NAME?$SA_KEY" "$LOCAL_FILE_PATH"
     else
         az storage blob download --account-name $STORAGE_ACCOUNT_NAME --account-key $SA_KEY --container-name $CONTAINER_NAME --name $BLOB_NAME --file $LOCAL_FILE_PATH
     fi
 }
-
-
 
 if [ "${RUN_XDR_AGENT}" = "true" ]
 then
