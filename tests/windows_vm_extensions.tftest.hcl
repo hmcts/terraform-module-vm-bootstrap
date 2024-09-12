@@ -1,6 +1,5 @@
 provider "azurerm" {
   features {}
-  subscription_id = "64b1c6d6-1481-44ad-b620-d8fe26a2c768"
 }
 
 provider "azurerm" {
@@ -14,13 +13,6 @@ provider "azurerm" {
   alias = "cnp"
   features {}
   subscription_id            = "1c4f0704-a29e-403d-b719-b90c34ef14c9"
-  skip_provider_registration = true
-}
-
-provider "azurerm" {
-  alias = "dcr"
-  features {}
-  subscription_id            = var.env=="prod" || var.env=="production" ? "8999dec3-0104-4a27-94ee-6588559729d1" : var.env=="sbox" || var.env=="sandbox" ? "bf308a5c-0624-4334-8ff8-8dca9fd43783" : "1c4f0704-a29e-403d-b719-b90c34ef14c9"
   skip_provider_registration = true
 }
 
