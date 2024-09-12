@@ -36,15 +36,12 @@ fi
 STORAGE_ACCOUNT_NAME="cftptlintsvc"
 CONTAINER_NAME="xdr-collectors"
 
-install_azcli() {
+
+install_azcopy() {
     # Install Azure CLI (if not already installed)
 
-    if ! command -v az &> /dev/null
+    if ! command -v azcopy &> /dev/null
     then
-
-        if [ "$OS" != "ubuntu" ]; then
-            sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-        fi
         if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"6."* ]]; then
             echo "Downloading AzCopy"
             sudo wget https://aka.ms/downloadazcopy-v10-linux
@@ -58,9 +55,24 @@ install_azcli() {
             echo "Completing cleanup"
             sudo rm -f downloadazcopy-v10-linux
             sudo rm -rf ./azcopy_linux_amd64_*/
+        fi
+    else
+        echo "AzCopy is already installed."
+    fi
 
-        elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"7."* ]]; then
+}
+
+install_azcli() {
+    # Install Azure CLI (if not already installed)
+
+    if ! command -v az &> /dev/null
+    then
+
+        if [ "$OS" != "ubuntu" ]; then
+            sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
             rpm -q dnf || sudo yum install dnf -y
+        fi
+        if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"7."* ]]; then
             echo -e "[azure-cli]
 name=Azure CLI
 baseurl=https://packages.microsoft.com/yumrepos/azure-cli
@@ -72,12 +84,10 @@ gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.re
             sudo dnf -v install azure-cli -y
 
         elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"8."* ]]; then
-            rpm -q dnf || sudo yum install dnf -y
             sudo dnf install -y https://packages.microsoft.com/config/rhel/8/packages-microsoft-prod.rpm
             sudo dnf install azure-cli
 
         elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"9."* ]]; then
-            rpm -q dnf || sudo yum install dnf -y
             sudo dnf install -y https://packages.microsoft.com/config/rhel/9.0/packages-microsoft-prod.rpm
             sudo dnf install azure-cli
 
@@ -87,7 +97,6 @@ gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.re
     else
         echo "Azure CLI is already installed."
     fi
-
 }
 
 install_agent() {
@@ -215,12 +224,20 @@ download_blob(){
 
 if [ "${RUN_XDR_AGENT}" = "true" ]
 then
-    install_azcli
+    if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"6."* ]]; then
+        install_azcopy
+    else
+        install_azcli
+    fi
     install_agent "${STORAGE_ACCOUNT_KEY}" "${ENV}" "${XDR_TAGS}"
 fi
 
 if [ "${RUN_XDR_COLLECTOR}" = "true" ]
 then
-    install_azcli
+    if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"6."* ]]; then
+        install_azcopy
+    else
+        install_azcli
+    fi
     install_collector "${STORAGE_ACCOUNT_KEY}" "${ENV}"
 fi
