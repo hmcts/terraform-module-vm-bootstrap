@@ -1,8 +1,8 @@
 #!/bin/bash
     set -ex
-    
-   # Get OS type
-    
+
+# Get OS type
+
     if [ -f /etc/os-release ]; then
         . /etc/os-release
         OS=$ID
@@ -13,12 +13,12 @@
     # Run the command only if the OS is not Ubuntu
     if [ "$OS" != "ubuntu" ]; then
         echo "Running command on $OS"
-        
+
         sudo yum install redhat-lsb-core -y
     else
         echo "Skipping command on Ubuntu"
     fi
-    
+
     if command -v lsb_release &> /dev/null
     then
         OS_TYPE=$(lsb_release -a | grep "Description" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
@@ -26,12 +26,12 @@
         echo "Operating System could not be determined."
     fi
 
-    STORAGE_ACCOUNT_NAME="cftptlintsvc"    
+    STORAGE_ACCOUNT_NAME="cftptlintsvc"
     CONTAINER_NAME="xdr-collectors"
 
 install_azcli() {
     # Install Azure CLI (if not already installed)
-    
+
     if ! command -v az &> /dev/null
     then
 
@@ -48,23 +48,23 @@ enabled=1
 gpgcheck=1
 gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/azure-cli.repo
 
-           sudo dnf clean all
-           sudo dnf -v install azure-cli -y
+            sudo dnf clean all
+            sudo dnf -v install azure-cli -y
         elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"8."* ]]; then
             sudo dnf install -y https://packages.microsoft.com/config/rhel/8/packages-microsoft-prod.rpm
 
             sudo dnf install azure-cli
         elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"9."* ]]; then
-           sudo dnf install -y https://packages.microsoft.com/config/rhel/9.0/packages-microsoft-prod.rpm
+            sudo dnf install -y https://packages.microsoft.com/config/rhel/9.0/packages-microsoft-prod.rpm
 
-           sudo dnf install azure-cli
+            sudo dnf install azure-cli
         else
             curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
         fi
     else
         echo "Azure CLI is already installed."
     fi
-    
+
 }
 
 install_agent() {
@@ -76,7 +76,7 @@ install_agent() {
         sudo apt-get update
         sudo apt-get install -y selinux-utils policycoreutils
     fi
-    
+
     local SA_KEY="$1"
     local ENV="$2"
     local XDR_TAGS="$3"
@@ -95,7 +95,7 @@ install_agent() {
         sudo echo "$STRING_TO_APPEND" >> $LOCAL_FILE_PATH
         sudo mkdir -p /etc/panw
         sudo cp $LOCAL_FILE_PATH /etc/panw/
-        
+
         # Install agent
         local BLOB_NAME="${ENV}/${ENV}_agent-HMCTS_Linux_rpm_8.5.0.125392/cortex-8.5.0.125392.rpm"
         local LOCAL_FILE_PATH="XDR_DOWNLOAD/cortexagent.rpm"
@@ -112,8 +112,8 @@ install_agent() {
         sudo echo "$STRING_TO_APPEND" >> $LOCAL_FILE_PATH
         sudo mkdir -p /etc/panw
         sudo cp $LOCAL_FILE_PATH /etc/panw/
-        
-         # Install agent
+
+        # Install agent
         local BLOB_NAME="${ENV}/${ENV}_agent-HMCTS_Linux_deb_8.5.0.125392/cortex-8.5.0.125392.deb"
         local LOCAL_FILE_PATH="XDR_DOWNLOAD/cortexagent.deb"
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
@@ -126,7 +126,7 @@ install_agent() {
 
 install_collector() {
     echo "Info: Installing XDR Collectors"
-    
+
     if [ "$OS" != "ubuntu" ]; then
         sudo yum install -y selinux-policy-devel
     else
@@ -147,7 +147,7 @@ install_collector() {
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
         sudo mkdir -p /etc/panw
         sudo cp $LOCAL_FILE_PATH /etc/panw/
-        
+
         # Install collector
         local BLOB_NAME="${ENV}/collector-1.4.1.1089.rpm/collector-1.4.1.1089.rpm"
         local LOCAL_FILE_PATH="XDR_DOWNLOAD/collector.rpm"
@@ -163,8 +163,8 @@ install_collector() {
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
         sudo mkdir -p /etc/panw
         sudo cp $LOCAL_FILE_PATH /etc/panw/
-        
-         # Install collector
+
+        # Install collector
         local BLOB_NAME="${ENV}/collector-1.4.1.1089.deb/collector-1.4.1.1089.deb"
         local LOCAL_FILE_PATH="XDR_DOWNLOAD/collector.deb"
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
@@ -184,16 +184,50 @@ download_blob(){
     az storage blob download --account-name $STORAGE_ACCOUNT_NAME --account-key $SA_KEY --container-name $CONTAINER_NAME --name $BLOB_NAME --file $LOCAL_FILE_PATH
 }
 
+install_docker(){
+
+    echo "Info: Installing Docker and Docker Compose"
+
+    if [ "$OS" == "ubuntu" ]; then
+
+        if ! command -v docker &>/dev/null; then
+            apt update
+            apt install -y apt-transport-https ca-certificates curl software-properties-common
+
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+            echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list >/dev/null
+
+            apt update
+            apt install -y docker-ce
+        fi
+
+        DOCKER_PLUGINS_DIR="/usr/local/lib/docker/cli-plugins"
+
+        if [ ! -d "$DOCKER_PLUGINS_DIR" ]; then
+            mkdir -p "$DOCKER_PLUGINS_DIR"
+            if [ ! -f "$DOCKER_PLUGINS_DIR/docker-compose" ]; then
+                curl -SL https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
+                chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+            fi
+        fi
+    fi
+}
 
 
 if [ "${RUN_XDR_AGENT}" = "true" ]
 then
-  install_azcli
-  install_agent "${STORAGE_ACCOUNT_KEY}" "${ENV}" "${XDR_TAGS}"
+    install_azcli
+    install_agent "${STORAGE_ACCOUNT_KEY}" "${ENV}" "${XDR_TAGS}"
 fi
 
 if [ "${RUN_XDR_COLLECTOR}" = "true" ]
 then
-  install_azcli
-  install_collector "${STORAGE_ACCOUNT_KEY}" "${ENV}"
+    install_azcli
+    install_collector "${STORAGE_ACCOUNT_KEY}" "${ENV}"
+fi
+
+if [ "${INSTALL_DOCKER}" = "true" ]
+then
+    install_docker
 fi

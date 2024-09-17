@@ -89,10 +89,12 @@ A virtual machine or virtual machine scale set.
 | <a name="input_endpoint_protection_upgrade_minor_version"></a> [endpoint\_protection\_upgrade\_minor\_version](#input\_endpoint\_protection\_upgrade\_minor\_version) | Specifies if the platform deploys the latest minor version Endpoint Protection update to the type\_handler\_version specified. | `bool` | `true` | no |
 | <a name="input_env"></a> [env](#input\_env) | Environment name. | `string` | n/a | yes |
 | <a name="input_install_azure_monitor"></a> [install\_azure\_monitor](#input\_install\_azure\_monitor) | Install Azure Monitor Agent. | `bool` | `true` | no |
+| <a name="input_install_docker"></a> [install\_docker](#input\_install\_docker) | Should Docker and Docker Compose be installed -- Ubuntu only | `bool` | `false` | no |
 | <a name="input_install_dynatrace_oneagent"></a> [install\_dynatrace\_oneagent](#input\_install\_dynatrace\_oneagent) | Install Dynatrace OneAgent. | `bool` | `true` | no |
 | <a name="input_install_endpoint_protection"></a> [install\_endpoint\_protection](#input\_install\_endpoint\_protection) | Install Endpoint Protection. | `bool` | `true` | no |
 | <a name="input_install_nessus_agent"></a> [install\_nessus\_agent](#input\_install\_nessus\_agent) | Install Nessus Agent. | `bool` | `true` | no |
 | <a name="input_install_splunk_uf"></a> [install\_splunk\_uf](#input\_install\_splunk\_uf) | Install Splunk UF. | `bool` | `true` | no |
+| <a name="input_location"></a> [location](#input\_location) | The region in Azure that the Data collection rule will be deployed to. | `string` | `"UK South"` | no |
 | <a name="input_nessus_groups"></a> [nessus\_groups](#input\_nessus\_groups) | Nessus group name. | `string` | `"Platform-Operation-Bastions"` | no |
 | <a name="input_nessus_key"></a> [nessus\_key](#input\_nessus\_key) | Nessus linking key - read input from keyvault. | `string` | `null` | no |
 | <a name="input_nessus_server"></a> [nessus\_server](#input\_nessus\_server) | Nessus server endpoint - read input from keyvault. | `string` | `""` | no |
