@@ -355,8 +355,8 @@ variable "xdr_env" {
 
 variable "install_docker" {
   description = "Should Docker and Docker Compose be installed -- Ubuntu only"
-  type    = bool
-  default = false
+  type        = bool
+  default     = false
 }
 
 variable "location" {
