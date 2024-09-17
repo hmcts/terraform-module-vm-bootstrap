@@ -51,6 +51,7 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
       RUN_XDR_AGENT       = var.run_xdr_agent ? "true" : "false"
       ENV                 = var.xdr_env == "prod" ? var.xdr_env : "nonprod"
       XDR_TAGS            = local.xdr_tags_list
+      INSTALL_DOCKER      = var.install_docker ? "true" : "false"
     })]))
   })
 
