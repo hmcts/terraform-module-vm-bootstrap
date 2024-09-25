@@ -1,33 +1,63 @@
 #!/bin/bash
     set -ex
 
-# Get OS type
-
+# Get OS type/version/name
+check_os_version() {
     if [ -f /etc/os-release ]; then
         . /etc/os-release
         OS=$ID
+        OS_TYPE=$NAME
+        VERSION=$VERSION_ID
+    elif type lsb_release >/dev/null 2>&1; then
+        OS=$(lsb_release -si)
+        OS_TYPE=$(lsb_release -sd | sed 's/"//g')
+        VERSION=$(lsb_release -sr)
+    elif [ -f /etc/redhat-release ]; then
+        OS=$(awk '{print $1$2$3$5}' /etc/redhat-release)
+        OS_TYPE=$(awk '{print $1, $2, $3, $4, $5}' /etc/redhat-release)
+        VERSION=$(cat /etc/redhat-release | sed 's/[^0-9.]*//g')
     else
         echo "Cannot determine the operating system."
     fi
 
-    # Run the command only if the OS is not Ubuntu
-    if [ "$OS" != "ubuntu" ]; then
-        echo "Running command on $OS"
+    echo "Operating System: $OS"
+    echo "Version: $VERSION"
+}
 
-        sudo yum install redhat-lsb-core -y
-    else
-        echo "Skipping command on Ubuntu"
-    fi
+check_os_version
 
-    if command -v lsb_release &> /dev/null
+# Run the command only if the OS is not Ubuntu
+if [ "$OS" != "ubuntu" ]; then
+    echo "Running command on $OS"
+
+    sudo yum install redhat-lsb-core -y
+else
+    echo "Skipping command on Ubuntu"
+fi
+
+STORAGE_ACCOUNT_NAME="cftptlintsvc"
+CONTAINER_NAME="xdr-collectors"
+
+install_azcopy() {
+    # Install Azure CLI (if not already installed)
+    if ! command -v azcopy &> /dev/null
     then
-        OS_TYPE=$(lsb_release -a | grep "Description" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
+    if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"6."* ]]; then
+            echo "Downloading AzCopy"
+            sudo wget https://aka.ms/downloadazcopy-v10-linux
+            sudo tar -xvf downloadazcopy-v10-linux
+            echo "Adding AzCopy to path"
+            sudo rm -f /usr/bin/azcopy
+            sudo cp ./azcopy_linux_amd64_*/azcopy /usr/bin/
+            sudo chmod 755 /usr/bin/azcopy
+            echo "Completing cleanup"
+            sudo rm -f downloadazcopy-v10-linux
+            sudo rm -rf ./azcopy_linux_amd64_*/
+        fi
     else
-        echo "Operating System could not be determined."
+            echo "AzCopy is already installed."
     fi
-
-    STORAGE_ACCOUNT_NAME="cftptlintsvc"
-    CONTAINER_NAME="xdr-collectors"
+}
 
 install_azcli() {
     # Install Azure CLI (if not already installed)
@@ -41,7 +71,7 @@ install_azcli() {
         fi
 
         if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"7."* ]]; then
-                        echo -e "[azure-cli]
+            echo -e "[azure-cli]
 name=Azure CLI
 baseurl=https://packages.microsoft.com/yumrepos/azure-cli
 enabled=1
@@ -50,14 +80,15 @@ gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.re
 
             sudo dnf clean all
             sudo dnf -v install azure-cli -y
+
         elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"8."* ]]; then
             sudo dnf install -y https://packages.microsoft.com/config/rhel/8/packages-microsoft-prod.rpm
-
             sudo dnf install azure-cli
+
         elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"9."* ]]; then
             sudo dnf install -y https://packages.microsoft.com/config/rhel/9.0/packages-microsoft-prod.rpm
-
             sudo dnf install azure-cli
+
         else
             curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
         fi
@@ -100,7 +131,7 @@ install_agent() {
         local BLOB_NAME="${ENV}/${ENV}_agent-HMCTS_Linux_rpm_8.5.0.125392/cortex-8.5.0.125392.rpm"
         local LOCAL_FILE_PATH="XDR_DOWNLOAD/cortexagent.rpm"
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
-        rpm -qa | grep -i cortex-agent || rpm -Uh $LOCAL_FILE_PATH
+        rpm -qa | grep -i cortex-agent || sudo rpm -Uh $LOCAL_FILE_PATH
         rm -rf $LOCAL_FILE_PATH
         echo "Installation of Agents on RedHat VM completed"
     else
@@ -152,7 +183,7 @@ install_collector() {
         local BLOB_NAME="${ENV}/collector-1.4.1.1089.rpm/collector-1.4.1.1089.rpm"
         local LOCAL_FILE_PATH="XDR_DOWNLOAD/collector.rpm"
         download_blob "$STORAGE_ACCOUNT_NAME" "$SA_KEY" "$CONTAINER_NAME" "$BLOB_NAME" "$LOCAL_FILE_PATH"
-        rpm -qa | grep -i xdr-collector || rpm -Uh $LOCAL_FILE_PATH
+        rpm -qa | grep -i xdr-collector || sudo rpm -Uh $LOCAL_FILE_PATH
         rm -rf $LOCAL_FILE_PATH
         echo "Installation of collectors on RedHat VM completed"
     else
@@ -181,7 +212,13 @@ download_blob(){
     local CONTAINER_NAME="$3"
     local BLOB_NAME="$4"
     local LOCAL_FILE_PATH="$5"
-    az storage blob download --account-name $STORAGE_ACCOUNT_NAME --account-key $SA_KEY --container-name $CONTAINER_NAME --name $BLOB_NAME --file $LOCAL_FILE_PATH
+
+    if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"6."* ]]; then
+        # This command uses SA_KEY as a variable but it should be a SAS Token for RHEL 6 VMs
+        azcopy copy "https://$STORAGE_ACCOUNT_NAME.blob.core.windows.net/$CONTAINER_NAME/$BLOB_NAME?$SA_KEY" "$LOCAL_FILE_PATH"
+    else
+        az storage blob download --account-name $STORAGE_ACCOUNT_NAME --account-key $SA_KEY --container-name $CONTAINER_NAME --name $BLOB_NAME --file $LOCAL_FILE_PATH
+    fi
 }
 
 install_docker(){
@@ -217,13 +254,21 @@ install_docker(){
 
 if [ "${RUN_XDR_AGENT}" = "true" ]
 then
-    install_azcli
+    if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"6."* ]]; then
+        install_azcopy
+    else
+        install_azcli
+    fi
     install_agent "${STORAGE_ACCOUNT_KEY}" "${ENV}" "${XDR_TAGS}"
 fi
 
 if [ "${RUN_XDR_COLLECTOR}" = "true" ]
 then
-    install_azcli
+    if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"6."* ]]; then
+        install_azcopy
+    else
+        install_azcli
+    fi
     install_collector "${STORAGE_ACCOUNT_KEY}" "${ENV}"
 fi
 
