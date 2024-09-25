@@ -72,7 +72,7 @@ install_azcli() {
             rpm -q dnf || sudo yum install dnf -y
         fi
 
-        if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"7."* ]]; then
+        if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"7."* ]]; then
             echo -e "[azure-cli]
 name=Azure CLI
 baseurl=https://packages.microsoft.com/yumrepos/azure-cli
@@ -83,11 +83,11 @@ gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.re
             sudo dnf clean all
             sudo dnf -v install azure-cli -y
 
-        elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"8."* ]]; then
+        elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"8."* ]]; then
             sudo dnf install -y https://packages.microsoft.com/config/rhel/8/packages-microsoft-prod.rpm
             sudo dnf install azure-cli
 
-        elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$OS_TYPE" == *"9."* ]]; then
+        elif [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"9."* ]]; then
             sudo dnf install -y https://packages.microsoft.com/config/rhel/9.0/packages-microsoft-prod.rpm
             sudo dnf install azure-cli
 
