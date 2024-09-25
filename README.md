@@ -28,17 +28,12 @@ A virtual machine or virtual machine scale set.
 |------|---------|
 | <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | n/a |
 | <a name="provider_azurerm.cnp"></a> [azurerm.cnp](#provider\_azurerm.cnp) | n/a |
-| <a name="provider_azurerm.dcr"></a> [azurerm.dcr](#provider\_azurerm.dcr) | n/a |
 | <a name="provider_azurerm.soc"></a> [azurerm.soc](#provider\_azurerm.soc) | n/a |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [azurerm_monitor_data_collection_rule_association.linux_vm_dcra](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_data_collection_rule_association) | resource |
-| [azurerm_monitor_data_collection_rule_association.linux_vmss_dcra](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_data_collection_rule_association) | resource |
-| [azurerm_monitor_data_collection_rule_association.windows_vm_dcra](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_data_collection_rule_association) | resource |
-| [azurerm_monitor_data_collection_rule_association.windows_vmss_dcra](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_data_collection_rule_association) | resource |
 | [azurerm_virtual_machine_extension.azure_monitor](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_extension) | resource |
 | [azurerm_virtual_machine_extension.azure_vm_run_command](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_extension) | resource |
 | [azurerm_virtual_machine_extension.custom_script](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_extension) | resource |
@@ -56,9 +51,6 @@ A virtual machine or virtual machine scale set.
 | [azurerm_key_vault_secret.splunk_password](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.splunk_username](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.token](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
-| [azurerm_monitor_data_collection_rule.linux_data_collection_rule](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/monitor_data_collection_rule) | data source |
-| [azurerm_monitor_data_collection_rule.windows_data_collection_rule](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/monitor_data_collection_rule) | data source |
-| [azurerm_resource_group.la_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
 
 ## Inputs
 
@@ -89,7 +81,6 @@ A virtual machine or virtual machine scale set.
 | <a name="input_endpoint_protection_upgrade_minor_version"></a> [endpoint\_protection\_upgrade\_minor\_version](#input\_endpoint\_protection\_upgrade\_minor\_version) | Specifies if the platform deploys the latest minor version Endpoint Protection update to the type\_handler\_version specified. | `bool` | `true` | no |
 | <a name="input_env"></a> [env](#input\_env) | Environment name. | `string` | n/a | yes |
 | <a name="input_install_azure_monitor"></a> [install\_azure\_monitor](#input\_install\_azure\_monitor) | Install Azure Monitor Agent. | `bool` | `true` | no |
-| <a name="input_install_docker"></a> [install\_docker](#input\_install\_docker) | Should Docker and Docker Compose be installed -- Ubuntu only | `bool` | `false` | no |
 | <a name="input_install_dynatrace_oneagent"></a> [install\_dynatrace\_oneagent](#input\_install\_dynatrace\_oneagent) | Install Dynatrace OneAgent. | `bool` | `true` | no |
 | <a name="input_install_endpoint_protection"></a> [install\_endpoint\_protection](#input\_install\_endpoint\_protection) | Install Endpoint Protection. | `bool` | `true` | no |
 | <a name="input_install_nessus_agent"></a> [install\_nessus\_agent](#input\_install\_nessus\_agent) | Install Nessus Agent. | `bool` | `true` | no |

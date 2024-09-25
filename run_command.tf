@@ -14,7 +14,6 @@ resource "azurerm_virtual_machine_scale_set_extension" "azure_vmss_run_command" 
     RUN_XDR_AGENT       = var.run_xdr_agent ? "true" : "false"
     ENV                 = var.xdr_env == "prod" ? var.xdr_env : "nonprod"
     XDR_TAGS            = lower(local.xdr_tags_list)
-    INSTALL_DOCKER      = var.install_docker ? "true" : "false"
     })) }) : jsonencode({ script = compact(tolist([templatefile("${path.module}/scripts/windows_run_script.ps1", {
       STORAGE_ACCOUNT_KEY = var.run_command_sa_key
       RUN_CIS             = var.rc_script_file == "scripts/windows_cis.ps1" || var.run_cis ? "true" : "false"
@@ -45,7 +44,6 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
     RUN_XDR_AGENT       = var.run_xdr_agent ? "true" : "false"
     ENV                 = var.xdr_env == "prod" ? var.xdr_env : "nonprod"
     XDR_TAGS            = lower(local.xdr_tags_list)
-    INSTALL_DOCKER      = var.install_docker ? "true" : "false"
     })) }) : jsonencode({ script = compact(tolist([templatefile("${path.module}/scripts/windows_run_script.ps1", {
       STORAGE_ACCOUNT_KEY = var.run_command_sa_key
       RUN_CIS             = var.rc_script_file == "scripts/windows_cis.ps1" || var.run_cis ? "true" : "false"
