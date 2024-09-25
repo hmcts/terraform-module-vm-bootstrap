@@ -46,16 +46,18 @@ install_azcopy() {
             echo "Downloading AzCopy"
             sudo wget https://aka.ms/downloadazcopy-v10-linux
             sudo tar -xvf downloadazcopy-v10-linux
+            
             echo "Adding AzCopy to path"
             sudo rm -f /usr/bin/azcopy
             sudo cp ./azcopy_linux_amd64_*/azcopy /usr/bin/
             sudo chmod 755 /usr/bin/azcopy
+            
             echo "Completing cleanup"
             sudo rm -f downloadazcopy-v10-linux
             sudo rm -rf ./azcopy_linux_amd64_*/
         fi
     else
-            echo "AzCopy is already installed."
+        echo "AzCopy is already installed."
     fi
 }
 
@@ -95,7 +97,6 @@ gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.re
     else
         echo "Azure CLI is already installed."
     fi
-
 }
 
 install_agent() {
@@ -118,7 +119,6 @@ install_agent() {
     mkdir -p XDR_DOWNLOAD
 
     if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
-
         # Download conf file
         local BLOB_NAME="${ENV}/${ENV}_agent-HMCTS_Linux_rpm_8.5.0.125392/cortex.conf"
         local LOCAL_FILE_PATH="XDR_DOWNLOAD/cortex.conf"
@@ -251,6 +251,13 @@ install_docker(){
     fi
 }
 
+    if [[ "$OS_TYPE" == *"Red Hat Enterprise"* && "$VERSION" == *"6."* ]]; then
+        # This command uses SA_KEY as a variable but it should be a SAS Token for RHEL 6 VMs
+        azcopy copy "https://$STORAGE_ACCOUNT_NAME.blob.core.windows.net/$CONTAINER_NAME/$BLOB_NAME?$SA_KEY" "$LOCAL_FILE_PATH"
+    else
+        az storage blob download --account-name $STORAGE_ACCOUNT_NAME --account-key $SA_KEY --container-name $CONTAINER_NAME --name $BLOB_NAME --file $LOCAL_FILE_PATH
+    fi
+}
 
 if [ "${RUN_XDR_AGENT}" = "true" ]
 then
