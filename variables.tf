@@ -341,7 +341,6 @@ variable "run_xdr_collector" {
   description = "Install XDR collectors using run command script?"
 }
 
-
 variable "run_xdr_agent" {
   type        = bool
   default     = false
@@ -352,6 +351,12 @@ variable "xdr_env" {
   description = "Set environment for XDR Agent to make sure which environment it should go to, defaults to prod"
   type        = string
   default     = "prod"
+}
+
+variable "install_docker" {
+  description = "Should Docker and Docker Compose be installed -- Ubuntu only"
+  type        = bool
+  default     = false
 }
 
 variable "location" {
