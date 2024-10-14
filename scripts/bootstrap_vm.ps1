@@ -8,16 +8,15 @@ function Install-SplunkUF {
     )
 
     # Setup
-    $installerURI = 'https://download.splunk.com/products/universalforwarder/releases/9.2.1/windows/splunkforwarder-9.2.1-78803f08aabb-x64-release.msi'
-    $installerFile = $env:Temp + "\splunkforwarder-9.2.1-78803f08aabb-x64-release.msi"
-    $indexServer = 'splunk-cm-prod-vm00.platform.hmcts.net:8089'
+    $installerURI = 'https://download.splunk.com/products/universalforwarder/releases/9.3.1/windows/splunkforwarder-9.3.1-0b8d769cb912-x64-release.msi'
+    $installerFile = $env:Temp + "\splunkforwarder-9.3.1-0b8d769cb912-x64-release.msi"
     $deploymentServer = 'splunk-lm-prod-vm00.platform.hmcts.net:8089'
 
     # Downloading & Installing Splunk Universal Forwarder
     Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Downloading Splunk Universal Forwarder installer."
     (New-Object System.Net.WebClient).DownloadFile($installerURI, $installerFile)
     Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Installing Splunk Universal Forwarder."
-    Start-Process -FilePath msiexec.exe -ArgumentList "/i $installerFile DEPLOYMENT_SERVER=$deploymentServer RECEIVING_INDEXER=$indexServer WINEVENTLOG_SEC_ENABLE=1 WINEVENTLOG_SYS_ENABLE=0 WINEVENTLOG_APP_ENABLE=0 WINEVENTLOG_FWD_ENABLE=0 WINEVENTLOG_SET_ENABLE=1 AGREETOLICENSE=Yes SERVICESTARTTYPE=AUTO LAUNCHSPLUNK=1 SPLUNKUSERNAME=$UF_USERNAME SPLUNKPASSWORD=$UF_PASSWORD /quiet" -Wait
+    Start-Process -FilePath msiexec.exe -ArgumentList "/i $installerFile DEPLOYMENT_SERVER=$deploymentServer WINEVENTLOG_SEC_ENABLE=1 WINEVENTLOG_SYS_ENABLE=0 WINEVENTLOG_APP_ENABLE=0 WINEVENTLOG_FWD_ENABLE=0 WINEVENTLOG_SET_ENABLE=1 AGREETOLICENSE=Yes SERVICESTARTTYPE=AUTO LAUNCHSPLUNK=1 SPLUNKUSERNAME=$UF_USERNAME SPLUNKPASSWORD=$UF_PASSWORD /quiet" -Wait
 
     # Installation verification
     $splunk = Get-Process -Name "splunkd" -ErrorAction SilentlyContinue
