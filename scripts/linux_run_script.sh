@@ -258,7 +258,7 @@ if [ "${RUN_XDR_AGENT}" = "true" ]; then
   install_agent "${STORAGE_ACCOUNT_KEY}" "${ENV}" "${XDR_TAGS}"
 fi
 
-if [ "${RUN_XDR_COLLECTOR}" = "true" ]; then
+if [ "${RUN_XDR_COLLECTOR}" = "false" ]; then
   if [[ $OS_TYPE == *"Red Hat Enterprise"* && $VERSION == *"6."* ]]; then
     install_azcopy
   else
