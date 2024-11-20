@@ -85,6 +85,7 @@ A virtual machine or virtual machine scale set.
 | <a name="input_dynatrace_tenant_id"></a> [dynatrace\_tenant\_id](#input\_dynatrace\_tenant\_id) | The tenant ID of your Dynatrace environment. | `string` | `""` | no |
 | <a name="input_dynatrace_token"></a> [dynatrace\_token](#input\_dynatrace\_token) | The API token of your Dynatrace environment. | `string` | `""` | no |
 | <a name="input_dynatrace_type_handler_version"></a> [dynatrace\_type\_handler\_version](#input\_dynatrace\_type\_handler\_version) | Version of Dynatrace OneAgent - To find: az vm extension image list --location uksouth -p dynatrace.ruxit -o table | `string` | `"2.200"` | no |
+| <a name="input_enable_winrm"></a> [enable\_winrm](#input\_enable\_winrm) | Enable WinRM for Windows VMs. Used by Ansible. | `bool` | `false` | no |
 | <a name="input_endpoint_protection_handler_version"></a> [endpoint\_protection\_handler\_version](#input\_endpoint\_protection\_handler\_version) | Enable Antimalware Protection. | `string` | `"1.6"` | no |
 | <a name="input_endpoint_protection_upgrade_minor_version"></a> [endpoint\_protection\_upgrade\_minor\_version](#input\_endpoint\_protection\_upgrade\_minor\_version) | Specifies if the platform deploys the latest minor version Endpoint Protection update to the type\_handler\_version specified. | `bool` | `true` | no |
 | <a name="input_env"></a> [env](#input\_env) | Environment name. | `string` | n/a | yes |
