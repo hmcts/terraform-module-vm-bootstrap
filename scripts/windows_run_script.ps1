@@ -216,6 +216,94 @@ function Install-AGENT {
 
 }
 
+function Enable-WinRM {
+    $logsPath = "C:\Packages\Plugins\run_command_logs.txt"
+
+    function Write-Message {
+        param (
+            [string]$message
+        )
+        Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") $message"
+    }
+
+    Write-Message "Starting the PowerShell script to enable WinRM Listeners for Ansible use."
+
+    # Enables the WinRM service and sets up the HTTP listener
+    Write-Message "Enabling PS Remoting..."
+    Enable-PSRemoting -Force
+    Write-Message "PS Remoting enabled."
+
+    # Opens port 5985 for all profiles
+    Write-Message "Creating firewall rule for HTTP (port 5985)..."
+    $firewallParams = @{
+        Action      = 'Allow'
+        Description = 'Inbound rule for Windows Remote Management via WS-Management. [TCP 5985]'
+        Direction   = 'Inbound'
+        DisplayName = 'Windows Remote Management (HTTP-In)'
+        LocalPort   = 5985
+        Profile     = 'Any'
+        Protocol    = 'TCP'
+    }
+    New-NetFirewallRule @firewallParams
+    Write-Message "Firewall rule for HTTP (port 5985) created."
+
+    # Allows local user accounts to be used with WinRM
+    Write-Message "Setting LocalAccountTokenFilterPolicy..."
+    $tokenFilterParams = @{
+        Path         = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System'
+        Name         = 'LocalAccountTokenFilterPolicy'
+        Value        = 1
+        PropertyType = 'DWORD'
+        Force        = $true
+    }
+    New-ItemProperty @tokenFilterParams
+    Write-Message "LocalAccountTokenFilterPolicy set."
+
+    # Create self signed certificate
+    Write-Message "Creating self-signed certificate..."
+    $certParams = @{
+        CertStoreLocation = 'Cert:\LocalMachine\My'
+        DnsName           = $env:COMPUTERNAME
+        NotAfter          = (Get-Date).AddYears(1)
+        Provider          = 'Microsoft Software Key Storage Provider'
+        Subject           = "CN=$env:COMPUTERNAME"
+    }
+    $cert = New-SelfSignedCertificate @certParams
+    Write-Message "Self-signed certificate created with thumbprint $($cert.Thumbprint)."
+
+    # Create HTTPS listener
+    Write-Message "Creating HTTPS listener..."
+    $httpsParams = @{
+        ResourceURI = 'winrm/config/listener'
+        SelectorSet = @{
+                Transport = "HTTPS"
+                Address   = "*"
+        }
+        ValueSet = @{
+                CertificateThumbprint = $cert.Thumbprint
+                Enabled               = $true
+        }
+    }
+    New-WSManInstance @httpsParams
+    Write-Message "HTTPS listener created."
+
+    # Opens port 5986 for all profiles
+    Write-Message "Creating firewall rule for HTTPS (port 5986)..."
+    $firewallParams = @{
+        Action      = 'Allow'
+        Description = 'Inbound rule for Windows Remote Management via WS-Management. [TCP 5986]'
+        Direction   = 'Inbound'
+        DisplayName = 'Windows Remote Management (HTTPS-In)'
+        LocalPort   = 5986
+        Profile     = 'Any'
+        Protocol    = 'TCP'
+    }
+    New-NetFirewallRule @firewallParams
+    Write-Message "Firewall rule for HTTPS (port 5986) created."
+
+    Write-Message "WinRM setup completed."
+}
+
 if ( "${RUN_CIS}" -eq "true" ) {
     Install-CIS
 }
@@ -226,4 +314,8 @@ if ( "${RUN_XDR_COLLECTOR}" -eq "true" ) {
 
 if ( "${RUN_XDR_AGENT}" -eq "true" ) {
     Install-AGENT
+}
+
+if ( "${ENABLE_WINRM}" -eq "true" ) {
+    Enable-WinRM
 }

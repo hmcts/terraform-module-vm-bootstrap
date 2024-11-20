@@ -359,6 +359,12 @@ variable "install_docker" {
   default     = false
 }
 
+variable "enable_winrm" {
+  description = "Enable WinRM for Windows VMs. Used by Ansible."
+  type        = bool
+  default     = false
+}
+
 variable "location" {
   description = "The region in Azure that the Data collection rule will be deployed to."
   type        = string
