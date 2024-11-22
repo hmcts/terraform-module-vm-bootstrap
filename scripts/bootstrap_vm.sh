@@ -71,22 +71,23 @@ EOF
 
 
 # Configure outputs.conf
-{
-cat <<EOF
-[indexer_discovery:hmcts_cluster_manager]
-pass4SymmKey = $UF_PASS4SYMMKEY
-master_uri = $FORWARD_SERVER_URI
-
-[tcpout:hmcts_forwarders]
-autoLBFrequency = 30
-forceTimebasedAutoLB = true
-indexerDiscovery = hmcts_cluster_manager
-useACK=true
-
-[tcpout]
-defaultGroup = hmcts_forwarders
-EOF
-} > $SPLUNK_HOME/etc/system/local/outputs.conf
+# This section is not required as the deploymentclient sets it automatically
+# {
+# cat <<EOF
+# [indexer_discovery:hmcts_cluster_manager]
+# pass4SymmKey = $UF_PASS4SYMMKEY
+# master_uri = $FORWARD_SERVER_URI
+# 
+# [tcpout:hmcts_forwarders]
+# autoLBFrequency = 30
+# forceTimebasedAutoLB = true
+# indexerDiscovery = hmcts_cluster_manager
+# useACK=true
+# 
+# [tcpout]
+# defaultGroup = hmcts_forwarders
+# EOF
+# } > $SPLUNK_HOME/etc/system/local/outputs.conf
 
 # Create boot-start systemd service
 $SPLUNK_HOME/bin/splunk stop
