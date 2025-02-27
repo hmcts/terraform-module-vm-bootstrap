@@ -161,8 +161,8 @@ variable "dynatrace_server" {
   default     = null
 }
 
-variable "custom_hostname" {
-  description = "Manually set the name of the vm on how it will show in dynatrace."
+variable "dynatrace_custom_hostname" {
+  description = "Manually set the hostname of the vm on the web interface."
   type        = string
   default     = null
 }
