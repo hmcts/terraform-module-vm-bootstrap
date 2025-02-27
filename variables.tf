@@ -162,7 +162,7 @@ variable "dynatrace_server" {
 }
 
 variable "dynatrace_custom_hostname" {
-  description = "Manually set the hostname of the vm on the web interface."
+  description = "Manually set the hostname of the vm for the web interface."
   type        = string
   default     = null
 }
