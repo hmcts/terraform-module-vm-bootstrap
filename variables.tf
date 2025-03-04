@@ -161,6 +161,12 @@ variable "dynatrace_server" {
   default     = null
 }
 
+variable "dynatrace_custom_hostname" {
+  description = "Manually set the hostname of the vm for the web interface."
+  type        = string
+  default     = null
+}
+
 # Nessus Agent
 variable "install_nessus_agent" {
   description = "Install Nessus Agent."
