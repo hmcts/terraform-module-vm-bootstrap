@@ -1,101 +1,59 @@
 #!/bin/bash
 #set -vxn
 
-install_splunk_uf() {
-DOWNLOAD_URL="https://download.splunk.com/products/universalforwarder/releases/8.2.2.1/linux/splunkforwarder-8.2.2.1-ae6821b7c64b-Linux-x86_64.tgz"
-INSTALL_FILE="splunkforwarder-8.2.2.1-ae6821b7c64b-Linux-x86_64.tgz"
+# Function now only handles removal
+manage_splunk_uf() {
+UF_REMOVE=$1
+
 INSTALL_LOCATION="/opt"
-DEPLOYMENT_SERVER_URI="splunk-lm-prod-vm00.platform.hmcts.net:8089"
-FORWARD_SERVER_URI="splunk-cm-prod-vm00.platform.hmcts.net:8089"
-UF_USERNAME=$1
-UF_PASSWORD=$2
-UF_PASS4SYMMKEY=$3
-UF_GROUP=$4
-
 export SPLUNK_HOME="$INSTALL_LOCATION/splunkforwarder"
+SPLUNK_BIN="$SPLUNK_HOME/bin/splunk"
+SPLUNK_SERVICE_NAME="SplunkForwarder.service"
 
-# Get OS type
-OS_TYPE=$(hostnamectl | grep "Operating System" | cut -f2 -d: | sed -e 's/^[[:space:]]*//')
+# --- Removal Logic ---
+if [ "${UF_REMOVE}" = "true" ]; then
+  echo "Info: Checking for Splunk UF to remove..."
+  if [ -f "$SPLUNK_BIN" ]; then
+    echo "Info: Splunk UF found. Proceeding with removal."
 
-# Create boot-start systemd user
-if [[ "$OS_TYPE" == *"Red Hat Enterprise Linux"* ]]; then
-getent group splunk || groupadd splunk
-id splunk || adduser --system -g splunk splunk
-elif [[ "$OS_TYPE" == *"Ubuntu"* ]]; then
-apt install acl
-id splunk || adduser --system --group splunk
+    # Stop service if running
+    if systemctl is-active --quiet $SPLUNK_SERVICE_NAME; then
+      echo "Info: Stopping Splunk UF service..."
+      "$SPLUNK_BIN" stop || echo "Warn: Failed to stop Splunk service via splunk command. Trying systemctl..."
+      systemctl stop $SPLUNK_SERVICE_NAME || echo "Warn: Failed to stop Splunk service via systemctl."
+      sleep 5
+    fi
+
+    # Disable boot-start
+    if [ -f "$SPLUNK_BIN" ]; then
+        echo "Info: Disabling Splunk UF boot-start..."
+       "$SPLUNK_BIN" disable boot-start -systemd-managed 1 || echo "Warn: Failed to disable boot-start via splunk command."
+    fi
+
+    # Remove systemd service file (if it exists)
+    SYSTEMD_SERVICE_FILE="/etc/systemd/system/$SPLUNK_SERVICE_NAME"
+    if [ -f "$SYSTEMD_SERVICE_FILE" ]; then
+        echo "Info: Removing systemd service file..."
+        rm -f "$SYSTEMD_SERVICE_FILE"
+        systemctl daemon-reload
+    fi
+
+    # Remove installation directory
+    echo "Info: Removing Splunk UF installation directory ($SPLUNK_HOME)..."
+    rm -rf "$SPLUNK_HOME"
+
+    # Remove user and group
+    echo "Info: Removing splunk user and group..."
+    if id splunk >/dev/null 2>&1; then userdel splunk; fi
+    if getent group splunk >/dev/null 2>&1; then groupdel splunk; fi
+
+    echo "Info: Splunk UF removal process completed."
+  else
+    echo "Info: Splunk UF not found at $SPLUNK_HOME. Skipping removal."
+  fi
 else
-id splunk || adduser --system --group splunk
+  echo "Info: Splunk UF removal not requested."
 fi
-
-# Install splunk forwarder
-curl --retry 3 -# -L -o $INSTALL_FILE $DOWNLOAD_URL
-tar xvzf $INSTALL_FILE -C $INSTALL_LOCATION
-rm -rf $INSTALL_FILE
-chown -R splunk:splunk $SPLUNK_HOME
-setfacl -R -m u:splunk:r /var/log
-
-if [  "$(systemctl is-active SplunkForwarder.service)" = "active"  ]; then
-  $SPLUNK_HOME/bin/splunk stop
-  sleep 10
-fi
-
-# Create splunk admin user
-{
-cat <<EOF
-[user_info]
-USERNAME = $UF_USERNAME
-HASHED_PASSWORD = $($SPLUNK_HOME/bin/splunk hash-passwd $UF_PASSWORD)
-EOF
-} > $SPLUNK_HOME/etc/system/local/user-seed.conf
-
-$SPLUNK_HOME/bin/splunk stop
-
-# Start splunk forwarder
-$SPLUNK_HOME/bin/splunk start --accept-license --no-prompt --answer-yes
-
-# Set server name
-$SPLUNK_HOME/bin/splunk set servername $hostname -auth $UF_USERNAME:$UF_PASSWORD
-$SPLUNK_HOME/bin/splunk restart
-
-# Configure deploymentclient.conf
-{
-cat <<EOF
-[deployment-client]
-
-[target-broker:deploymentServer]
-# Settings for HMCTS DeploymentServer
-targetUri = $DEPLOYMENT_SERVER_URI
-EOF
-} > $SPLUNK_HOME/etc/system/local/deploymentclient.conf
-
-
-# Configure outputs.conf
-{
-cat <<EOF
-[indexer_discovery:hmcts_cluster_manager]
-pass4SymmKey = $UF_PASS4SYMMKEY
-master_uri = $FORWARD_SERVER_URI
-
-[tcpout:hmcts_forwarders]
-autoLBFrequency = 30
-forceTimebasedAutoLB = true
-indexerDiscovery = hmcts_cluster_manager
-useACK=true
-
-[tcpout]
-defaultGroup = hmcts_forwarders
-EOF
-} > $SPLUNK_HOME/etc/system/local/outputs.conf
-
-# Create boot-start systemd service
-$SPLUNK_HOME/bin/splunk stop
-$SPLUNK_HOME/bin/splunk disable boot-start
-sleep 10
-$SPLUNK_HOME/bin/splunk enable boot-start -systemd-managed 1 -user splunk -group splunk
-chown -R splunk:splunk $SPLUNK_HOME
-
-$SPLUNK_HOME/bin/splunk start
 }
 
 install_nessus() {
@@ -179,9 +137,9 @@ fi
 # Exit on error
 set +e
 
-if [ "${UF_INSTALL}" = "true" ]
-then
-  install_splunk_uf "${UF_USERNAME}" "${UF_PASSWORD}" "${UF_PASS4SYMMKEY}" "${UF_GROUP}"
+
+if [ "${UF_REMOVE}" = "true" ]; then
+  manage_splunk_uf "${UF_REMOVE}"
 fi
 
 if [ "${NESSUS_INSTALL}" = "true" ]

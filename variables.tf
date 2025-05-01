@@ -1,4 +1,3 @@
-
 # VM/VMSS Extension General
 variable "common_tags" {
   description = "Common Tags"
@@ -195,6 +194,12 @@ variable "nessus_groups" {
 # Splunk UF
 variable "install_splunk_uf" {
   description = "Install Splunk UF."
+  default     = true
+  type        = bool
+}
+
+variable "remove_splunk_uf" {
+  description = "Remove Splunk UF if it is installed. Overrides install_splunk_uf if set to true."
   default     = true
   type        = bool
 }
