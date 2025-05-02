@@ -150,7 +150,7 @@ run "virtual_machine_no_azure_monitor_extension" {
   }
 }
 
-# Custom scipt should still install when nessus is disabled but splunk is still enabled
+// Custom scipt should still install when nessus is disabled but splunk removal is still enabled (default)
 run "virtual_machine_no_nessus" {
 
   command = plan
@@ -159,6 +159,7 @@ run "virtual_machine_no_nessus" {
     virtual_machine_type = "vm"
     virtual_machine_id   = run.setup_vm.vm_id
     install_nessus_agent = false
+    # remove_splunk_uf defaults to true
   }
 
   assert {
@@ -175,7 +176,7 @@ run "virtual_machine_no_splunk" {
   variables {
     virtual_machine_type = "vm"
     virtual_machine_id   = run.setup_vm.vm_id
-    install_splunk_uf    = false
+    remove_splunk_uf     = false
   }
 
   assert {
@@ -184,7 +185,7 @@ run "virtual_machine_no_splunk" {
   }
 }
 
-# Custom scipt should not be installed when both nessus and splunk are disabled
+# Custom scipt should not be installed when both nessus and splunk removal are disabled
 # TODO: add a test for additional script as that is installed here as well
 run "virtual_machine_no_nessus_or_splunk" {
 
@@ -193,7 +194,7 @@ run "virtual_machine_no_nessus_or_splunk" {
   variables {
     virtual_machine_type = "vm"
     virtual_machine_id   = run.setup_vm.vm_id
-    install_splunk_uf    = false
+    remove_splunk_uf     = false
     install_nessus_agent = false
   }
 
