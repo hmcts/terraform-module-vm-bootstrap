@@ -175,12 +175,12 @@ run "virtual_machine_scale_set_no_splunk" {
   variables {
     virtual_machine_type         = "vmss"
     virtual_machine_scale_set_id = run.setup_vm.vmss_id
-    install_splunk_uf            = false
+    remove_splunk_uf             = false
   }
 
   assert {
     condition     = length(azurerm_virtual_machine_scale_set_extension.custom_script) == 1
-    error_message = "Custom script not installed when only nessus is disabled"
+    error_message = "Custom script installed when nessus and splunk install/remove are disabled"
   }
 }
 
@@ -193,7 +193,7 @@ run "virtual_machine_scale_set_no_nessus_or_splunk" {
   variables {
     virtual_machine_type         = "vmss"
     virtual_machine_scale_set_id = run.setup_vm.vmss_id
-    install_splunk_uf            = false
+    remove_splunk_uf             = false
     install_nessus_agent         = false
   }
 

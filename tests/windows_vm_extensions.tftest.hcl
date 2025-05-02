@@ -175,7 +175,7 @@ run "virtual_machine_no_splunk" {
   variables {
     virtual_machine_type = "vm"
     virtual_machine_id   = run.setup_vm.vm_id
-    install_splunk_uf    = false
+    remove_splunk_uf     = false
   }
 
   assert {
@@ -211,7 +211,7 @@ run "virtual_machine_no_nessus_or_splunk" {
   variables {
     virtual_machine_type = "vm"
     virtual_machine_id   = run.setup_vm.vm_id
-    install_splunk_uf    = false
+    remove_splunk_uf     = false
     install_nessus_agent = false
   }
 
