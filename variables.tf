@@ -199,6 +199,12 @@ variable "install_splunk_uf" {
   type        = bool
 }
 
+variable "remove_splunk_uf" {
+  description = "Remove Splunk UF if it is installed. Overrides install_splunk_uf if set to true."
+  default     = true
+  type        = bool
+}
+
 variable "splunk_username" {
   description = "Splunk universal forwarder local admin username - read input from keyvault."
   type        = string
