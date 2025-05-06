@@ -31,7 +31,7 @@ resource "azurerm_virtual_machine_extension" "custom_script" {
   auto_upgrade_minor_version = false
   protected_settings         = <<PROTECTED_SETTINGS
     {
-      %{if var.os_type == "Linux"}
+      %{if lower(var.os_type) == "linux"}
       "script": "${local.template_file}"
       %{else}
       "fileUris": ${local.additional_template_file},
