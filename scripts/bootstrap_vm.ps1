@@ -2,22 +2,24 @@ function Remove-SplunkUF {
     $serviceName = "SplunkForwarder"
     $splunkService = Get-Service -Name $serviceName -ErrorAction SilentlyContinue
     $uninstallerURI = 'https://download.splunk.com/products/universalforwarder/releases/9.3.1/windows/splunkforwarder-9.3.1-0b8d769cb912-x64-release.msi'
-    $uninstallerFile = "$env:Temp\splunkforwarder.msi"
-
-    if (-not (Test-Path $uninstallerFile)) {
-        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Downloading Splunk uninstaller."
-        (New-Object System.Net.WebClient).DownloadFile($uninstallerURI, $uninstallerFile)
-    }
+    $uninstallerFile = "C:\Temp\splunkforwarder.msi"
 
     if ($splunkService) {
+        if (-not (Test-Path $uninstallerFile)) {
+            Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Downloading Splunk uninstaller."
+            (New-Object System.Net.WebClient).DownloadFile($uninstallerURI, $uninstallerFile)
+        }
+
         Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) SplunkForwarder service found. Uninstalling."
-        $splunkHome = $env:SPLUNK_HOME -or "C:\Program Files\SplunkUniversalForwarder"
+        $splunkHome = "C:\Program Files\SplunkUniversalForwarder"
         $splunkBinPath = "$splunkHome\bin"
 
         if (Test-Path $splunkBinPath) {
             Push-Location $splunkBinPath
             try { .\splunk stop; Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Splunk stopped." } catch { Write-Host "$_"; Pop-Location; return }
             Pop-Location
+        } else {
+            Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Splunk bin path not found. Continuing to uninstall."
         }
 
         try {
@@ -25,7 +27,7 @@ function Remove-SplunkUF {
             Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Splunk uninstalled."
         } catch { Write-Host "$_"; return }
     } else {
-        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) SplunkForwarder service not found."
+        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) SplunkForwarder service not found. No action taken."
     }
 }
 function Get-DownloadId {
