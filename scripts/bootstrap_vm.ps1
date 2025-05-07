@@ -1,59 +1,31 @@
 function Remove-SplunkUF {
-    # Check if SplunkForwarder service exists
     $serviceName = "SplunkForwarder"
     $splunkService = Get-Service -Name $serviceName -ErrorAction SilentlyContinue
-
-    # Setup
     $uninstallerURI = 'https://download.splunk.com/products/universalforwarder/releases/9.3.1/windows/splunkforwarder-9.3.1-0b8d769cb912-x64-release.msi'
-    $uninstallerFile = $env:Temp + "\splunkforwarder-9.3.1-0b8d769cb912-x64-release.msi"
+    $uninstallerFile = "$env:Temp\splunkforwarder.msi"
 
-    # Downloading Splunk Universal Forwarder MSI to uninstall
-    if (-Not (Test-Path -Path $uninstallerFile)) {
-        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Downloading Splunk Universal Forwarder uninstaller."
+    if (-not (Test-Path $uninstallerFile)) {
+        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Downloading Splunk uninstaller."
         (New-Object System.Net.WebClient).DownloadFile($uninstallerURI, $uninstallerFile)
-    } else {
-        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Uninstaller file already exists at $uninstallerFile. Skipping download."
     }
 
-    if ($null -ne $splunkService) {
-        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) SplunkForwarder service found. Proceeding with uninstallation."
+    if ($splunkService) {
+        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) SplunkForwarder service found. Uninstalling."
+        $splunkHome = $env:SPLUNK_HOME -or "C:\Program Files\SplunkUniversalForwarder"
+        $splunkBinPath = "$splunkHome\bin"
 
-        # Navigate to Splunk bin directory
-        $splunkHome = $env:SPLUNK_HOME
-        if (-not $splunkHome) {
-            Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) SPLUNK_HOME environment variable is not set. Using default."
-            $splunkHome = "C:\Program Files\SplunkUniversalForwarder"
-        }
-
-        $splunkBinPath = Join-Path -Path $splunkHome -ChildPath "bin"
-        if (-not (Test-Path -Path $splunkBinPath)) {
-            Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Splunk bin directory not found at $splunkBinPath. Cannot proceed with uninstallation."
-            return
-        }
-
-        # Stop Splunk using the CLI
-        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Stopping Splunk using CLI."
-        Push-Location -Path $splunkBinPath
-        try {
-            .\splunk stop
-            Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Splunk stopped successfully using CLI."
-        } catch {
-            Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Failed to stop Splunk using CLI. Error: $_"
+        if (Test-Path $splunkBinPath) {
+            Push-Location $splunkBinPath
+            try { .\splunk stop; Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Splunk stopped." } catch { Write-Host "$_"; Pop-Location; return }
             Pop-Location
-            return
         }
-        Pop-Location
 
-        # Uninstall Splunk using MSI
-        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Uninstalling Splunk Universal Forwarder."
         try {
-            Start-Process -FilePath "msiexec.exe" -ArgumentList "/x $uninstallerFile /qn" -Wait -NoNewWindow
-            Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Splunk Universal Forwarder uninstalled successfully."
-        } catch {
-            Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Failed to uninstall Splunk Universal Forwarder. Error: $_"
-        }
+            Start-Process "msiexec.exe" -ArgumentList "/x $uninstallerFile /qn" -Wait -NoNewWindow
+            Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Splunk uninstalled."
+        } catch { Write-Host "$_"; return }
     } else {
-        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) SplunkForwarder service not found. Skipping uninstallation."
+        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) SplunkForwarder service not found."
     }
 }
 function Get-DownloadId {
