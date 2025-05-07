@@ -105,6 +105,7 @@ A virtual machine or virtual machine scale set.
 | <a name="input_rc_os_sku"></a> [rc\_os\_sku](#input\_rc\_os\_sku) | n/a | `any` | `null` | no |
 | <a name="input_rc_script_file"></a> [rc\_script\_file](#input\_rc\_script\_file) | A path to a local file for the script | `any` | `null` | no |
 | <a name="input_realtimeprotectionenabled"></a> [realtimeprotectionenabled](#input\_realtimeprotectionenabled) | Enable Realtime Protection | `string` | `true` | no |
+| <a name="input_remove_splunk_uf"></a> [remove\_splunk\_uf](#input\_remove\_splunk\_uf) | Remove Splunk UF if it is installed. Overrides install\_splunk\_uf if set to true. | `bool` | `true` | no |
 | <a name="input_run_cis"></a> [run\_cis](#input\_run\_cis) | Install CIS hardening using run command script? | `bool` | `false` | no |
 | <a name="input_run_command"></a> [run\_command](#input\_run\_command) | n/a | `bool` | `false` | no |
 | <a name="input_run_command_sa_key"></a> [run\_command\_sa\_key](#input\_run\_command\_sa\_key) | SA key for the run command | `string` | `""` | no |

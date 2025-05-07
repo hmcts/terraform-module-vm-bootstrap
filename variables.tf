@@ -1,4 +1,3 @@
-
 # VM/VMSS Extension General
 variable "common_tags" {
   description = "Common Tags"
