@@ -18,16 +18,11 @@ locals {
 
   template_file = base64encode(format("%s\n%s", templatefile("${path.module}/${local.bootstrap_vm_script}",
     {
-      UF_INSTALL      = tostring(var.install_splunk_uf)
-      UF_REMOVE       = tostring(var.remove_splunk_uf)
-      UF_USERNAME     = var.splunk_username == null || var.splunk_username == "" ? (length(data.azurerm_key_vault_secret.splunk_username) > 0 ? data.azurerm_key_vault_secret.splunk_username[0].value : "") : var.splunk_username
-      UF_PASSWORD     = var.splunk_password == null || var.splunk_password == "" ? (length(data.azurerm_key_vault_secret.splunk_password) > 0 ? data.azurerm_key_vault_secret.splunk_password[0].value : "") : var.splunk_password
-      UF_PASS4SYMMKEY = var.splunk_pass4symmkey == null || var.splunk_pass4symmkey == "" ? (length(data.azurerm_key_vault_secret.splunk_pass4symmkey) > 0 ? data.azurerm_key_vault_secret.splunk_pass4symmkey[0].value : "") : var.splunk_pass4symmkey
-      UF_GROUP        = var.splunk_group
-      NESSUS_INSTALL  = tostring(var.install_nessus_agent)
-      NESSUS_SERVER   = var.nessus_server == null || var.nessus_server == "" ? local.nessus_server : var.nessus_server
-      NESSUS_KEY      = var.nessus_key == null || var.nessus_key == "" ? (length(data.azurerm_key_vault_secret.nessus_agent_key) > 0 ? data.azurerm_key_vault_secret.nessus_agent_key[0].value : "") : var.nessus_key
-      NESSUS_GROUPS   = var.nessus_groups == null || var.nessus_groups == "" ? "Platform-Operation-Bastions" : var.nessus_groups
+      UF_REMOVE      = tostring(var.remove_splunk_uf)
+      NESSUS_INSTALL = tostring(var.install_nessus_agent)
+      NESSUS_SERVER  = var.nessus_server == null || var.nessus_server == "" ? local.nessus_server : var.nessus_server
+      NESSUS_KEY     = var.nessus_key == null || var.nessus_key == "" ? (length(data.azurerm_key_vault_secret.nessus_agent_key) > 0 ? data.azurerm_key_vault_secret.nessus_agent_key[0].value : "") : var.nessus_key
+      NESSUS_GROUPS  = var.nessus_groups == null || var.nessus_groups == "" ? "Platform-Operation-Bastions" : var.nessus_groups
   }), var.additional_script_path == null ? "" : file("${var.additional_script_path}")))
 
   additional_template_file = var.additional_script_uri != null ? format("%s%s%s", "[ ", "\"${var.additional_script_uri}\"", " ]") : "\"\""
