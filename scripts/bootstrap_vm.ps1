@@ -1,31 +1,33 @@
-function Install-SplunkUF {
-    param
-    (
-        [Parameter(ValuefromPipeline = $true, Mandatory = $true)] [string]$UF_USERNAME,
-        [Parameter(ValuefromPipeline = $true, Mandatory = $true)] [string]$UF_PASSWORD,
-        [Parameter(ValuefromPipeline = $true, Mandatory = $true)] [string]$UF_PASS4SYMMKEY,
-        [Parameter(ValuefromPipeline = $true, Mandatory = $true)] [string]$UF_GROUP
-    )
+function Remove-SplunkUF {
+    $serviceName = "SplunkForwarder"
+    $splunkService = Get-Service -Name $serviceName -ErrorAction SilentlyContinue
+    $uninstallerURI = 'https://download.splunk.com/products/universalforwarder/releases/9.3.1/windows/splunkforwarder-9.3.1-0b8d769cb912-x64-release.msi'
+    $uninstallerFile = "C:\Temp\splunkforwarder.msi"
 
-    # Setup
-    $installerURI = 'https://download.splunk.com/products/universalforwarder/releases/9.3.1/windows/splunkforwarder-9.3.1-0b8d769cb912-x64-release.msi'
-    $installerFile = $env:Temp + "\splunkforwarder-9.3.1-0b8d769cb912-x64-release.msi"
-    $deploymentServer = 'splunk-lm-prod-vm00.platform.hmcts.net:8089'
+    if ($splunkService) {
+        if (-not (Test-Path $uninstallerFile)) {
+            Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Downloading Splunk uninstaller."
+            (New-Object System.Net.WebClient).DownloadFile($uninstallerURI, $uninstallerFile)
+        }
 
-    # Downloading & Installing Splunk Universal Forwarder
-    Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Downloading Splunk Universal Forwarder installer."
-    (New-Object System.Net.WebClient).DownloadFile($installerURI, $installerFile)
-    Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Installing Splunk Universal Forwarder."
-    Start-Process -FilePath msiexec.exe -ArgumentList "/i $installerFile DEPLOYMENT_SERVER=$deploymentServer WINEVENTLOG_SEC_ENABLE=1 WINEVENTLOG_SYS_ENABLE=0 WINEVENTLOG_APP_ENABLE=0 WINEVENTLOG_FWD_ENABLE=0 WINEVENTLOG_SET_ENABLE=1 AGREETOLICENSE=Yes SERVICESTARTTYPE=AUTO LAUNCHSPLUNK=1 SPLUNKUSERNAME=$UF_USERNAME SPLUNKPASSWORD=$UF_PASSWORD /quiet" -Wait
+        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) SplunkForwarder service found. Uninstalling."
+        $splunkHome = "C:\Program Files\SplunkUniversalForwarder"
+        $splunkBinPath = "$splunkHome\bin"
 
-    # Installation verification
-    $splunk = Get-Process -Name "splunkd" -ErrorAction SilentlyContinue
-    if ($null -ne $splunk) {
-        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Splunk Universal Forwarder has been installed successfully."
-    }
-    else {
-        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Splunk Universal Forwarder installation failed."
-        exit 1
+        if (Test-Path $splunkBinPath) {
+            Push-Location $splunkBinPath
+            try { .\splunk stop; Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Splunk stopped." } catch { Write-Host "$_"; Pop-Location; return }
+            Pop-Location
+        } else {
+            Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Splunk bin path not found. Continuing to uninstall."
+        }
+
+        try {
+            Start-Process "msiexec.exe" -ArgumentList "/x $uninstallerFile /qn" -Wait -NoNewWindow
+            Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Splunk uninstalled."
+        } catch { Write-Host "$_"; return }
+    } else {
+        Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) SplunkForwarder service not found. No action taken."
     }
 }
 function Get-DownloadId {
@@ -97,8 +99,8 @@ Start-Sleep -s 90
 # Exit on error
 $ErrorActionPreference = "Stop"
 
-if ( "${UF_INSTALL}" -eq "true" ) {
-    Install-SplunkUF -UF_USERNAME "${UF_USERNAME}" -UF_PASSWORD "${UF_PASSWORD}" -UF_PASS4SYMMKEY "${UF_PASS4SYMMKEY}" -UF_GROUP "${UF_GROUP}"
+if ( "${UF_REMOVE}" -eq "true" ) {
+    Remove-SplunkUF
 }
 
 if ( "${NESSUS_INSTALL}" -eq "true" ) {
