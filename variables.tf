@@ -381,3 +381,9 @@ variable "location" {
   type        = string
   default     = "UK South"
 }
+
+variable "enable_port80" {
+  type        = bool
+  default     = false
+  description = "Enabling port 80 Glimr using run command script?"
+}

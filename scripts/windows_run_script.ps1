@@ -304,6 +304,13 @@ function Enable-WinRM {
     Write-Message "WinRM setup completed."
 }
 
+function Enable-Port80 {
+    $matchingRule = Get-NetFirewallRule -DisplayName "Allow_TCP_80"
+    if (-not $matchingRule) {
+        New-NetFirewallRule -DisplayName Allow_TCP_80 -Action Allow -Direction Inbound -Enabled True -Protocol TCP -LocalPort 80
+    }
+}
+
 if ( "${RUN_CIS}" -eq "true" ) {
     Install-CIS
 }
@@ -318,4 +325,8 @@ if ( "${RUN_XDR_AGENT}" -eq "true" ) {
 
 if ( "${ENABLE_WINRM}" -eq "true" ) {
     Enable-WinRM
+}
+
+if ( "${ENABLE_PORT80}" -eq "true" ) {
+    Enable-Port80
 }
