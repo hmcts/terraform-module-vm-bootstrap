@@ -387,3 +387,22 @@ variable "enable_port80" {
   default     = false
   description = "Enabling port 80 Glimr using run command script?"
 }
+
+variable "mount_fileShare" {
+  type        = bool
+  default     = false
+  description = "Enabling port 80 Glimr using run command script?"
+}
+
+variable "mount_sa" {
+  type        = string
+  default     = null
+  description = "Storage account name to mount file share"
+
+}
+
+variable "mount_fs" {
+  type        = string
+  default     = null
+  description = "File share name to mount"
+}

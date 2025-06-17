@@ -311,6 +311,17 @@ function Enable-Port80 {
     }
 }
 
+function Mount_FileShare {
+    $connectTestResult = Test-NetConnection -ComputerName $MOUNT_SA.file.core.windows.net -Port 445
+    if ($connectTestResult.TcpTestSucceeded) {
+        # Mount the drive
+        New-PSDrive -Name M -PSProvider FileSystem -Root "\\${MOUNT_SA}.file.core.windows.net\${MOUNT_FS}" -Persist
+    }
+    else {
+        Write-Error -Message "Unable to reach the Azure storage account via port 445. Check to make sure your organization or ISP is not blocking port 445, or use Azure P2S VPN, Azure S2S VPN, or Express Route to tunnel SMB traffic over a different port."
+    }
+}
+
 if ( "${RUN_CIS}" -eq "true" ) {
     Install-CIS
 }
@@ -329,4 +340,8 @@ if ( "${ENABLE_WINRM}" -eq "true" ) {
 
 if ( "${ENABLE_PORT80}" -eq "true" ) {
     Enable-Port80
+}
+
+if ( "${MOUNT_FILESHARE}" -eq "true" ) {
+    Mount_FileShare
 }
