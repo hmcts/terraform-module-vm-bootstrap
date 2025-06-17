@@ -388,7 +388,7 @@ variable "enable_port80" {
   description = "Enabling port 80 Glimr using run command script?"
 }
 
-variable "mount_fileShare" {
+variable "enable_fileshare" {
   type        = bool
   default     = false
   description = "Enabling port 80 Glimr using run command script?"

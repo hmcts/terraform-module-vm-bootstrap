@@ -311,7 +311,7 @@ function Enable-Port80 {
     }
 }
 
-function Mount_FileShare {
+function Enable-FileShare {
     $connectTestResult = Test-NetConnection -ComputerName $MOUNT_SA.file.core.windows.net -Port 445
     if ($connectTestResult.TcpTestSucceeded) {
         # Mount the drive
@@ -342,6 +342,6 @@ if ( "${ENABLE_PORT80}" -eq "true" ) {
     Enable-Port80
 }
 
-if ( "${MOUNT_FILESHARE}" -eq "true" ) {
-    Mount_FileShare
+if ( "${ENABLE_FILESHARE}" -eq "true" ) {
+    Enable-FileShare
 }
