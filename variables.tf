@@ -396,13 +396,13 @@ variable "enable_fileshare" {
 
 variable "mount_sa" {
   type        = string
-  default     = null
+  default     = ""
   description = "Storage account name to mount file share"
 
 }
 
 variable "mount_fs" {
   type        = string
-  default     = null
+  default     = ""
   description = "File share name to mount"
 }
