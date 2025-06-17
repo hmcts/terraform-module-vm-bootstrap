@@ -86,6 +86,7 @@ A virtual machine or virtual machine scale set.
 | <a name="input_dynatrace_tenant_id"></a> [dynatrace\_tenant\_id](#input\_dynatrace\_tenant\_id) | The tenant ID of your Dynatrace environment. | `string` | `""` | no |
 | <a name="input_dynatrace_token"></a> [dynatrace\_token](#input\_dynatrace\_token) | The API token of your Dynatrace environment. | `string` | `""` | no |
 | <a name="input_dynatrace_type_handler_version"></a> [dynatrace\_type\_handler\_version](#input\_dynatrace\_type\_handler\_version) | Version of Dynatrace OneAgent - To find: az vm extension image list --location uksouth -p dynatrace.ruxit -o table | `string` | `"2.200"` | no |
+| <a name="input_enable_fileshare"></a> [enable\_fileshare](#input\_enable\_fileshare) | Enabling port 80 Glimr using run command script? | `bool` | `false` | no |
 | <a name="input_enable_port80"></a> [enable\_port80](#input\_enable\_port80) | Enabling port 80 Glimr using run command script? | `bool` | `false` | no |
 | <a name="input_enable_winrm"></a> [enable\_winrm](#input\_enable\_winrm) | Enable WinRM for Windows VMs. Used by Ansible. | `bool` | `false` | no |
 | <a name="input_endpoint_protection_handler_version"></a> [endpoint\_protection\_handler\_version](#input\_endpoint\_protection\_handler\_version) | Enable Antimalware Protection. | `string` | `"1.6"` | no |
@@ -98,7 +99,6 @@ A virtual machine or virtual machine scale set.
 | <a name="input_install_nessus_agent"></a> [install\_nessus\_agent](#input\_install\_nessus\_agent) | Install Nessus Agent. | `bool` | `true` | no |
 | <a name="input_install_splunk_uf"></a> [install\_splunk\_uf](#input\_install\_splunk\_uf) | Install Splunk UF. | `bool` | `true` | no |
 | <a name="input_location"></a> [location](#input\_location) | The region in Azure that the Data collection rule will be deployed to. | `string` | `"UK South"` | no |
-| <a name="input_mount_fileShare"></a> [mount\_fileShare](#input\_mount\_fileShare) | Enabling port 80 Glimr using run command script? | `bool` | `false` | no |
 | <a name="input_mount_fs"></a> [mount\_fs](#input\_mount\_fs) | File share name to mount | `string` | `null` | no |
 | <a name="input_mount_sa"></a> [mount\_sa](#input\_mount\_sa) | Storage account name to mount file share | `string` | `null` | no |
 | <a name="input_nessus_groups"></a> [nessus\_groups](#input\_nessus\_groups) | Nessus group name. | `string` | `"Platform-Operation-Bastions"` | no |
