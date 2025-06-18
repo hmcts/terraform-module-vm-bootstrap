@@ -133,6 +133,7 @@ function Install-AGENT {
         Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") Installing Az.Storage module"
         Install-PackageProvider -Name NuGet -Force -Scope CurrentUser
         Install-Module -Name Az.Storage -AllowClobber -Force -Scope CurrentUser
+        Start-Sleep -Seconds 60
         Add-Content -Path $logsPath -Value "$(Get-Date -Format "dd/MM/yyyy HH:mm:ss") Finish Installing Az.Storage module"
     }
 
