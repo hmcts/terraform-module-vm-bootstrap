@@ -53,6 +53,10 @@ resource "azurerm_virtual_machine_extension" "azure_vm_run_command" {
       RUN_XDR_COLLECTOR   = var.run_xdr_collector ? "true" : "false"
       RUN_XDR_AGENT       = var.run_xdr_agent ? "true" : "false"
       ENABLE_WINRM        = var.enable_winrm ? "true" : "false"
+      ENABLE_PORT80       = var.enable_port80 ? "true" : "false"
+      ENABLE_FILESHARE    = var.enable_fileshare ? "true" : "false"
+      MOUNT_SA            = var.mount_sa
+      MOUNT_FS            = var.mount_fs
       ENV                 = var.xdr_env == "prod" ? var.xdr_env : "nonprod"
       XDR_TAGS            = lower(local.xdr_tags_list)
     })]))

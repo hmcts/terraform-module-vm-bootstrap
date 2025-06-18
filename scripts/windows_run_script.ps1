@@ -304,6 +304,24 @@ function Enable-WinRM {
     Write-Message "WinRM setup completed."
 }
 
+function Enable-Port80 {
+    $matchingRule = Get-NetFirewallRule -DisplayName "Allow_TCP_80"
+    if (-not $matchingRule) {
+        New-NetFirewallRule -DisplayName Allow_TCP_80 -Action Allow -Direction Inbound -Enabled True -Protocol TCP -LocalPort 80
+    }
+}
+
+function Enable-FileShare {
+    $connectTestResult = Test-NetConnection -ComputerName $MOUNT_SA.file.core.windows.net -Port 445
+    if ($connectTestResult.TcpTestSucceeded) {
+        # Mount the drive
+        New-PSDrive -Name M -PSProvider FileSystem -Root "\\${MOUNT_SA}.file.core.windows.net\${MOUNT_FS}" -Persist
+    }
+    else {
+        Write-Error -Message "Unable to reach the Azure storage account via port 445. Check to make sure your organization or ISP is not blocking port 445, or use Azure P2S VPN, Azure S2S VPN, or Express Route to tunnel SMB traffic over a different port."
+    }
+}
+
 if ( "${RUN_CIS}" -eq "true" ) {
     Install-CIS
 }
@@ -318,4 +336,12 @@ if ( "${RUN_XDR_AGENT}" -eq "true" ) {
 
 if ( "${ENABLE_WINRM}" -eq "true" ) {
     Enable-WinRM
+}
+
+if ( "${ENABLE_PORT80}" -eq "true" ) {
+    Enable-Port80
+}
+
+if ( "${ENABLE_FILESHARE}" -eq "true" ) {
+    Enable-FileShare
 }

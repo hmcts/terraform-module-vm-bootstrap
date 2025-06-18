@@ -381,3 +381,28 @@ variable "location" {
   type        = string
   default     = "UK South"
 }
+
+variable "enable_port80" {
+  type        = bool
+  default     = false
+  description = "Enabling port 80 Glimr using run command script?"
+}
+
+variable "enable_fileshare" {
+  type        = bool
+  default     = false
+  description = "Enabling port 80 Glimr using run command script?"
+}
+
+variable "mount_sa" {
+  type        = string
+  default     = ""
+  description = "Storage account name to mount file share"
+
+}
+
+variable "mount_fs" {
+  type        = string
+  default     = ""
+  description = "File share name to mount"
+}
