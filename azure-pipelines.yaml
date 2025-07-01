@@ -47,6 +47,10 @@ stages:
         workspace:
           clean: all
         steps:
+        - task: TerraformInstaller@0
+          displayName: 'Install Terraform'
+          inputs:
+            terraformVersion: 'latest'
         - task: AzureCLI@2
           inputs:
             azureSubscription: 'DTS-SHAREDSERVICESPTL-SBOX'
