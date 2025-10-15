@@ -47,7 +47,7 @@ stages:
         workspace:
           clean: all
         steps:
-        - task: TerraformInstaller@0
+        - task: TerraformInstaller@2
           displayName: 'Install Terraform'
           inputs:
             terraformVersion: 'latest'
