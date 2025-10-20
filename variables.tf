@@ -170,7 +170,7 @@ variable "dynatrace_custom_hostname" {
 variable "install_nessus_agent" {
   description = "Install Nessus Agent."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "nessus_server" {
@@ -200,7 +200,7 @@ variable "install_splunk_uf" {
 
 variable "remove_splunk_uf" {
   description = "Remove Splunk UF if it is installed. Overrides install_splunk_uf if set to true."
-  default     = true
+  default     = false
   type        = bool
 }
 
